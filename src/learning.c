@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   learning.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chustei <chustei@student.42berlin.de>      +#+  +:+       +#+        */
+/*   By: jalbers <jalbers@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 10:39:55 by chustei           #+#    #+#             */
-/*   Updated: 2023/05/19 12:33:20 by chustei          ###   ########.fr       */
+/*   Updated: 2023/05/22 15:17:42 by jalbers          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,18 +17,51 @@
 
 #include "../inc/minishell.h"
 
-void	ft_readline(void)
+char	*ft_readline(void)
 {
-	char	*rl;
+	char	*input;
 
-	rl = readline("Minishell > ");
-	printf("%s\n", rl);
+	input = readline("Minishell > ");
+
+	// Add the input to the command history
+	if (input)
+		add_history(input);
+	
+	return (input);
+	// Process the input
+	// printf("%s\n", input);
+}
+
+void	call_method(char **args)
+{
+	// Execute the "ls" command using execvp
+	if (fork() == 0) {
+		// Child process
+		execvp(args[0], args);
+		perror("Command execution failed");
+		exit(EXIT_FAILURE);
+	} else {
+		// Parent process
+		wait(NULL); // Wait for the child process to finish
+	}
 }
 
 int	main(void)
 {
-//  compile with flag "-lreadline"
-	ft_readline();
-	printf("%i \n", history_length);
+	while (1)
+	{
+		char	*input;
+		
+		input = ft_readline();
+
+		char	**args = malloc(3 * sizeof(char));
+		args[0] = "cd";
+		args[1] = "src";
+		args[2] = NULL;
+		
+		call_method(args);
+		
+	}
+	// printf("%i \n", history_length);
 	return (0);
 }
