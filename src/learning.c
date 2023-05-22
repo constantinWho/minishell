@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   learning.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalbers <jalbers@student.42.fr>            +#+  +:+       +#+        */
+/*   By: chustei <chustei@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 10:39:55 by chustei           #+#    #+#             */
-/*   Updated: 2023/05/22 15:17:42 by jalbers          ###   ########.fr       */
+/*   Updated: 2023/05/22 15:59:27 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ char	*ft_readline(void)
 	// Add the input to the command history
 	if (input)
 		add_history(input);
-	
+
 	return (input);
 	// Process the input
 	// printf("%s\n", input);
@@ -51,16 +51,16 @@ int	main(void)
 	while (1)
 	{
 		char	*input;
-		
+
 		input = ft_readline();
 
 		char	**args = malloc(3 * sizeof(char));
-		args[0] = "cd";
-		args[1] = "src";
+		args[0] = "ls";
+		args[1] = "-l";
 		args[2] = NULL;
-		
+
 		call_method(args);
-		
+
 	}
 	// printf("%i \n", history_length);
 	return (0);
