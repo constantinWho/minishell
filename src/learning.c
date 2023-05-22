@@ -6,7 +6,7 @@
 /*   By: chustei <chustei@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 10:39:55 by chustei           #+#    #+#             */
-/*   Updated: 2023/05/22 15:59:27 by chustei          ###   ########.fr       */
+/*   Updated: 2023/05/22 16:49:50 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,12 +46,20 @@ void	call_method(char **args)
 	}
 }
 
+void	handle_sigint(int signum)
+{
+	// signum 2 represents CTRL+C
+	if (signum == 2)
+		ft_printf("\nMinishell > ", signum);
+}
+
 int	main(void)
 {
 	while (1)
 	{
 		char	*input;
-
+		// Register the signal handler for SIGINT (CTRL+C)
+		signal(SIGINT, handle_sigint);
 		input = ft_readline();
 
 		char	**args = malloc(3 * sizeof(char));
