@@ -6,7 +6,7 @@
 /*   By: chustei <chustei@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 10:39:55 by chustei           #+#    #+#             */
-/*   Updated: 2023/05/23 13:11:06 by chustei          ###   ########.fr       */
+/*   Updated: 2023/05/23 16:11:15 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ char	*ft_readline(void)
 void	call_method(char **args)
 {
 	// Execute the "ls" command using execvp
-	if (fork() == 0) {
+	if (fork() == 0)
+	{
 		// Child process
 		execvp(args[0], args);
 		perror("Command execution failed");
@@ -89,8 +90,8 @@ int	main(void)
 
 		input = ft_readline();
 		char	**args = malloc(3 * sizeof(char));
-		args[0] = "ls";
-		args[1] = "-l";
+		args[0] = "cat";
+		args[1] = "text.txt";
 		args[2] = NULL;
 
 		call_method(args);
