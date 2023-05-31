@@ -5,7 +5,7 @@ CFLAGS = -Wall -Wextra -Werror
 LIBFT_DIR = lib/libft
 
 # List of source files
-SRCS = ./src/learning.c \
+SRCS = ./src/learning.c ./src/ft_cd.c \
 
 # List of object files to build
 OBJS = $(SRCS:.c=.o)

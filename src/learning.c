@@ -6,11 +6,79 @@
 /*   By: chustei <chustei@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 10:39:55 by chustei           #+#    #+#             */
-/*   Updated: 2023/05/23 17:13:59 by chustei          ###   ########.fr       */
+/*   Updated: 2023/05/31 15:13:29 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
+
+t_minishell	*create_struct(void)
+{
+	t_minishell	*shell;
+
+	shell = (t_minishell *)malloc(sizeof(t_minishell));
+	shell->head = NULL;
+	return (shell);
+}
+
+t_token	*create_token(int len, char *str, char *type)
+{
+	t_token	*new_token;
+
+	new_token = (t_token *)malloc(sizeof(t_token));
+	new_token->len = len;
+	new_token->str = ft_strdup(str);
+	new_token->type = ft_strdup(type);
+	new_token->next = NULL;
+	return (new_token);
+}
+
+int	check_closed_quotes(char **arr)
+{
+	int	i;
+	int	len;
+
+	i = 0;
+	while (arr[i])
+	{
+		len = ft_strlen(arr[i]) - 1;
+		if (arr[i][0] == 34 || arr[i][len] == 34)
+			if (arr[i][0] != arr[i][len] || len == 0)
+				return (0);
+		if (arr[i][0] == 39 || arr[i][len] == 39)
+			if (arr[i][0] != arr[i][len] || len == 0)
+				return (0);
+		i++;
+	}
+	return (1);
+}
+
+void	append_token(t_minishell *shell, char **args, int i)
+{
+	t_token	*new_token;
+	t_token	*current;
+
+	new_token = create_token(ft_strlen(args[i]), args[i], "word");
+	printf("ARG: {%s}\n", new_token->str);
+	if (shell->head == NULL)
+		shell->head = new_token;
+	else
+	{
+		current = shell->head;
+		while (current->next != NULL)
+			current = current->next;
+		current->next = new_token;
+	}
+	if (args[i + 1])
+	{
+		new_token = create_token(1, " ", "sep");
+		printf("SEP: [ ]\n");
+		current = shell->head;
+		while (current->next != NULL)
+			current = current->next;
+		current->next = new_token;
+	}
+}
 
 // 1. Exits the minishell on CTRL-D
 // 2. Add the input to the command history
@@ -57,24 +125,52 @@ void	ignore_signal_for_shell(void)
 	signal(SIGQUIT, SIG_IGN);
 }
 
-void	ft_lexical(char *input)
+int	ft_tokens(t_token *lst)
+{
+	size_t	i;
+
+	i = 0;
+	while (lst != NULL)
+	{
+		lst = lst->next;
+		i++;
+	}
+	return (i);
+}
+
+void	ft_lexer(t_minishell *shell, char *input)
 {
 	char	**args;
+	int		i;
 
+	i = 0;
 	args = ft_split(input, ' ');
+	if (!(check_closed_quotes(args)))
+	{
+		printf("Error: Missing closed quotes.\n");
+		return ;
+	}
+	while (args[i])
+	{
+		append_token(shell, args, i);
+		i++;
+	}
+	// ft_printf("size of list:%i\n", ft_tokens(shell->head));
 	call_method(args);
 	free(args);
 }
 
 int	main(void)
 {
-	char	*input;
+	char		*input;
+	t_minishell	*shell;
 
+	shell = create_struct();
 	ignore_signal_for_shell();
 	while (1)
 	{
 		input = ft_readline();
-		ft_lexical(input);
+		ft_lexer(shell, input);
 	}
 	return (0);
 }
