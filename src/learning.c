@@ -6,12 +6,11 @@
 /*   By: chustei <chustei@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 10:39:55 by chustei           #+#    #+#             */
-/*   Updated: 2023/05/26 13:16:57 by chustei          ###   ########.fr       */
+/*   Updated: 2023/05/31 15:13:29 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
-
 
 t_minishell	*create_struct(void)
 {
@@ -21,7 +20,6 @@ t_minishell	*create_struct(void)
 	shell->head = NULL;
 	return (shell);
 }
-
 
 t_token	*create_token(int len, char *str, char *type)
 {
@@ -149,7 +147,7 @@ void	ft_lexer(t_minishell *shell, char *input)
 	args = ft_split(input, ' ');
 	if (!(check_closed_quotes(args)))
 	{
-		printf("Error: Missing closed qoutes.\n");
+		printf("Error: Missing closed quotes.\n");
 		return ;
 	}
 	while (args[i])
@@ -157,8 +155,8 @@ void	ft_lexer(t_minishell *shell, char *input)
 		append_token(shell, args, i);
 		i++;
 	}
-	ft_printf("size of list:%i\n", ft_tokens(shell->head));
-	// call_method(args);
+	// ft_printf("size of list:%i\n", ft_tokens(shell->head));
+	call_method(args);
 	free(args);
 }
 
