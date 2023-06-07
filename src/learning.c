@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   learning.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chustei <chustei@student.42berlin.de>      +#+  +:+       +#+        */
+/*   By: jalbers <jalbers@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 12:03:02 by chustei           #+#    #+#             */
-/*   Updated: 2023/06/07 12:04:06 by chustei          ###   ########.fr       */
+/*   Updated: 2023/06/07 12:07:52 by jalbers          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,21 +170,11 @@ int	main(int ac, char **av, char **env)
 	(void)av;
 
 	shell = create_struct(env);
-	char *args1[] = {"cd", "..", NULL};
-	// char *args2[] = {"echo",  NULL};
-	ft_pwd();
-	ft_cd(args1, shell);
-	ft_pwd();
-	// ft_cd(args2, shell);
-	// ft_cd(args2, shell);
 	ignore_signal_for_shell();
 	while (1)
 	{
 		input = ft_readline();
 		ft_lexer(shell, input);
-		// printf("\n%s\n",env[1]);
-		// env[1][1] = '!';
-		// env[1][2] = '!';
 	}
 	return (0);
 }
