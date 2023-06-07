@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   learning.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalbers <jalbers@student.42.fr>            +#+  +:+       +#+        */
+/*   By: chustei <chustei@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/17 10:39:55 by chustei           #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2023/06/06 13:18:55 by chustei          ###   ########.fr       */
-=======
-/*   Updated: 2023/06/05 13:26:33 by jalbers          ###   ########.fr       */
->>>>>>> main
+/*   Created: 2023/06/07 12:03:02 by chustei           #+#    #+#             */
+/*   Updated: 2023/06/07 12:04:06 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,7 +177,7 @@ int	main(int ac, char **av, char **env)
 	ft_pwd();
 	// ft_cd(args2, shell);
 	// ft_cd(args2, shell);
-	// ignore_signal_for_shell();
+	ignore_signal_for_shell();
 	while (1)
 	{
 		input = ft_readline();
