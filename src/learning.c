@@ -3,21 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   learning.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chustei <chustei@student.42berlin.de>      +#+  +:+       +#+        */
+/*   By: jalbers <jalbers@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 10:39:55 by chustei           #+#    #+#             */
-/*   Updated: 2023/05/31 15:13:29 by chustei          ###   ########.fr       */
+/*   Updated: 2023/06/05 13:26:33 by jalbers          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-t_minishell	*create_struct(void)
+t_minishell	*create_struct(char **env)
 {
 	t_minishell	*shell;
 
 	shell = (t_minishell *)malloc(sizeof(t_minishell));
 	shell->head = NULL;
+	shell->env = env;
 	return (shell);
 }
 
@@ -156,21 +157,34 @@ void	ft_lexer(t_minishell *shell, char *input)
 		i++;
 	}
 	// ft_printf("size of list:%i\n", ft_tokens(shell->head));
+	printf("%s", args[0]);
 	call_method(args);
 	free(args);
 }
 
-int	main(void)
+int	main(int ac, char **av, char **env)
 {
 	char		*input;
 	t_minishell	*shell;
+	(void)ac;
+	(void)av;
 
-	shell = create_struct();
-	ignore_signal_for_shell();
+	shell = create_struct(env);
+	char *args1[] = {"cd", "..", NULL};
+	// char *args2[] = {"echo",  NULL};
+	ft_pwd();
+	ft_cd(args1, shell);
+	ft_pwd();
+	// ft_cd(args2, shell);
+	// ft_cd(args2, shell);
+	// ignore_signal_for_shell();
 	while (1)
 	{
 		input = ft_readline();
 		ft_lexer(shell, input);
+		// printf("\n%s\n",env[1]);
+		// env[1][1] = '!';
+		// env[1][2] = '!';
 	}
 	return (0);
 }
