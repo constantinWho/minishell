@@ -6,7 +6,7 @@
 /*   By: chustei <chustei@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 15:52:26 by chustei           #+#    #+#             */
-/*   Updated: 2023/05/25 16:33:50 by chustei          ###   ########.fr       */
+/*   Updated: 2023/06/06 14:52:32 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,18 @@
 # include <sys/wait.h>
 # include <signal.h>
 # include <unistd.h>
+
+// Type of the node (e.g., "command", "redirection")
+// Value associated with the node (e.g., command name, file name)
+// Array of child nodes
+// Number of child nodes
+typedef struct s_tree
+{
+	char			*type;
+	char			*value;
+	struct s_tree	**children;
+	int				num_children;
+}	t_tree;
 
 typedef struct s_token
 {

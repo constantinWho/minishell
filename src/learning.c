@@ -6,7 +6,7 @@
 /*   By: chustei <chustei@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 10:39:55 by chustei           #+#    #+#             */
-/*   Updated: 2023/05/31 15:13:29 by chustei          ###   ########.fr       */
+/*   Updated: 2023/06/06 13:18:55 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	append_token(t_minishell *shell, char **args, int i)
 	t_token	*current;
 
 	new_token = create_token(ft_strlen(args[i]), args[i], "word");
-	printf("ARG: {%s}\n", new_token->str);
+	printf("ARG: %s, len: %i\n", new_token->str, new_token->len);
 	if (shell->head == NULL)
 		shell->head = new_token;
 	else
@@ -72,7 +72,7 @@ void	append_token(t_minishell *shell, char **args, int i)
 	if (args[i + 1])
 	{
 		new_token = create_token(1, " ", "sep");
-		printf("SEP: [ ]\n");
+		printf("SEP: SPACE\n");
 		current = shell->head;
 		while (current->next != NULL)
 			current = current->next;
