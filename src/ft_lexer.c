@@ -1,17 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   learning.c                                         :+:      :+:    :+:   */
+/*   ft_lexer.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalbers <jalbers@student.42.fr>            +#+  +:+       +#+        */
+/*   By: chustei <chustei@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
+<<<<<<< HEAD:src/learning.c
 /*   Created: 2023/06/07 12:03:02 by chustei           #+#    #+#             */
 /*   Updated: 2023/06/12 17:31:02 by jalbers          ###   ########.fr       */
+=======
+/*   Created: 2023/06/13 11:36:32 by chustei           #+#    #+#             */
+/*   Updated: 2023/06/13 11:45:22 by chustei          ###   ########.fr       */
+>>>>>>> main:src/ft_lexer.c
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
+<<<<<<< HEAD:src/learning.c
 t_minishell	*create_struct(char **env)
 {
 	t_minishell	*shell;
@@ -22,6 +28,8 @@ t_minishell	*create_struct(char **env)
 	return (shell);
 }
 
+=======
+>>>>>>> main:src/ft_lexer.c
 t_token	*create_token(int len, char *str, char *type)
 {
 	t_token	*new_token;
@@ -32,6 +40,19 @@ t_token	*create_token(int len, char *str, char *type)
 	new_token->type = ft_strdup(type);
 	new_token->next = NULL;
 	return (new_token);
+}
+
+int	ft_tokens_size(t_token *lst)
+{
+	size_t	i;
+
+	i = 0;
+	while (lst != NULL)
+	{
+		lst = lst->next;
+		i++;
+	}
+	return (i);
 }
 
 int	check_closed_quotes(char **arr)
@@ -54,18 +75,32 @@ int	check_closed_quotes(char **arr)
 	return (1);
 }
 
+void	free_tokens(t_token *lst)
+{
+	t_token	*tmp;
+
+	while (lst != NULL)
+	{
+		tmp = lst->next;
+		free(lst->str);
+		free(lst->type);
+		free(lst);
+		lst = tmp;
+	}
+}
+
 void	append_token(t_minishell *shell, char **args, int i)
 {
 	t_token	*new_token;
 	t_token	*current;
 
 	new_token = create_token(ft_strlen(args[i]), args[i], "word");
-	printf("ARG: %s, len: %i\n", new_token->str, new_token->len);
-	if (shell->head == NULL)
-		shell->head = new_token;
+	printf("%i:[%s] '%s'\n", new_token->len, new_token->type, new_token->str);
+	if (shell->tokens == NULL)
+		shell->tokens = new_token;
 	else
 	{
-		current = shell->head;
+		current = shell->tokens;
 		while (current->next != NULL)
 			current = current->next;
 		current->next = new_token;
@@ -73,109 +108,39 @@ void	append_token(t_minishell *shell, char **args, int i)
 	if (args[i + 1])
 	{
 		new_token = create_token(1, " ", "sep");
-		printf("SEP: SPACE\n");
-		current = shell->head;
+		printf("0:[%s]\n", new_token->type);
+		current = shell->tokens;
 		while (current->next != NULL)
 			current = current->next;
 		current->next = new_token;
 	}
 }
 
-// 1. Exits the minishell on CTRL-D
-// 2. Add the input to the command history
-char	*ft_readline(void)
-{
-	char	*input;
-
-	input = readline("Minishell > ");
-	if (input == NULL)
-		exit(EXIT_SUCCESS);
-	if (input)
-		add_history(input);
-	return (input);
-}
-
-// Calling the Methods
-void	call_method(char **args)
-{
-	if (fork() == 0)
-	{
-		execvp(args[0], args);
-		perror("Command execution failed");
-		exit(EXIT_FAILURE);
-	}
-	else
-		wait(NULL);
-}
-
-void	handle_sigint(int signum)
-{
-	if (signum == SIGINT)
-		ft_printf("\nMinishell > ", signum);
-}
-
-// 1. ignore "Ctrl-C"
-// 2. ignore "Ctrl-Z"
-// 3. ignore "Ctrl-\"
-void	ignore_signal_for_shell(void)
-{
-	void	(*sigint_handler)(int);
-
-	sigint_handler = signal(SIGINT, handle_sigint);
-	signal(SIGTSTP, SIG_IGN);
-	signal(SIGQUIT, SIG_IGN);
-}
-
-int	ft_tokens(t_token *lst)
-{
-	size_t	i;
-
-	i = 0;
-	while (lst != NULL)
-	{
-		lst = lst->next;
-		i++;
-	}
-	return (i);
-}
-
 void	ft_lexer(t_minishell *shell, char *input)
 {
-	char	**args;
-	int		i;
+	int	i;
 
 	i = 0;
-	args = ft_split(input, ' ');
-	if (!(check_closed_quotes(args)))
+	shell->args = ft_split(input, ' ');
+	if (!(check_closed_quotes(shell->args)))
 	{
 		printf("Error: Missing closed quotes.\n");
 		return ;
 	}
-	while (args[i])
+	// Free existing tokens
+	free_tokens(shell->tokens);
+	shell->tokens = NULL;
+
+	while (shell->args[i])
 	{
-		append_token(shell, args, i);
+		append_token(shell, shell->args, i);
 		i++;
 	}
-	// ft_printf("size of list:%i\n", ft_tokens(shell->head));
-	printf("%s", args[0]);
-	call_method(args);
-	free(args);
-}
-
-int	main(int ac, char **av, char **env)
-{
-	char		*input;
-	t_minishell	*shell;
-	(void)ac;
-	(void)av;
-
-	shell = create_struct(env);
-	ignore_signal_for_shell();
-	while (1)
-	{
-		input = ft_readline();
-		ft_lexer(shell, input);
-	}
+<<<<<<< HEAD:src/learning.c
 	free_array(shell->env);
 	return (0);
+=======
+	ft_printf("size of list:%i\n", ft_tokens_size(shell->tokens));
+	free(shell->args);
+>>>>>>> main:src/ft_lexer.c
 }

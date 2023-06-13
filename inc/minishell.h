@@ -6,7 +6,7 @@
 /*   By: jalbers <jalbers@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 12:03:32 by chustei           #+#    #+#             */
-/*   Updated: 2023/06/12 17:13:54 by jalbers          ###   ########.fr       */
+/*   Updated: 2023/06/13 13:40:21 by jalbers          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,14 @@
 // Value associated with the node (e.g., command name, file name)
 // Array of child nodes
 // Number of child nodes
-typedef struct s_tree
+typedef struct s_group
 {
 	char			*type;
 	char			*value;
 	struct s_tree	**children;
 	int				num_children;
-}	t_tree;
+	struct s_group	*next;
+}	t_group;
 
 typedef struct s_token
 {
@@ -43,7 +44,9 @@ typedef struct s_token
 }	t_token;
 
 typedef struct s_minishell {
-	t_token	*head;
+	t_token	*tokens;
+	t_group	*tree;
+	char	**args;
 	char	**env;
 }	t_minishell;
 
@@ -63,5 +66,8 @@ int		print_sorted_env(char **env);
 char	**copy_realloc_data(char **src, int added);
 int		ft_env(t_minishell *shell);
 int		ft_unset(char **args, t_minishell *shell);
+void	ft_lexer(t_minishell *shell, char *input);
+void	ignore_signal_for_shell(void);
+
 #endif
 
