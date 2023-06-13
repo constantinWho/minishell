@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chustei <chustei@student.42berlin.de>      +#+  +:+       +#+        */
+/*   By: jalbers <jalbers@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 12:03:32 by chustei           #+#    #+#             */
-/*   Updated: 2023/06/07 12:03:36 by chustei          ###   ########.fr       */
+/*   Updated: 2023/06/12 17:13:54 by jalbers          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <sys/wait.h>
 # include <signal.h>
 # include <unistd.h>
+# include <stdlib.h>
 
 // Type of the node (e.g., "command", "redirection")
 // Value associated with the node (e.g., command name, file name)
@@ -46,11 +47,21 @@ typedef struct s_minishell {
 	char	**env;
 }	t_minishell;
 
-int	ft_cd(char **args, t_minishell *shell);
-int	change_env(char **env, char *var, char *new_value);
-int	str_match(char *str1, char *str2);
-int	ft_echo(char **args);
-int	ft_pwd(void);
-int	ft_export(char **args, t_minishell *shell);
+int		ft_cd(char **args, t_minishell *shell);
+int		change_env(char **env, char *var, char *new_value);
+int		str_match(char *str1, char *str2);
+int		ft_echo(char **args);
+int		ft_pwd(void);
+int		ft_export(char **args, t_minishell *shell);
+int		array_len(char **array);
+int		str_len(char *str);
+int		compare_ascii(char *str1, char *str2);
+int		free_array(char **array);
+int		add_env_value(char **env, char *var, char *value);
+int		env_value_exists(char **env, char *var);
+int		print_sorted_env(char **env);
+char	**copy_realloc_data(char **src, int added);
+int		ft_env(t_minishell *shell);
+int		ft_unset(char **args, t_minishell *shell);
 #endif
 

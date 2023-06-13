@@ -1,38 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_echo.c                                          :+:      :+:    :+:   */
+/*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jalbers <jalbers@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/05 12:39:11 by jalbers           #+#    #+#             */
-/*   Updated: 2023/06/12 17:26:25 by jalbers          ###   ########.fr       */
+/*   Created: 2023/06/12 17:01:21 by jalbers           #+#    #+#             */
+/*   Updated: 2023/06/12 17:28:02 by jalbers          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-int	ft_echo(char **args)
+int	ft_unset(char **args, t_minishell *shell)
 {
-	int	i;
-	int	j;
-	int	new_line_option;
+	char	**env;
+	int		i;
 
-	i = 1;
-	new_line_option = 1;
-	if (args[i] && str_match(args[1], "-n") == 1)
-	{
+	env = shell->env;
+	i = 0;
+	while (env[i] && str_match(env[i], args[1]) == 0)
 		i++;
-		new_line_option = 0;
-	}
-	while (args[i])
+	while (env[i] && env[i + 1])
 	{
-		j = 0;
-		while (args[i][j])
-			write(1, &args[i][j++], 1);
+		env[i] = env[i + 1];
 		i++;
 	}
-	if (new_line_option == 1)
-		write(1, "\n", 1);
+	env[i] = NULL;
 	return (0);
 }

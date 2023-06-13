@@ -1,38 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_echo.c                                          :+:      :+:    :+:   */
+/*   ft_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jalbers <jalbers@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/05 12:39:11 by jalbers           #+#    #+#             */
-/*   Updated: 2023/06/12 17:26:25 by jalbers          ###   ########.fr       */
+/*   Created: 2023/06/12 16:49:06 by jalbers           #+#    #+#             */
+/*   Updated: 2023/06/12 17:26:57 by jalbers          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-int	ft_echo(char **args)
+int	ft_env(t_minishell *shell)
 {
 	int	i;
-	int	j;
-	int	new_line_option;
 
-	i = 1;
-	new_line_option = 1;
-	if (args[i] && str_match(args[1], "-n") == 1)
-	{
-		i++;
-		new_line_option = 0;
-	}
-	while (args[i])
-	{
-		j = 0;
-		while (args[i][j])
-			write(1, &args[i][j++], 1);
-		i++;
-	}
-	if (new_line_option == 1)
-		write(1, "\n", 1);
+	i = 0;
+	while (shell->env[i])
+		printf("%s\n", shell->env[i++]);
 	return (0);
 }

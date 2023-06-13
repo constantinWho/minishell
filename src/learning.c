@@ -6,7 +6,7 @@
 /*   By: jalbers <jalbers@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 12:03:02 by chustei           #+#    #+#             */
-/*   Updated: 2023/06/07 12:07:52 by jalbers          ###   ########.fr       */
+/*   Updated: 2023/06/12 17:31:02 by jalbers          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ t_minishell	*create_struct(char **env)
 
 	shell = (t_minishell *)malloc(sizeof(t_minishell));
 	shell->head = NULL;
-	shell->env = env;
+	shell->env = copy_realloc_data(env, 0);
 	return (shell);
 }
 
@@ -176,5 +176,6 @@ int	main(int ac, char **av, char **env)
 		input = ft_readline();
 		ft_lexer(shell, input);
 	}
+	free_array(shell->env);
 	return (0);
 }
