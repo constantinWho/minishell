@@ -5,20 +5,14 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: chustei <chustei@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-<<<<<<< HEAD:src/learning.c
 /*   Created: 2023/06/07 12:03:02 by chustei           #+#    #+#             */
-/*   Updated: 2023/06/12 17:31:02 by jalbers          ###   ########.fr       */
-=======
-/*   Created: 2023/06/13 11:36:32 by chustei           #+#    #+#             */
-/*   Updated: 2023/06/13 11:45:22 by chustei          ###   ########.fr       */
->>>>>>> main:src/ft_lexer.c
+/*   Updated: 2023/06/13 13:55:58 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-<<<<<<< HEAD:src/learning.c
-t_minishell	*create_struct(char **env)
+/* t_minishell	*create_struct(char **env)
 {
 	t_minishell	*shell;
 
@@ -26,10 +20,8 @@ t_minishell	*create_struct(char **env)
 	shell->head = NULL;
 	shell->env = copy_realloc_data(env, 0);
 	return (shell);
-}
+} */
 
-=======
->>>>>>> main:src/ft_lexer.c
 t_token	*create_token(int len, char *str, char *type)
 {
 	t_token	*new_token;
@@ -136,11 +128,6 @@ void	ft_lexer(t_minishell *shell, char *input)
 		append_token(shell, shell->args, i);
 		i++;
 	}
-<<<<<<< HEAD:src/learning.c
-	free_array(shell->env);
-	return (0);
-=======
-	ft_printf("size of list:%i\n", ft_tokens_size(shell->tokens));
-	free(shell->args);
->>>>>>> main:src/ft_lexer.c
+	printf("list size: %i\n", ft_tokens_size(shell->tokens));
+/* 	free_array(shell->env); */
 }
