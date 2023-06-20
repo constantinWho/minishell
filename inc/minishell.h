@@ -6,7 +6,7 @@
 /*   By: chustei <chustei@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 12:03:32 by chustei           #+#    #+#             */
-/*   Updated: 2023/06/13 15:14:22 by chustei          ###   ########.fr       */
+/*   Updated: 2023/06/19 12:02:17 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,26 +26,39 @@
 // Value associated with the node (e.g., command name, file name)
 // Array of child nodes
 // Number of child nodes
-typedef struct s_group
+
+enum e_token
+{
+	T_NULL,
+	T_WORD,
+	T_2Q_WORD,
+	T_1Q_WORD,
+	T_PIPE,
+	T_REDIR_OUT,
+	T_REDIR_OUT_APPEND,
+	T_REDIR_IN,
+	T_DELIMITER,
+};
+
+/* typedef struct s_group
 {
 	char			*type;
 	char			*value;
 	struct s_tree	**children;
 	int				num_children;
 	struct s_group	*next;
-}	t_group;
+}	t_group; */
 
 typedef struct s_token
 {
-	int				len;
-	char			*str;
-	char			*type;
+	char			*value;
+	enum e_token	type;
 	struct s_token	*next;
 }	t_token;
 
 typedef struct s_minishell {
 	t_token	*tokens;
-	t_group	*groups;
+/* 	t_group	*groups; */
 	char	**args;
 	char	**env;
 }	t_minishell;
@@ -70,4 +83,3 @@ void	ft_lexer(t_minishell *shell, char *input);
 void	ignore_signal_for_shell(void);
 
 #endif
-

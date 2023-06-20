@@ -6,7 +6,7 @@
 /*   By: chustei <chustei@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 12:03:02 by chustei           #+#    #+#             */
-/*   Updated: 2023/06/14 10:39:22 by chustei          ###   ########.fr       */
+/*   Updated: 2023/06/19 11:59:59 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int	ft_check_cmd(char *str)
 		return (0);
 }
 
-void	create_group(t_minishell *shell, char *type, char *value)
+/* void	create_group(t_minishell *shell, char *type, char *value)
 {
 	t_group	*new_group;
 	t_group	*curr_group;
@@ -91,9 +91,9 @@ void	create_group(t_minishell *shell, char *type, char *value)
 			curr_group = curr_group->next;
 		curr_group->next = new_group;
 	}
-}
+} */
 
-void	ft_parser(t_minishell *shell)
+/* void	ft_parser(t_minishell *shell)
 {
 	t_token	*curr_token;
 
@@ -106,13 +106,13 @@ void	ft_parser(t_minishell *shell)
 			printf("+++++++++ Type: %s\n", shell->groups->type);
 			printf("+++++++++ Value: %s\n", shell->groups->value);
 		}
-/* 		else if (ft_strncmp(curr_token->type, "word", 3))
-			append_children(); */
+		else if (ft_strncmp(curr_token->type, "word", 3))
+			append_children();
 		printf("--------- Type: %s\n", curr_token->type);
 		curr_token = curr_token->next;
 	}
 }
-
+ */
 
 /* void	ft_parser(t_minishell *shell)
 {
@@ -146,7 +146,7 @@ int	main(int ac, char **av, char **env)
 	{
 		input = ft_readline();
 		ft_lexer(shell, input);
-		ft_parser(shell);
+		//ft_parser(shell);
 		call_method(shell);
 		//free_tokens(shell->tokens);
 		//free_array(shell->env);
