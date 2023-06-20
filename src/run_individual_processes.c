@@ -1,92 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   test.c                                             :+:      :+:    :+:   */
+/*   run_individual_processes.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jalbers <jalbers@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/15 17:03:51 by jalbers           #+#    #+#             */
-/*   Updated: 2023/06/20 15:52:13 by jalbers          ###   ########.fr       */
+/*   Created: 2023/06/20 15:57:39 by jalbers           #+#    #+#             */
+/*   Updated: 2023/06/20 16:00:28 by jalbers          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/wait.h>
+#include "../inc/minishell.h"
 
-const int	BUFFER_SIZE = 4;
-
-int	str_len(char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-		i++;
-	return (i);
-}
-
-int	count_pipes(char *input_str)
-{
-	int	pipe_count;
-	int	i;
-
-	pipe_count = 0;
-	i = 0;
-	while (input_str[i])
-	{
-		if (input_str[i] == '|')
-			pipe_count++;
-		i++;
-	}
-	return (pipe_count);
-}
-
-int	fill_cmd_str(char *input_str, char *cmd_str, int process_index)
-{
-	int	pipe_count;
-	int	i;
-	int	j;
-
-	pipe_count = 0;
-	i = str_len(cmd_str);
-	while (pipe_count < process_index)
-	{
-		if (input_str[i] == '|')
-			pipe_count++;
-		i++;
-	}
-	j = 0;
-	while (input_str[i] && input_str[i] != '|')
-		cmd_str[j++] = input_str[i++];
-	cmd_str[j] = '\0';
-	return (0);
-}
-
-int	create_forks(int *pids, int pipe_total)
-{
-	int	i;
-
-	i = 0;
-	while (i < pipe_total)
-	{
-		pids[i] = fork();
-		if (pids[i] == -1)
-		{
-			printf("Error: forking");
-			return (1);
-		}
-		if (pids[i] == 0)
-		{
-			printf("%i\n", i);
-			break;
-		}
-		i++;
-	}
-	return (i);
-}
 
 int	get_cmd_length(char *input_str, int process_number)
 {
@@ -109,6 +34,27 @@ int	get_cmd_length(char *input_str, int process_number)
 		i++;
 	}
 	return (cmd_length);
+}
+
+int	fill_cmd_str(char *input_str, char *cmd_str, int process_index)
+{
+	int	pipe_count;
+	int	i;
+	int	j;
+
+	pipe_count = 0;
+	i = str_len(cmd_str);
+	while (pipe_count < process_index)
+	{
+		if (input_str[i] == '|')
+			pipe_count++;
+		i++;
+	}
+	j = 0;
+	while (input_str[i] && input_str[i] != '|')
+		cmd_str[j++] = input_str[i++];
+	cmd_str[j] = '\0';
+	return (0);
 }
 
 int	append_buffer(char *str, char *buffer)
@@ -146,40 +92,6 @@ char	*ft_realloc(char *str, int size)
 	str = new_str;
 	free (old_str);
 	return (str);
-}
-
-int	create_pipes(int pipes[][2], int process_total)
-{
-	int	i;
-
-	i = 0;
-	while (i < process_total)
-	{
-		if (pipe(pipes[i]) == -1)
-		{
-			printf("Error opening pipes\n");
-			return (1);
-		}
-		i++;
-	}
-	printf("Created %i pipes\n", i);
-	return (0);
-}
-
-int	close_unused_pipe_ends(int pipes[][2], int process_total, int process_index)
-{
-	int	i;
-
-	i = 0;
-	while (i < process_total)
-	{
-		if (i != process_index || process_index == 0)
-			close(pipes[i][0]);
-		if (i != process_index + 1)
-			close(pipes[i][1]);
-		i++;
-	}
-	return (0);
 }
 
 char	*fill_pipe_input(char *pipe_input, int pipes[][2], int process_index)
@@ -242,30 +154,5 @@ int	run_individual_processes(char *input, int process_index, int pipe_total, int
 	printf("Word:%s, Process Index:%i, prevOutput:%s\n", cmd_str, process_index, pipe_input);
 	free (pipe_input);
 	free (cmd_str);
-	return (0);
-}
-
-int	create_and_run_processes(char *input, int pipe_total)
-{
-	int 	pipes[pipe_total + 1][2];
-	int		process_index;
-	int		*pids;
-	
-	pids = malloc(pipe_total * sizeof(int));
-	create_pipes(pipes, pipe_total + 1);
-	process_index = create_forks(pids, pipe_total);
-	close_unused_pipe_ends(pipes, pipe_total + 1, process_index);	
-	run_individual_processes(input, process_index, pipe_total, pipes);
-	wait(NULL);
-	free(pids);	
-	return (0);
-}
-
-int main()
-{
-	char	*input	= "Hello | how | are | you";
-
-	int		pipe_total = count_pipes(input);
-	create_and_run_processes(input, pipe_total);
 	return (0);
 }
