@@ -6,7 +6,7 @@
 /*   By: chustei <chustei@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 12:03:02 by chustei           #+#    #+#             */
-/*   Updated: 2023/06/20 12:32:42 by chustei          ###   ########.fr       */
+/*   Updated: 2023/06/20 16:31:02 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,47 +46,75 @@ int	ft_tokens_size(t_token *lst)
 	return (i);
 }
 
-int	find_type(char *input)
+/* int	check_quotes(char *input)
 {
 	int	i;
+	int	type;
+	int	found;
 
 	i = 0;
 	while (input[i])
 	{
-		if (input[i] == 34 || input[i] == 39)
-			return (i);
+		type = 0;
+		found = 0;
+		if (input[i] == 34)
+		{
+			type = input[i];
+			i++;
+		}
+		if (input[i] == 39)
+		{
+			type = input[i];
+			i++;
+		}
+		if (type != 0)
+		{
+			while (input[i])
+			{
+				if (input[i] == type)
+					found = input[i];
+				i++;
+			}
+			i--;
+		}
+		printf("----------- TYPE:  %c\n", type);
+		printf("----------- FOUND: %c\n", found);
+		if (found != type)
+			return (0);
 		i++;
 	}
-	return (-1);
-}
-
-int	check_closed(char *input, int type_pos)
-{
-	int	type;
-
-	type = input[type_pos];
-	type_pos++;
-	while (input[type_pos] != type || input[type_pos])
-		type_pos++;
-	return (type_pos);
-}
+	return (1);
+} */
 
 int	check_quotes(char *input)
 {
-	int	len;
-	int	type_pos;
+	int	i;
+	int	type;
+	int	found;
 
-	len = ft_strlen(input);
-	type_pos = 0;
-	while (type_pos < len)
+	i = 0;
+	type = 0;
+	found = 0;
+	while (input[i])
 	{
-		type_pos = find_type(&input[type_pos]);
-		if (type_pos == -1)
-			return (1);
-		type_pos = check_closed(input, type_pos);
-		if (type_pos >= len)
-			return (0);
+		if (input[i] == '"' || input[i] == '\'')
+		{
+			if (type == 0)
+			{
+				type = input[i];
+				i++;
+				while (input[i] && input[i] != type)
+					i++;
+				if (!input[i])
+					return (0);
+				found = type;
+				type = 0;
+			}
+		}
+		i++;
 	}
+	if (type != 0)
+		return (0);
 	return (1);
 }
 
@@ -143,17 +171,17 @@ void	ft_lexer(t_minishell *shell, char *input)
 	printf("\n");
 	if (!(check_quotes(input)))
 	{
-		printf("Error: Missing closed quotes.\n");
+		printf("++++++++++++ Error: Missing closed quotes. ++++++++++++\n");
 		return ;
 	}
 	// Free existing tokens
 	free_tokens(shell->tokens);
 	shell->tokens = NULL;
-	while (shell->args[i])
+/* 	while (shell->args[i])
 	{
 		append_token(shell, shell->args, i);
 		i++;
-	}
-	printf("list size: %i\n", ft_tokens_size(shell->tokens));
+	} */
+	//printf("list size: %i\n", ft_tokens_size(shell->tokens));
 /* 	free_array(shell->env); */
 }
