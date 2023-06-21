@@ -6,7 +6,7 @@
 /*   By: jalbers <jalbers@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 12:03:02 by chustei           #+#    #+#             */
-/*   Updated: 2023/06/21 16:46:42 by jalbers          ###   ########.fr       */
+/*   Updated: 2023/06/21 16:56:25 by jalbers          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,22 +159,19 @@ int	main(int ac, char **av, char **env)
 	(void)ac;
 	(void)av;
 	shell = create_struct(env);
-	// ignore_signal_for_shell();
+	ignore_signal_for_shell();
 	while (1)
 	{
-		input = ft_readline();
-		process = create_processes(input, count_pipes(input));
-		process->pipe_input = read_input(process);
-	
-		// THIS IS WHERE THE PARSER WOULD GO 
-		// Arguments: process->cmd_str, process->pipe_input
-
-		destroy_processes(process);
+		// input = ft_readline();
+		// process = create_processes(input, count_pipes(input));
+		// process->pipe_input = read_input(process);
+		// // THIS IS WHERE THE PARSER WOULD GO 
+		// destroy_processes(process);
 
 		// ft_lexer(shell, input);
-		//ft_parser(shell);
+		// ft_parser(shell);
 		// call_method(shell);
-		//free_tokens(shell->tokens);
+		// free_tokens(shell->tokens);
 		free(input);
 	}
 	free (input);
