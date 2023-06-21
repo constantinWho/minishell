@@ -6,7 +6,7 @@
 /*   By: chustei <chustei@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 12:03:02 by chustei           #+#    #+#             */
-/*   Updated: 2023/06/20 16:31:02 by chustei          ###   ########.fr       */
+/*   Updated: 2023/06/21 15:37:40 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,46 +45,6 @@ int	ft_tokens_size(t_token *lst)
 	}
 	return (i);
 }
-
-/* int	check_quotes(char *input)
-{
-	int	i;
-	int	type;
-	int	found;
-
-	i = 0;
-	while (input[i])
-	{
-		type = 0;
-		found = 0;
-		if (input[i] == 34)
-		{
-			type = input[i];
-			i++;
-		}
-		if (input[i] == 39)
-		{
-			type = input[i];
-			i++;
-		}
-		if (type != 0)
-		{
-			while (input[i])
-			{
-				if (input[i] == type)
-					found = input[i];
-				i++;
-			}
-			i--;
-		}
-		printf("----------- TYPE:  %c\n", type);
-		printf("----------- FOUND: %c\n", found);
-		if (found != type)
-			return (0);
-		i++;
-	}
-	return (1);
-} */
 
 int	check_quotes(char *input)
 {
@@ -156,24 +116,70 @@ void	append_token(t_minishell *shell, char **args, int i)
 	}
 }
 
+int	count_strs(char *s)
+{
+	int	i;
+	int	len;
+	int	split;
+	int	count;
+
+	len = ft_strlen(s);
+	i = 0;
+	count = 0;
+	while (s[i])
+	{
+		split = 0;
+		while ((s[i] == ' ' || s[i] == '\t') && i < len)
+			i++;
+		if (s[i] == '\'' || s[i] == '"')
+		{
+			split = s[i];
+			i++;
+			while (s[i] != split)
+				i++;
+			count++;
+			i++;
+		}
+		else
+		{
+			while (i < len && (s[i] != '\t' && s[i] != ' '
+					&& s[i] != '"' && s[i] != '\''))
+				i++;
+			count++;
+		}
+		while ((s[i] == ' ' || s[i] == '\t') && i < len)
+			i++;
+	}
+	return (count);
+}
+
+void	special_split(char *str)
+{
+	int		i;
+	int		str_count;
+	//char	**arr;
+
+	i = 0;
+	str_count = count_strs(str);
+	printf("str_count: %i\n", str_count);
+}
+
 void	ft_lexer(t_minishell *shell, char *input)
 {
 	int	i;
 
-	i = 0;
-	shell->args = ft_split(input, ' ');
-	while (shell->args[i])
-	{
-		printf("%s ", shell->args[i]);
-		i++;
-	}
-	i = 0;
-	printf("\n");
 	if (!(check_quotes(input)))
 	{
 		printf("++++++++++++ Error: Missing closed quotes. ++++++++++++\n");
 		return ;
 	}
+	i = 0;
+	special_split(input);
+/* 	while (shell->args[i])
+	{
+		printf("[i]: %s \n", shell->args[i]);
+		i++;
+	} */
 	// Free existing tokens
 	free_tokens(shell->tokens);
 	shell->tokens = NULL;
