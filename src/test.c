@@ -6,27 +6,30 @@
 /*   By: jalbers <jalbers@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 17:03:51 by jalbers           #+#    #+#             */
-/*   Updated: 2023/06/20 15:52:13 by jalbers          ###   ########.fr       */
+/*   Updated: 2023/06/20 17:44:34 by jalbers          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../inc/minishell.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/wait.h>
 
-const int	BUFFER_SIZE = 4;
 
-int	str_len(char *str)
-{
-	int	i;
 
-	i = 0;
-	while (str[i])
-		i++;
-	return (i);
-}
+// const int	BUFFER_SIZE2 = 4;
+
+// int	str_len(char *str)
+// {
+// 	int	i;
+
+// 	i = 0;
+// 	while (str[i])
+// 		i++;
+// 	return (i);
+// }
 
 int	count_pipes(char *input_str)
 {
@@ -190,16 +193,16 @@ char	*fill_pipe_input(char *pipe_input, int pipes[][2], int process_index)
 	
 	if (process_index == 0)
 		return (0);
-	buffer = malloc((BUFFER_SIZE + 1) * sizeof(char));
-	bytes_read = read(pipes[process_index][0], buffer, BUFFER_SIZE);
+	buffer = malloc((BUFFER_SIZE2 + 1) * sizeof(char));
+	bytes_read = read(pipes[process_index][0], buffer, BUFFER_SIZE2);
 	i = 1;	
 	while (bytes_read > 0)
 	{
 		if (i > 1)
-			pipe_input = ft_realloc(pipe_input, (i * BUFFER_SIZE));
-			// pipe_input = realloc(pipe_input, (i * BUFFER_SIZE));
+			pipe_input = ft_realloc(pipe_input, (i * BUFFER_SIZE2));
+			// pipe_input = realloc(pipe_input, (i * BUFFER_SIZE2));
 		append_buffer(pipe_input, buffer);
-		bytes_read = read(pipes[process_index][0], buffer, BUFFER_SIZE);
+		bytes_read = read(pipes[process_index][0], buffer, BUFFER_SIZE2);
 		i++;
 	}
 	if (bytes_read == -1)
@@ -231,7 +234,7 @@ int	run_individual_processes(char *input, int process_index, int pipe_total, int
 	char	*pipe_input;
 
 	cmd_str = malloc((get_cmd_length(input, process_index) + 1) * sizeof(char));
-	pipe_input = malloc(BUFFER_SIZE * sizeof(char));
+	pipe_input = malloc(BUFFER_SIZE2 * sizeof(char));
 	fill_cmd_str(input, cmd_str, process_index);
 	pipe_input = fill_pipe_input(pipe_input, pipes, process_index);
 	
@@ -261,11 +264,11 @@ int	create_and_run_processes(char *input, int pipe_total)
 	return (0);
 }
 
-int main()
-{
-	char	*input	= "Hello | how | are | you";
+// int main()
+// {
+// 	char	*input	= "Hello | how | are | you";
 
-	int		pipe_total = count_pipes(input);
-	create_and_run_processes(input, pipe_total);
-	return (0);
-}
+// 	int		pipe_total = count_pipes(input);
+// 	create_and_run_processes(input, pipe_total);
+// 	return (0);
+// }

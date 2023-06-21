@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chustei <chustei@student.42berlin.de>      +#+  +:+       +#+        */
+/*   By: jalbers <jalbers@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 12:03:02 by chustei           #+#    #+#             */
-/*   Updated: 2023/06/19 11:59:59 by chustei          ###   ########.fr       */
+/*   Updated: 2023/06/21 16:46:42 by jalbers          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,23 +133,52 @@ int	ft_check_cmd(char *str)
 		return ;
 } */
 
+
+int	count_pipes(char *input_str)
+{
+	int	pipe_count;
+	int	i;
+
+	pipe_count = 0;
+	i = 0;
+	while (input_str[i])
+	{
+		if (input_str[i] == '|')
+			pipe_count++;
+		i++;
+	}
+	return (pipe_count);
+}
+
 int	main(int ac, char **av, char **env)
 {
 	char		*input;
 	t_minishell	*shell;
+	t_process	*process;
 
 	(void)ac;
 	(void)av;
 	shell = create_struct(env);
-	ignore_signal_for_shell();
+	// ignore_signal_for_shell();
 	while (1)
 	{
 		input = ft_readline();
-		ft_lexer(shell, input);
+		process = create_processes(input, count_pipes(input));
+		process->pipe_input = read_input(process);
+	
+		// THIS IS WHERE THE PARSER WOULD GO 
+		// Arguments: process->cmd_str, process->pipe_input
+
+		destroy_processes(process);
+
+		// ft_lexer(shell, input);
 		//ft_parser(shell);
-		call_method(shell);
+		// call_method(shell);
 		//free_tokens(shell->tokens);
-		//free_array(shell->env);
+		free(input);
 	}
+	free (input);
+	free_array(shell->env);
+	free(shell);
 	return (0);
 }
