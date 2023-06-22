@@ -6,7 +6,7 @@
 /*   By: chustei <chustei@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 12:03:02 by chustei           #+#    #+#             */
-/*   Updated: 2023/06/21 15:37:40 by chustei          ###   ########.fr       */
+/*   Updated: 2023/06/22 13:19:35 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,10 +122,12 @@ int	count_strs(char *s)
 	int	len;
 	int	split;
 	int	count;
+	int	pos;
 
 	len = ft_strlen(s);
 	i = 0;
 	count = 0;
+	pos = -1;
 	while (s[i])
 	{
 		split = 0;
@@ -134,10 +136,12 @@ int	count_strs(char *s)
 		if (s[i] == '\'' || s[i] == '"')
 		{
 			split = s[i];
+			pos = i;
 			i++;
 			while (s[i] != split)
 				i++;
-			count++;
+			if (i > pos + 1)
+				count++;
 			i++;
 		}
 		else
