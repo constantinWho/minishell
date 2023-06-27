@@ -6,7 +6,7 @@
 /*   By: chustei <chustei@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 12:03:02 by chustei           #+#    #+#             */
-/*   Updated: 2023/06/22 13:19:35 by chustei          ###   ########.fr       */
+/*   Updated: 2023/06/27 16:56:49 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,47 +114,6 @@ void	append_token(t_minishell *shell, char **args, int i)
 			current = current->next;
 		current->next = new_token;
 	}
-}
-
-int	count_strs(char *s)
-{
-	int	i;
-	int	len;
-	int	split;
-	int	count;
-	int	pos;
-
-	len = ft_strlen(s);
-	i = 0;
-	count = 0;
-	pos = -1;
-	while (s[i])
-	{
-		split = 0;
-		while ((s[i] == ' ' || s[i] == '\t') && i < len)
-			i++;
-		if (s[i] == '\'' || s[i] == '"')
-		{
-			split = s[i];
-			pos = i;
-			i++;
-			while (s[i] != split)
-				i++;
-			if (i > pos + 1)
-				count++;
-			i++;
-		}
-		else
-		{
-			while (i < len && (s[i] != '\t' && s[i] != ' '
-					&& s[i] != '"' && s[i] != '\''))
-				i++;
-			count++;
-		}
-		while ((s[i] == ' ' || s[i] == '\t') && i < len)
-			i++;
-	}
-	return (count);
 }
 
 void	special_split(char *str)

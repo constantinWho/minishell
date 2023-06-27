@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalbers <jalbers@student.42.fr>            +#+  +:+       +#+        */
+/*   By: chustei <chustei@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 12:03:32 by chustei           #+#    #+#             */
-/*   Updated: 2023/06/21 16:27:33 by jalbers          ###   ########.fr       */
+/*   Updated: 2023/06/27 16:55:25 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,5 +98,6 @@ void		ignore_signal_for_shell(void);
 t_process	*create_processes(char *input, int pipe_total);
 int			destroy_processes(t_process *process);
 char		*read_input(t_process *process);
+int			count_strs(char *s);
 
 #endif

@@ -7,7 +7,7 @@ LIBFT_DIR = lib/libft
 # List of source files
 SRCS = ./src/main.c src/ft_lexer.c src/signals.c ./src/ft_cd.c ./src/env_utils.c ./src/ft_echo.c \
 ./src/ft_pwd.c ./src/ft_export.c  ./src/utils.c ./src/print_sorted_env.c  ./src/ft_env.c ./src/ft_unset.c  \
-./src/create_processes.c ./src/read_input.c 
+./src/create_processes.c ./src/read_input.c ./src/count_strs.c \
 
 # List of object files to build
 OBJS = $(SRCS:.c=.o)
