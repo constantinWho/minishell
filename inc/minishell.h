@@ -6,7 +6,7 @@
 /*   By: chustei <chustei@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 12:03:32 by chustei           #+#    #+#             */
-/*   Updated: 2023/06/27 16:55:25 by chustei          ###   ########.fr       */
+/*   Updated: 2023/06/29 17:16:43 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@
 
 enum e_token
 {
-	T_NULL,
+	T_SPACE,
 	T_WORD,
 	T_2Q_WORD,
 	T_1Q_WORD,
@@ -41,7 +41,7 @@ enum e_token
 	T_REDIR_OUT,
 	T_REDIR_OUT_APPEND,
 	T_REDIR_IN,
-	T_DELIMITER,
+	T_HEREDOG,
 };
 
 /* typedef struct s_group
@@ -59,7 +59,7 @@ typedef struct s_process
 	char			*cmd_str;
 	char			*pipe_input;
 	int				fd_read;
-	int 			fd_write;
+	int				fd_write;
 	int				pipe_total;
 }	t_process;
 
@@ -99,5 +99,8 @@ t_process	*create_processes(char *input, int pipe_total);
 int			destroy_processes(t_process *process);
 char		*read_input(t_process *process);
 int			count_strs(char *s);
+int			skip_whitespace(char *s, int i);
+int			is_delimiter(char c);
+void		special_split(t_minishell *shell, char *s);
 
 #endif

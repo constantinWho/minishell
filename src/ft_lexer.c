@@ -6,7 +6,7 @@
 /*   By: chustei <chustei@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 12:03:02 by chustei           #+#    #+#             */
-/*   Updated: 2023/06/27 16:56:49 by chustei          ###   ########.fr       */
+/*   Updated: 2023/06/29 17:32:54 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,40 +91,37 @@ void	free_tokens(t_token *lst)
 	}
 }
 
-void	append_token(t_minishell *shell, char **args, int i)
+void	append_token(t_minishell *shell, char *arg)
 {
 	t_token	*new_token;
 	t_token	*current;
 	int		arg_len;
 
-	arg_len = ft_strlen(args[i]);
-	if (arg_len == 1 && args[i][0] == '|')
-		new_token = create_token(args[i], T_PIPE);
-	else if (args[i][0] == '\'' && args[i][arg_len - 1] == '\'')
-		new_token = create_token(args[i], T_1Q_WORD);
-	else
-		new_token = create_token(args[i], T_NULL);
-	printf("%u:[%s] \n", new_token->type, new_token->value);
-	if (shell->tokens == NULL)
-		shell->tokens = new_token;
-	else
+	new_token = NULL;
+	arg_len = ft_strlen(arg);
+	if (arg_len == 1 && arg[0] == '|')
+		new_token = create_token(arg, T_PIPE);
+	else if (arg_len == 1 && arg[0] == ' ')
+		new_token = create_token(arg, T_SPACE);
+	else if (arg[0] == '\'')
+		new_token = create_token(ft_strtrim(arg, "'"), T_1Q_WORD);
+	else if (arg[0] == '"')
+		new_token = create_token(arg, T_2Q_WORD);
+/* 	else if (args[i][0] == '\'' && args[i][arg_len - 1] == '\'')
+		new_token = create_token(args[i], T_1Q_WORD); */
+	if (new_token != NULL)
 	{
-		current = shell->tokens;
-		while (current->next != NULL)
-			current = current->next;
-		current->next = new_token;
+		if (shell->tokens == NULL)
+			shell->tokens = new_token;
+		else
+		{
+			current = shell->tokens;
+			while (current->next != NULL)
+				current = current->next;
+			current->next = new_token;
+		}
 	}
-}
-
-void	special_split(char *str)
-{
-	int		i;
-	int		str_count;
-	//char	**arr;
-
-	i = 0;
-	str_count = count_strs(str);
-	printf("str_count: %i\n", str_count);
+	printf("TYPE[%i]: %s\n", shell->tokens->type, shell->tokens->value);
 }
 
 void	ft_lexer(t_minishell *shell, char *input)
@@ -137,20 +134,19 @@ void	ft_lexer(t_minishell *shell, char *input)
 		return ;
 	}
 	i = 0;
-	special_split(input);
+	special_split(shell, input);
 /* 	while (shell->args[i])
 	{
-		printf("[i]: %s \n", shell->args[i]);
+		printf("[%i]: %s \n", i, shell->args[i]);
 		i++;
 	} */
-	// Free existing tokens
 	free_tokens(shell->tokens);
 	shell->tokens = NULL;
-/* 	while (shell->args[i])
+	while (shell->args[i])
 	{
-		append_token(shell, shell->args, i);
+		append_token(shell, shell->args[i]);
 		i++;
-	} */
-	//printf("list size: %i\n", ft_tokens_size(shell->tokens));
+	}
+	printf("list size: %i\n", ft_tokens_size(shell->tokens));
 /* 	free_array(shell->env); */
 }

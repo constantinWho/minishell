@@ -6,7 +6,7 @@
 /*   By: chustei <chustei@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 12:03:02 by chustei           #+#    #+#             */
-/*   Updated: 2023/06/27 16:55:26 by chustei          ###   ########.fr       */
+/*   Updated: 2023/06/28 11:25:35 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,7 +170,7 @@ int	main(int ac, char **av, char **env)
 
 		ft_lexer(shell, input);
 		// ft_parser(shell);
-		call_method(shell);
+		//call_method(shell);
 		//free_tokens(shell->tokens);
 		free(input);
 	}
