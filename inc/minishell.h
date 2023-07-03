@@ -6,7 +6,7 @@
 /*   By: chustei <chustei@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 12:03:32 by chustei           #+#    #+#             */
-/*   Updated: 2023/06/29 17:16:43 by chustei          ###   ########.fr       */
+/*   Updated: 2023/07/03 20:07:15 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,5 +102,14 @@ int			count_strs(char *s);
 int			skip_whitespace(char *s, int i);
 int			is_delimiter(char c);
 void		special_split(t_minishell *shell, char *s);
+void		append_token(t_minishell *shell, char *arg);
+t_token		*create_token(char *str, enum e_token type);
+void		free_tokens(t_token *lst);
+void		word_butcher(t_minishell *shell, char *word);
+void		add_new_token(t_minishell *shell, t_token *new_token);
+char		**word_split(char *str, int words_count);
+void		word_butcher(t_minishell *shell, char *word);
+int			get_words_count(char *str);
+int			check_quotes(char *input);
 
 #endif

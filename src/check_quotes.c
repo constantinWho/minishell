@@ -1,29 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signals.c                                          :+:      :+:    :+:   */
+/*   check_quotes.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: chustei <chustei@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/13 11:44:04 by chustei           #+#    #+#             */
-/*   Updated: 2023/06/30 10:34:35 by chustei          ###   ########.fr       */
+/*   Created: 2023/07/03 19:38:35 by chustei           #+#    #+#             */
+/*   Updated: 2023/07/03 20:09:15 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-void	handle_sigint(int signum)
+int	check_quotes(char *input)
 {
-	if (signum == SIGINT)
-		ft_printf("\nMinishell > ", signum);
-}
+	int	i;
+	int	type;
 
-// 1. ignore "Ctrl-C"
-// 2. ignore "Ctrl-Z"
-// 3. ignore "Ctrl-\"
-void	ignore_signal_for_shell(void)
-{
-	signal(SIGINT, handle_sigint);
-	signal(SIGTSTP, SIG_IGN);
-	signal(SIGQUIT, SIG_IGN);
+	i = 0;
+	type = 0;
+	while (input[i])
+	{
+		if (input[i] == '"' || input[i] == '\'')
+		{
+			if (type == 0)
+			{
+				type = input[i];
+				i++;
+				while (input[i] && input[i] != type)
+					i++;
+				if (!input[i])
+					return (0);
+				type = 0;
+			}
+		}
+		i++;
+	}
+	if (type != 0)
+		return (0);
+	return (1);
 }

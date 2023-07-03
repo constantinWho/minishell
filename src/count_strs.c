@@ -6,7 +6,7 @@
 /*   By: chustei <chustei@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 16:53:12 by chustei           #+#    #+#             */
-/*   Updated: 2023/06/29 16:09:46 by chustei          ###   ########.fr       */
+/*   Updated: 2023/07/03 18:45:43 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,16 +61,12 @@ int	count_regular_strs(char *s, int *i)
 int	count_strs(char *s)
 {
 	int	i;
-	int	split;
 	int	count;
-	int	pos;
 
 	i = 0;
 	count = 0;
-	pos = -1;
 	while (s[i])
 	{
-		split = 0;
 		i = skip_whitespace(s, i);
 		if (is_delimiter(s[i]))
 			count += count_delimited_strs(s, &i);
