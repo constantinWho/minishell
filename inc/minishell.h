@@ -6,7 +6,7 @@
 /*   By: chustei <chustei@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 12:03:32 by chustei           #+#    #+#             */
-/*   Updated: 2023/07/03 20:07:15 by chustei          ###   ########.fr       */
+/*   Updated: 2023/07/11 13:23:48 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ enum e_token
 	T_REDIR_OUT,
 	T_REDIR_OUT_APPEND,
 	T_REDIR_IN,
-	T_HEREDOG,
+	T_HEREDOC,
 };
 
 /* typedef struct s_group
@@ -52,6 +52,21 @@ enum e_token
 	int				num_children;
 	struct s_group	*next;
 }	t_group; */
+
+
+typedef struct s_redir
+{
+	char			*redir;
+	char			*arg;
+}	t_redir;
+
+typedef struct s_group
+{
+	char			*cmd;
+	char			**args;
+	t_redir			*redirs;
+	struct s_group	*next;
+}	t_group;
 
 typedef struct s_process
 {
@@ -72,7 +87,7 @@ typedef struct s_token
 
 typedef struct s_minishell {
 	t_token	*tokens;
-/* 	t_group	*groups; */
+	t_group	*groups;
 	char	**args;
 	char	**env;
 }	t_minishell;
@@ -111,5 +126,14 @@ char		**word_split(char *str, int words_count);
 void		word_butcher(t_minishell *shell, char *word);
 int			get_words_count(char *str);
 int			check_quotes(char *input);
+void		parser(t_minishell *shell);
+void		find_cmd(t_token **tokens, t_group *new_group);
+int			is_redirection(t_token *token);
+void		skip_redirection(t_token **cur_token);
+int			is_valid_word_token(t_token *token);
+int			starts_with_dollar(t_token *token);
+void		find_args(t_token **tokens, t_group *new_group);
+void		update_prev_token_next(t_token **prev_token, t_token **cur_token);
+void		update_tokens_head(t_token **tokens, t_token **cur_token);
 
 #endif

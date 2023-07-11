@@ -6,7 +6,7 @@
 /*   By: chustei <chustei@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 19:46:10 by chustei           #+#    #+#             */
-/*   Updated: 2023/07/03 20:13:54 by chustei          ###   ########.fr       */
+/*   Updated: 2023/07/10 18:29:01 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	add_split_tokens(t_minishell *shell, char **words, t_token *new_token)
 		else if (arg_len == 2 && words[i][0] == '>' && words[i][1] == '>')
 			new_token = create_token(words[i], T_REDIR_OUT_APPEND);
 		else if (arg_len == 2 && words[i][0] == '<' && words[i][1] == '<')
-			new_token = create_token(words[i], T_HEREDOG);
+			new_token = create_token(words[i], T_HEREDOC);
 		else
 			new_token = create_token(words[i], T_WORD);
 		if (new_token)
@@ -50,7 +50,6 @@ void	word_butcher(t_minishell *shell, char *word)
 	i = 0;
 	new_token = NULL;
 	words_count = get_words_count(word);
-	printf("strings count: %i \n", words_count);
 	words = word_split(word, words_count);
 	add_split_tokens(shell, words, new_token);
 }

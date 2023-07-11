@@ -6,24 +6,11 @@
 /*   By: chustei <chustei@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 19:38:35 by chustei           #+#    #+#             */
-/*   Updated: 2023/07/03 20:03:34 by chustei          ###   ########.fr       */
+/*   Updated: 2023/07/10 18:51:58 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
-
-void	free_tokens(t_token *lst)
-{
-	t_token	*tmp;
-
-	while (lst != NULL)
-	{
-		tmp = lst->next;
-		free(lst->value);
-		free(lst);
-		lst = tmp;
-	}
-}
 
 t_token	*create_token(char *str, enum e_token type)
 {
@@ -77,7 +64,7 @@ void	append_token(t_minishell *shell, char *arg)
 	else if (arg_len == 2 && arg[0] == '>' && arg[1] == '>')
 		new_token = create_token(arg, T_REDIR_OUT_APPEND);
 	else if (arg_len == 2 && arg[0] == '<' && arg[1] == '<')
-		new_token = create_token(arg, T_HEREDOG);
+		new_token = create_token(arg, T_HEREDOC);
 	else
 		word_butcher(shell, arg);
 	if (new_token)
