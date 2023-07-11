@@ -6,7 +6,7 @@
 /*   By: chustei <chustei@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 18:12:42 by chustei           #+#    #+#             */
-/*   Updated: 2023/07/10 18:50:46 by chustei          ###   ########.fr       */
+/*   Updated: 2023/07/11 17:25:42 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,19 @@ void	parser(t_minishell *shell)
 	print_linked_list(shell->tokens);
 }
  */
+
+int	ft_tokens_size(t_token *lst)
+{
+	size_t	i;
+
+	i = 0;
+	while (lst != NULL)
+	{
+		lst = lst->next;
+		i++;
+	}
+	return (i);
+}
 
 void	print_linked_list(t_token *head)
 {
@@ -77,7 +90,7 @@ int	check_if_first_pipe(t_token *tokens)
 	}
 	return (1);
 }
-void add_group_to_struct(t_group **groups, t_group *new_group)
+void	add_group_to_struct(t_group **groups, t_group *new_group)
 {
 	t_group	*cur;
 
@@ -117,8 +130,16 @@ void add_group(t_token *tokens, t_group **groups)
 	new_group = create_group();
 	print_linked_list(tokens);
 	find_cmd(&tokens, new_group);
+	find_args(&tokens, new_group);
 	add_group_to_struct(groups, new_group);
-	printf("cmd: %s\n", (*groups)->cmd);
+	int i = 0;
+	while (new_group->args[i])
+	{
+		printf("ARG[%i]: %s\n", i, new_group->args[i]);
+		i++;
+	}
+	i = 0;
+	printf("TOKENS SIZE: %i \n", ft_tokens_size(tokens));
 	print_linked_list(tokens);
 }
 
