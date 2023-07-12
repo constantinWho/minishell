@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   find_args.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chustei <chustei@student.42berlin.de>      +#+  +:+       +#+        */
+/*   By: chustei <chustei@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 13:31:30 by chustei           #+#    #+#             */
-/*   Updated: 2023/07/11 18:06:19 by chustei          ###   ########.fr       */
+/*   Updated: 2023/07/12 17:09:29 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,19 +24,35 @@ int	count_args(t_token *tokens)
 		if (is_redirection(cur_token))
 		{
 			cur_token = cur_token->next;
-			if (cur_token != NULL && cur_token->type != T_PIPE
-				&& is_valid_word_token(cur_token))
+			if (cur_token != NULL && cur_token->type != T_PIPE)
 			{
-				cur_token = cur_token->next;
-				if (cur_token != NULL && cur_token->type != T_PIPE
-					&& cur_token->type == T_SPACE)
+				if (is_valid_word_token(cur_token))
+				{
 					cur_token = cur_token->next;
+					if (cur_token != NULL && cur_token->type != T_PIPE)
+					{
+						if (cur_token->type == T_SPACE)
+							cur_token = cur_token->next;
+					}
+				}
+				else if (cur_token->type == T_SPACE)
+				{
+					cur_token = cur_token->next;
+					if (is_valid_word_token(cur_token))
+					{
+						cur_token = cur_token->next;
+						if (cur_token != NULL && cur_token->type != T_PIPE)
+						{
+							if (cur_token->type == T_SPACE)
+								cur_token = cur_token->next;
+						}
+					}
+				}
 			}
 		}
-		else if ((cur_token != NULL && cur_token->type != T_PIPE)
-			&& (is_valid_word_token(cur_token)
-				|| cur_token->type == T_SPACE))
-			count++;
+		if (cur_token != NULL && cur_token->type != T_PIPE)
+			if ((is_valid_word_token(cur_token) || cur_token->type == T_SPACE))
+				count++;
 		if (cur_token != NULL)
 			cur_token = cur_token->next;
 	}
@@ -49,13 +65,9 @@ void	process_arg_token(t_token **tokens, t_token **cur_token,
 	new_group->cmd = ft_strdup((*cur_token)->value);
 
 	if (*prev_token != NULL)
-	{
 		update_prev_token_next(prev_token, cur_token);
-	}
 	else
-	{
 		update_tokens_head(tokens, cur_token);
-	}
 }
 
 void	find_args(t_token **tokens, t_group *new_group)
@@ -77,13 +89,35 @@ void	find_args(t_token **tokens, t_group *new_group)
 		if (is_redirection(cur_token))
 		{
 			cur_token = cur_token->next;
-			if (cur_token != NULL && is_valid_word_token(cur_token))
+			if (cur_token != NULL && cur_token->type != T_PIPE)
 			{
-				cur_token = cur_token->next;
-				if (cur_token != NULL && cur_token->type == T_SPACE)
+				if (is_valid_word_token(cur_token))
 				{
-					prev_token = cur_token;
 					cur_token = cur_token->next;
+					if (cur_token != NULL && cur_token->type != T_PIPE)
+					{
+						if (cur_token->type == T_SPACE)
+						{
+							prev_token = cur_token;
+							cur_token = cur_token->next;
+						}
+					}
+				}
+				else if (cur_token->type == T_SPACE)
+				{
+					cur_token = cur_token->next;
+					if (is_valid_word_token(cur_token))
+					{
+						cur_token = cur_token->next;
+						if (cur_token != NULL && cur_token->type != T_PIPE)
+						{
+							if (cur_token->type == T_SPACE)
+							{
+								prev_token = cur_token;
+								cur_token = cur_token->next;
+							}
+						}
+					}
 				}
 			}
 		}
