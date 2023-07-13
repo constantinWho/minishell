@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chustei <chustei@student.42berlin.de>      +#+  +:+       +#+        */
+/*   By: chustei <chustei@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 12:03:32 by chustei           #+#    #+#             */
-/*   Updated: 2023/07/11 17:46:13 by chustei          ###   ########.fr       */
+/*   Updated: 2023/07/13 17:19:35 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,5 +135,7 @@ int			starts_with_dollar(t_token *token);
 void		find_args(t_token **tokens, t_group *new_group);
 void		update_prev_token_next(t_token **prev_token, t_token **cur_token);
 void		update_tokens_head(t_token **tokens, t_token **cur_token);
+void		skip_redir_block_update_prev_token(t_token **cur_token,
+				t_token **prev_token);
 
 #endif
