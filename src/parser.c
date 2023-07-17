@@ -6,21 +6,11 @@
 /*   By: chustei <chustei@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 18:12:42 by chustei           #+#    #+#             */
-/*   Updated: 2023/07/17 11:40:45 by chustei          ###   ########.fr       */
+/*   Updated: 2023/07/17 19:21:49 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
-
-/*
-
-void	parser(t_minishell *shell)
-{
-	print_linked_list(shell->tokens);
-	find_cmd(&shell->tokens);
-	print_linked_list(shell->tokens);
-}
- */
 
 int	ft_tokens_size(t_token *lst)
 {
@@ -54,57 +44,10 @@ void	print_linked_list(t_token *head)
 	current = head;
 	while (current != NULL)
 	{
-		printf("TYPE[%i]: %s\n", current->type, current->value);
+		printf("TYPE[%i]: {%s}; ", current->type, current->value);
 		current = current->next;
 	}
-}
-
-/* void	free_tokens_till_pipe(t_token *head)
-{
-	while (head != NULL && head->type != T_PIPE)
-	{
-		free(head->value);
-		free(head);
-		head = head->next;
-	}
-} */
-
-/* void	free_tokens_till_pipe(t_token	*head)
-{
-	t_token	*next;
-
-	while (head != NULL)
-	{
-		if (head->type == T_PIPE)
-		{
-			next = head->next;
-			free(head->value);
-			free(head);
-			head = next;
-			break ;
-		}
-		next = head->next;
-		free(head->value);
-		free(head);
-		head = next;
-	}
-} */
-
-void free_tokens_till_pipe(t_token *head)
-{
-	t_token *next;
-
-	while (head != NULL)
-	{
-		next = head->next;
-		free(head->value);
-		free(head);
-		head = next;
-
-		// Check if the next token is a pipe or if we've reached the end of the list
-		if (head == NULL || head->type == T_PIPE)
-			break;
-	}
+	printf("\n");
 }
 
 int	print_size(t_group *lst)
@@ -163,30 +106,73 @@ void	add_group_to_struct(t_group **groups, t_group *new_group)
 	}
 }
 
+void	delete_first_space_if_exists(t_token **head)
+{
+	t_token	*cur_token;
+
+	cur_token = *head;
+	if (cur_token != NULL)
+	{
+		if (cur_token->type == T_SPACE)
+		{
+			if (cur_token->next)
+				*head = cur_token->next;
+			else
+				*head = NULL;
+			free(cur_token->value);
+			free(cur_token);
+		}
+	}
+}
+
+void	delete_pipe_if_exists(t_token **head)
+{
+	t_token	*cur_token;
+
+	cur_token = *head;
+	if (cur_token != NULL)
+	{
+		if (cur_token->type == T_PIPE)
+		{
+			if (cur_token->next)
+				*head = cur_token->next;
+			else
+				*head = NULL;
+			free(cur_token->value);
+			free(cur_token);
+		}
+	}
+}
+
 void add_group(t_token *tokens, t_group **groups)
 {
 	t_group	*new_group;
 
+	delete_first_space_if_exists(&tokens);
 	if (!check_if_first_pipe(tokens))
 		return ;
 	new_group = create_group();
 	print_linked_list(tokens);
 	find_cmd(&tokens, new_group);
 	find_args(&tokens, new_group);
+	printf("TOKENS SIZE: %i \n", ft_tokens_size(tokens));
 	find_redirs(&tokens, new_group);
-	free_tokens_till_pipe(tokens);
+	delete_pipe_if_exists(&tokens);
 	add_group_to_struct(groups, new_group);
 	printf("CMD: %s\n", new_group->cmd);
 	int i = 0;
 	while (new_group->args[i])
 	{
-		printf("ARG[%i]: %s\n", i, new_group->args[i]);
+		printf("ARG[%i]: {%s}; ", i, new_group->args[i]);
 		i++;
 	}
+	printf("\n");
 	i = 0;
 	printf("TOKENS SIZE: %i \n", ft_tokens_size(tokens));
 	print_redir(new_group->redirs);
 	print_linked_list(tokens);
+	if (ft_tokens_size(tokens) > 0)
+		add_group(tokens, groups);
 }
 
 void	parser(t_minishell *shell)
