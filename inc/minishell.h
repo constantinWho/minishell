@@ -6,7 +6,7 @@
 /*   By: chustei <chustei@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 12:03:32 by chustei           #+#    #+#             */
-/*   Updated: 2023/07/13 17:19:35 by chustei          ###   ########.fr       */
+/*   Updated: 2023/07/14 12:25:27 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,9 @@ enum e_token
 
 typedef struct s_redir
 {
-	char			*redir;
-	char			*arg;
+	char					*redir;
+	char					*arg;
+	struct s_redir			*next;
 }	t_redir;
 
 typedef struct s_group
@@ -137,5 +138,6 @@ void		update_prev_token_next(t_token **prev_token, t_token **cur_token);
 void		update_tokens_head(t_token **tokens, t_token **cur_token);
 void		skip_redir_block_update_prev_token(t_token **cur_token,
 				t_token **prev_token);
+void		find_redirs(t_token **tokens, t_group *new_group);
 
 #endif

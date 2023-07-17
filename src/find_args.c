@@ -6,7 +6,7 @@
 /*   By: chustei <chustei@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 13:31:30 by chustei           #+#    #+#             */
-/*   Updated: 2023/07/13 17:18:24 by chustei          ###   ########.fr       */
+/*   Updated: 2023/07/17 11:27:29 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,9 +61,8 @@ int	count_args(t_token *tokens)
 }
 
 void	process_arg_token(t_token **tokens, t_token **cur_token,
-	t_token **prev_token, t_group *new_group)
+	t_token **prev_token)
 {
-	new_group->cmd = ft_strdup((*cur_token)->value);
 	if (*prev_token != NULL)
 		update_prev_token_next(prev_token, cur_token);
 	else
@@ -90,8 +89,6 @@ void	find_args(t_token **tokens, t_group *new_group)
 	prev_token = NULL;
 	args_num = count_args(*tokens);
 	new_group->args = (char **)malloc((args_num + 1) * sizeof(char *));
-	printf("ARGS FOUND: %i\n", args_num);
-	printf("CMD: %s\n", new_group->cmd);
 	i = 0;
 	while (cur_token != NULL && cur_token->type != T_PIPE)
 	{
@@ -101,7 +98,7 @@ void	find_args(t_token **tokens, t_group *new_group)
 				|| cur_token->type == T_SPACE))
 		{
 			dup_and_save(&cur_token, &new_group, &i);
-			process_arg_token(tokens, &cur_token, &prev_token, new_group);
+			process_arg_token(tokens, &cur_token, &prev_token);
 		}
 	}
 	new_group->args[i] = NULL;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chustei <chustei@student.42berlin.de>      +#+  +:+       +#+        */
+/*   By: chustei <chustei@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 18:12:42 by chustei           #+#    #+#             */
-/*   Updated: 2023/07/11 17:25:42 by chustei          ###   ########.fr       */
+/*   Updated: 2023/07/17 11:40:45 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,18 @@ int	ft_tokens_size(t_token *lst)
 	return (i);
 }
 
+void	print_redir(t_redir *head)
+{
+	t_redir	*current;
+
+	current = head;
+	while (current != NULL)
+	{
+		printf("%s : %s\n", current->redir, current->arg);
+		current = current->next;
+	}
+}
+
 void	print_linked_list(t_token *head)
 {
 	t_token	*current;
@@ -44,6 +56,54 @@ void	print_linked_list(t_token *head)
 	{
 		printf("TYPE[%i]: %s\n", current->type, current->value);
 		current = current->next;
+	}
+}
+
+/* void	free_tokens_till_pipe(t_token *head)
+{
+	while (head != NULL && head->type != T_PIPE)
+	{
+		free(head->value);
+		free(head);
+		head = head->next;
+	}
+} */
+
+/* void	free_tokens_till_pipe(t_token	*head)
+{
+	t_token	*next;
+
+	while (head != NULL)
+	{
+		if (head->type == T_PIPE)
+		{
+			next = head->next;
+			free(head->value);
+			free(head);
+			head = next;
+			break ;
+		}
+		next = head->next;
+		free(head->value);
+		free(head);
+		head = next;
+	}
+} */
+
+void free_tokens_till_pipe(t_token *head)
+{
+	t_token *next;
+
+	while (head != NULL)
+	{
+		next = head->next;
+		free(head->value);
+		free(head);
+		head = next;
+
+		// Check if the next token is a pipe or if we've reached the end of the list
+		if (head == NULL || head->type == T_PIPE)
+			break;
 	}
 }
 
@@ -72,12 +132,6 @@ t_group	*create_group(void)
 	return (new_group);
 }
 
-/* void find_redirs()
-{
-	find_redir();
-	find_arg();
-} */
-
 int	check_if_first_pipe(t_token *tokens)
 {
 	t_token	*current;
@@ -90,6 +144,7 @@ int	check_if_first_pipe(t_token *tokens)
 	}
 	return (1);
 }
+
 void	add_group_to_struct(t_group **groups, t_group *new_group)
 {
 	t_group	*cur;
@@ -108,19 +163,6 @@ void	add_group_to_struct(t_group **groups, t_group *new_group)
 	}
 }
 
-/* void	add_group(t_token *tokens, t_group **groups)
-{
-	t_group	*new_group;
-
-	if (check_if_first_pipe(tokens))
-		return ;
-	new_group = create_group();
-	find_cmd(&tokens, new_group);
-	add_group_to_struct(groups, new_group);
-	// Access the first group using *groups
-	printf("size: %s\n", (*groups)->cmd);
-} */
-
 void add_group(t_token *tokens, t_group **groups)
 {
 	t_group	*new_group;
@@ -131,7 +173,10 @@ void add_group(t_token *tokens, t_group **groups)
 	print_linked_list(tokens);
 	find_cmd(&tokens, new_group);
 	find_args(&tokens, new_group);
+	find_redirs(&tokens, new_group);
+	free_tokens_till_pipe(tokens);
 	add_group_to_struct(groups, new_group);
+	printf("CMD: %s\n", new_group->cmd);
 	int i = 0;
 	while (new_group->args[i])
 	{
@@ -140,12 +185,9 @@ void add_group(t_token *tokens, t_group **groups)
 	}
 	i = 0;
 	printf("TOKENS SIZE: %i \n", ft_tokens_size(tokens));
+	print_redir(new_group->redirs);
 	print_linked_list(tokens);
 }
-
-/*	find_cmd();
-	find_args();
-	find_redirs(); */
 
 void	parser(t_minishell *shell)
 {
