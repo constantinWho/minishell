@@ -6,7 +6,7 @@
 /*   By: jalbers <jalbers@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 11:09:18 by jalbers           #+#    #+#             */
-/*   Updated: 2023/06/21 15:03:25 by jalbers          ###   ########.fr       */
+/*   Updated: 2023/07/04 18:35:44 by jalbers          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ char	*get_input_str(char *input_str, int fd_read)
 		printf("Error reading from pipe\n");
 		exit (0);
 	}
-	close (fd_read);
+	// close (fd_read);
 	free (buffer);
 	return (input_str);
 }

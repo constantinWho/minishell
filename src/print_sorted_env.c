@@ -6,7 +6,7 @@
 /*   By: jalbers <jalbers@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 13:24:07 by jalbers           #+#    #+#             */
-/*   Updated: 2023/06/12 17:28:36 by jalbers          ###   ########.fr       */
+/*   Updated: 2023/07/05 14:07:40 by jalbers          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int	print_sorted_env(char **env)
 	i = 0;
 	while (env_copy[i])
 	{
-		printf("I:%i Str:%s\n", i, env_copy[i]);
+		printf("%s\n", env_copy[i]);
 		i++;
 	}
 	free_array(env_copy);

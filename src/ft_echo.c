@@ -6,7 +6,7 @@
 /*   By: jalbers <jalbers@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 12:39:11 by jalbers           #+#    #+#             */
-/*   Updated: 2023/06/12 17:26:25 by jalbers          ###   ########.fr       */
+/*   Updated: 2023/07/05 17:19:32 by jalbers          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,11 @@ int	ft_echo(char **args)
 	int	j;
 	int	new_line_option;
 
-	i = 1;
+	i = 2;
 	new_line_option = 1;
-	if (args[i] && str_match(args[1], "-n") == 1)
+	if (args[i] && str_match(args[2], "-n") == 1)
 	{
-		i++;
+		i += 2;
 		new_line_option = 0;
 	}
 	while (args[i])

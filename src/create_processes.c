@@ -6,7 +6,7 @@
 /*   By: jalbers <jalbers@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 19:16:39 by jalbers           #+#    #+#             */
-/*   Updated: 2023/06/21 16:47:49 by jalbers          ###   ########.fr       */
+/*   Updated: 2023/07/05 13:22:24 by jalbers          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,12 @@ int	create_forks(int pipe_total)
 			printf("Error: forking");
 			return (1);
 		}
-		if (pids[i] == 0)
+		if (pids[i] != 0)
 			break ;
 		i++;
 	}
 	free(pids);
-	return (i);
+	return (pipe_total - i);
 }
 
 int	create_pipes(int pipes[][2], int process_total)
@@ -136,6 +136,6 @@ int	destroy_processes(t_process *process)
 		free(process);
 		exit(0);
 	}	
-	free(process);
+		free(process);
 	return (0);
 }

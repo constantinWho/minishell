@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lexer.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chustei <chustei@student.42berlin.de>      +#+  +:+       +#+        */
+/*   By: jalbers <jalbers@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 20:09:40 by chustei           #+#    #+#             */
-/*   Updated: 2023/07/03 20:13:56 by chustei          ###   ########.fr       */
+/*   Updated: 2023/07/04 14:44:04 by jalbers          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	print_linked_list(t_token *head)
 	current = head;
 	while (current != NULL)
 	{
-		printf("TYPE[%i]: %s\n", current->type, current->value);
+		// printf("TYPE[%i]: %s\n", current->type, current->value);
 		current = current->next;
 	}
 }
@@ -53,7 +53,7 @@ void	ft_lexer(t_minishell *shell, char *input)
 
 	if (!(check_quotes(input)))
 	{
-		printf("++++++++++++ Error: Missing closed quotes. ++++++++++++\n");
+		// printf("++++++++++++ Error: Missing closed quotes. ++++++++++++\n");
 		return ;
 	}
 	i = 0;
@@ -66,6 +66,6 @@ void	ft_lexer(t_minishell *shell, char *input)
 		i++;
 	}
 	print_linked_list(shell->tokens);
-	printf("list size: %i\n", ft_tokens_size(shell->tokens));
+	// printf("list size: %i\n", ft_tokens_size(shell->tokens));
 /* 	free_array(shell->env); */
 }

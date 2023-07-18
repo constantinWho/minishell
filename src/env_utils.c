@@ -6,7 +6,7 @@
 /*   By: jalbers <jalbers@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 13:42:47 by jalbers           #+#    #+#             */
-/*   Updated: 2023/06/12 17:25:07 by jalbers          ###   ########.fr       */
+/*   Updated: 2023/07/05 18:03:09 by jalbers          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,11 @@ int	str_match(char *str1, char *str2)
 			return (0);
 		i++;
 	}
-	if (str1[i] != '=' && str2[i] != '=')
-		return (0);
-	return (1);
+	if (!str1[i] && !str2[i])
+		return (1);
+	if (str1[i] == '=' || str2[i] == '=')
+		return (1);
+	return (0);
 }
 
 int	overwrite_env_value(char **env, char *new_value, int i)

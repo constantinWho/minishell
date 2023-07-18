@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chustei <chustei@student.42berlin.de>      +#+  +:+       +#+        */
+/*   By: jalbers <jalbers@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 12:03:02 by chustei           #+#    #+#             */
-/*   Updated: 2023/07/03 20:14:54 by chustei          ###   ########.fr       */
+/*   Updated: 2023/07/06 12:31:48 by jalbers          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,7 +154,7 @@ int	main(int ac, char **av, char **env)
 {
 	char		*input;
 	t_minishell	*shell;
-	// t_process	*process;
+	t_process	*process;
 
 	(void)ac;
 	(void)av;
@@ -163,16 +163,17 @@ int	main(int ac, char **av, char **env)
 	while (1)
 	{
 		input = ft_readline();
-		// process = create_processes(input, count_pipes(input));
+		process = create_processes(input, count_pipes(input));
 		// process->pipe_input = read_input(process);
-		// // THIS IS WHERE THE PARSER WOULD GO
-		// destroy_processes(process);
-
-		ft_lexer(shell, input);
+		execute_process(shell, process);
+		free(input);
+		destroy_processes(process);
+		// break;
+		// ft_lexer(shell, input);
 		// ft_parser(shell);
 		//call_method(shell);
 		//free_tokens(shell->tokens);
-		free(input);
+		wait(NULL);
 	}
 	free (input);
 	free_array(shell->env);

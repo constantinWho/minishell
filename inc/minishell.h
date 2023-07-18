@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chustei <chustei@student.42berlin.de>      +#+  +:+       +#+        */
+/*   By: jalbers <jalbers@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 12:03:32 by chustei           #+#    #+#             */
-/*   Updated: 2023/07/03 20:07:15 by chustei          ###   ########.fr       */
+/*   Updated: 2023/07/05 17:17:07 by jalbers          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <signal.h>
 # include <unistd.h>
 # include <stdlib.h>
+# include <fcntl.h>
 
 // Type of the node (e.g., "command", "redirection")
 // Value associated with the node (e.g., command name, file name)
@@ -111,5 +112,6 @@ char		**word_split(char *str, int words_count);
 void		word_butcher(t_minishell *shell, char *word);
 int			get_words_count(char *str);
 int			check_quotes(char *input);
+int			execute_process(t_minishell *shell, t_process *process);
 
 #endif
