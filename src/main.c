@@ -6,7 +6,7 @@
 /*   By: jalbers <jalbers@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 12:03:02 by chustei           #+#    #+#             */
-/*   Updated: 2023/07/06 12:31:48 by jalbers          ###   ########.fr       */
+/*   Updated: 2023/07/18 17:39:41 by jalbers          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,6 +171,15 @@ int	main(int ac, char **av, char **env)
 		// break;
 		// ft_lexer(shell, input);
 		// ft_parser(shell);
+		// // THIS IS WHERE THE PARSER WOULD GO
+		// destroy_processes(process);
+
+
+
+		// ft_lexer(shell, input);
+		// parser(shell);
+
+
 		//call_method(shell);
 		//free_tokens(shell->tokens);
 		wait(NULL);

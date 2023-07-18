@@ -8,8 +8,9 @@ LIBFT_DIR = lib/libft
 SRCS = ./src/main.c src/ft_lexer.c src/signals.c ./src/ft_cd.c ./src/env_utils.c ./src/ft_echo.c \
 ./src/ft_pwd.c ./src/ft_export.c  ./src/utils.c ./src/print_sorted_env.c  ./src/ft_env.c ./src/ft_unset.c  \
 ./src/create_processes.c ./src/read_input.c ./src/count_strs.c ./src/special_split.c ./src/append_token.c  \
-./src/word_butcher.c ./src/get_words_count.c ./src/check_quotes.c ./src/word_split.c \
-./src/execute_process.c \
+./src/execute_process.c ./src/word_butcher.c ./src/get_words_count.c ./src/check_quotes.c ./src/word_split.c \
+./src/parser.c ./src/find_cmd.c ./src/parser_utils.c ./src/update_tokens.c ./src/find_args.c \
+./src/find_redirs.c ./src/add_group.c ./src/add_group_utils.c \
 
 # List of object files to build
 OBJS = $(SRCS:.c=.o)

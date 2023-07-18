@@ -6,7 +6,7 @@
 /*   By: jalbers <jalbers@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 19:46:10 by chustei           #+#    #+#             */
-/*   Updated: 2023/07/04 14:44:35 by jalbers          ###   ########.fr       */
+/*   Updated: 2023/07/18 17:42:27 by jalbers          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	add_split_tokens(t_minishell *shell, char **words, t_token *new_token)
 		else if (arg_len == 2 && words[i][0] == '>' && words[i][1] == '>')
 			new_token = create_token(words[i], T_REDIR_OUT_APPEND);
 		else if (arg_len == 2 && words[i][0] == '<' && words[i][1] == '<')
-			new_token = create_token(words[i], T_HEREDOG);
+			new_token = create_token(words[i], T_HEREDOC);
 		else
 			new_token = create_token(words[i], T_WORD);
 		if (new_token)
@@ -42,15 +42,12 @@ void	add_split_tokens(t_minishell *shell, char **words, t_token *new_token)
 
 void	word_butcher(t_minishell *shell, char *word)
 {
-	int		i;
 	int		words_count;
 	char	**words;
 	t_token	*new_token;
 
-	i = 0;
 	new_token = NULL;
 	words_count = get_words_count(word);
-	// printf("strings count: %i \n", words_count);
 	words = word_split(word, words_count);
 	add_split_tokens(shell, words, new_token);
 }

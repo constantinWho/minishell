@@ -6,7 +6,7 @@
 /*   By: jalbers <jalbers@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 12:03:32 by chustei           #+#    #+#             */
-/*   Updated: 2023/07/05 17:17:07 by jalbers          ###   ########.fr       */
+/*   Updated: 2023/07/18 17:42:01 by jalbers          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,17 +42,23 @@ enum e_token
 	T_REDIR_OUT,
 	T_REDIR_OUT_APPEND,
 	T_REDIR_IN,
-	T_HEREDOG,
+	T_HEREDOC,
 };
 
-/* typedef struct s_group
+typedef struct s_redir
 {
-	char			*type;
-	char			*value;
-	struct s_tree	**children;
-	int				num_children;
+	char					*redir;
+	char					*arg;
+	struct s_redir			*next;
+}	t_redir;
+
+typedef struct s_group
+{
+	char			*cmd;
+	char			**args;
+	t_redir			*redirs;
 	struct s_group	*next;
-}	t_group; */
+}	t_group;
 
 typedef struct s_process
 {
@@ -73,7 +79,7 @@ typedef struct s_token
 
 typedef struct s_minishell {
 	t_token	*tokens;
-/* 	t_group	*groups; */
+	t_group	*groups;
 	char	**args;
 	char	**env;
 }	t_minishell;
@@ -113,5 +119,21 @@ void		word_butcher(t_minishell *shell, char *word);
 int			get_words_count(char *str);
 int			check_quotes(char *input);
 int			execute_process(t_minishell *shell, t_process *process);
+void		parser(t_minishell *shell);
+void		find_cmd(t_token **tokens, t_group *new_group);
+int			is_redirection(t_token *token);
+void		skip_redirection(t_token **cur_token);
+int			is_valid_word_token(t_token *token);
+int			starts_with_dollar(t_token *token);
+void		find_args(t_token **tokens, t_group *new_group);
+void		update_prev_token_next(t_token **prev_token, t_token **cur_token);
+void		update_tokens_head(t_token **tokens, t_token **cur_token);
+void		skip_redir_block_update_prev_token(t_token **cur_token,
+				t_token **prev_token);
+void		find_redirs(t_token **tokens, t_group *new_group);
+void		add_group(t_token *tokens, t_group **groups);
+int			check_if_first_pipe(t_token *tokens);
+void		delete_first_space_if_exists(t_token **head);
+void		delete_pipe_if_exists(t_token **head);
 
 #endif

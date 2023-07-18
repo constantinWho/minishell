@@ -1,24 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   prompt.c                                           :+:      :+:    :+:   */
+/*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chustei <chustei@student.42berlin.de>      +#+  +:+       +#+        */
+/*   By: chustei <chustei@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/07 13:37:01 by chustei           #+#    #+#             */
-/*   Updated: 2023/06/07 15:26:49 by chustei          ###   ########.fr       */
+/*   Created: 2023/07/10 18:12:42 by chustei           #+#    #+#             */
+/*   Updated: 2023/07/18 16:54:02 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include "shell.h"
+#include "../inc/minishell.h"
 
-void	print_prompt1(void)
+void	parser(t_minishell *shell)
 {
-	fprintf(stderr, "$ ");
-}
+	t_token	*tokens;
+	t_group	*groups;
 
-void	print_prompt2(void)
-{
-	fprintf(stderr, "> ");
+	tokens = shell->tokens;
+	groups = shell->groups;
+	if (!tokens)
+		return ;
+	add_group(tokens, &groups);
 }
