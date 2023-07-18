@@ -6,7 +6,7 @@
 /*   By: chustei <chustei@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 13:31:30 by chustei           #+#    #+#             */
-/*   Updated: 2023/07/17 19:20:08 by chustei          ###   ########.fr       */
+/*   Updated: 2023/07/18 16:42:28 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,18 +46,15 @@ int	count_args(t_token *tokens)
 			skip_redir_block(&cur_token);
 		if (cur_token != NULL && is_valid_word_token(cur_token))
 		{
-			printf("FOUND ARG: {%s}; ", cur_token->value);
 			cur_token = cur_token->next;
 			count++;
 		}
 		if (cur_token != NULL && cur_token->type == T_SPACE)
 		{
-			printf("FOUND ARG: {%s}; ", cur_token->value);
 			cur_token = cur_token->next;
 			count++;
 		}
 	}
-	printf("\n");
 	return (count);
 }
 
