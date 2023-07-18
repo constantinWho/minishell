@@ -6,7 +6,7 @@
 /*   By: jalbers <jalbers@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 15:20:58 by jalbers           #+#    #+#             */
-/*   Updated: 2023/07/05 17:48:03 by jalbers          ###   ########.fr       */
+/*   Updated: 2023/07/18 18:13:58 by jalbers          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ int attach_pipe_input_to_args(t_minishell *shell, t_process *process)
 int	execute_process(t_minishell *shell, t_process *process)
 {
 	ft_lexer(shell, process->cmd_str);
+	parser(shell);
 
 	// int	file;
 
@@ -105,8 +106,6 @@ int	execute_process(t_minishell *shell, t_process *process)
 	// 	file = attach_pipe_input_to_args(shell, process);
     
 	// dup2(process->fd_read, 0);
-
-	
 
 
 	execute_cmd_with_args(shell, process, shell->args);

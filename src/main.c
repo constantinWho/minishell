@@ -6,7 +6,7 @@
 /*   By: jalbers <jalbers@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 12:03:02 by chustei           #+#    #+#             */
-/*   Updated: 2023/07/18 17:39:41 by jalbers          ###   ########.fr       */
+/*   Updated: 2023/07/18 17:51:30 by jalbers          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,7 +165,12 @@ int	main(int ac, char **av, char **env)
 		input = ft_readline();
 		process = create_processes(input, count_pipes(input));
 		// process->pipe_input = read_input(process);
+		
+		// ft_lexer(shell, input);
+		// parser(shell);
+		
 		execute_process(shell, process);
+		
 		free(input);
 		destroy_processes(process);
 		// break;
@@ -176,8 +181,6 @@ int	main(int ac, char **av, char **env)
 
 
 
-		// ft_lexer(shell, input);
-		// parser(shell);
 
 
 		//call_method(shell);

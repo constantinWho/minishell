@@ -6,7 +6,7 @@
 /*   By: jalbers <jalbers@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 13:37:24 by jalbers           #+#    #+#             */
-/*   Updated: 2023/07/05 18:21:46 by jalbers          ###   ########.fr       */
+/*   Updated: 2023/07/18 18:15:20 by jalbers          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,11 @@ int	ft_export(char **args, t_minishell *shell)
 {
 	char	**new_env;
 
-	if (!args[1] || !args[2])
+	if (!args[2] || !args[4])
 		print_sorted_env(shell->env);
 	else if (args[2] && args[4])
 	{
-		if (env_value_exists(shell->env, args[1]) == 1)
+		if (env_value_exists(shell->env, args[2]) != -1)
 			change_env(shell->env, args[2], args[4]);
 		else
 		{

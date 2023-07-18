@@ -6,7 +6,7 @@
 /*   By: jalbers <jalbers@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 13:42:47 by jalbers           #+#    #+#             */
-/*   Updated: 2023/07/05 18:03:09 by jalbers          ###   ########.fr       */
+/*   Updated: 2023/07/18 18:14:11 by jalbers          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,10 +71,10 @@ int	env_value_exists(char **env, char *var)
 	while (env[i])
 	{
 		if (str_match(env[i], var) == 1)
-			return (1);
+			return (i);
 		i++;
 	}
-	return (0);
+	return (-1);
 }
 
 int	add_env_value(char **env, char *var, char *value)
