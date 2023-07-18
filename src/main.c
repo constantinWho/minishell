@@ -6,7 +6,7 @@
 /*   By: jalbers <jalbers@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 12:03:02 by chustei           #+#    #+#             */
-/*   Updated: 2023/07/18 17:51:30 by jalbers          ###   ########.fr       */
+/*   Updated: 2023/07/18 22:41:20 by jalbers          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,29 +163,32 @@ int	main(int ac, char **av, char **env)
 	while (1)
 	{
 		input = ft_readline();
+		ft_lexer(shell, input);
+		parser(shell);
 		process = create_processes(input, count_pipes(input));
 		// process->pipe_input = read_input(process);
-		
-		// ft_lexer(shell, input);
-		// parser(shell);
-		
 		execute_process(shell, process);
-		
 		free(input);
 		destroy_processes(process);
-		// break;
-		// ft_lexer(shell, input);
-		// ft_parser(shell);
-		// // THIS IS WHERE THE PARSER WOULD GO
-		// destroy_processes(process);
+		wait(NULL);
 
-
+		// while (shell->groups != NULL)
+		// {
+			// printf("CMD:%s ", shell->groups->cmd);
+			// int i = 0;
+			// while (shell->groups->args[i])
+			// {
+				// printf("Arg%i:%s ", i, shell->groups->args[i]);
+				// i++;
+			// }
+			// shell->groups = shell->groups->next;
+			// printf("\n");
+		// }	
 
 
 
 		//call_method(shell);
 		//free_tokens(shell->tokens);
-		wait(NULL);
 	}
 	free (input);
 	free_array(shell->env);

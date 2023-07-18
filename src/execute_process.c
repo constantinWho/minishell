@@ -6,7 +6,7 @@
 /*   By: jalbers <jalbers@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 15:20:58 by jalbers           #+#    #+#             */
-/*   Updated: 2023/07/18 18:13:58 by jalbers          ###   ########.fr       */
+/*   Updated: 2023/07/18 22:40:18 by jalbers          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,46 +74,52 @@ int execute_cmd_with_args(t_minishell *shell, t_process *process, char **args)
 	return (0);
 }
 
-int attach_pipe_input_to_args(t_minishell *shell, t_process *process)
-{
-	int	i;
+// int attach_pipe_input_to_args(t_minishell *shell, t_process *process)
+// {
+// 	int	i;
 	
-	int	file;
-	if (process->pipe_input != NULL)
-	{
-		file = open("example.txt", O_WRONLY | O_CREAT, 0644);
-		write(file, process->pipe_input, strlen(process->pipe_input));
-	}
+// 	int	file;
+// 	if (process->pipe_input != NULL)
+// 	{
+// 		file = open("example.txt", O_WRONLY | O_CREAT, 0644);
+// 		write(file, process->pipe_input, strlen(process->pipe_input));
+// 	}
 
-	i = 0;
-	while (shell->args[i])
-		i++;
-	// shell->args[i++] = process->pipe_input;
-	shell->args[i++] = "example.txt";
-	shell->args[i] = NULL;
-	return (file);
-}
+// 	i = 0;
+// 	while (shell->args[i])
+// 		i++;
+// 	// shell->args[i++] = process->pipe_input;
+// 	shell->args[i++] = "example.txt";
+// 	shell->args[i] = NULL;
+// 	return (file);
+// }
 
 int	execute_process(t_minishell *shell, t_process *process)
 {
-	ft_lexer(shell, process->cmd_str);
-	parser(shell);
+	(void)process;	
+	// int	i;
 
-	// int	file;
+	// i = 0;
+	// while (i <= process->index)
+	// {
+	// 	shell->groups = shell->groups->next;
+	// 	i++;
+	// }
+	// printf("CMD:%s\n", shell->groups->args[0]);
+	// execute_cmd_with_args(shell, process, shell->args);
 
-	// attach previous pipe output to shell-args
-	// if (process->index != 0)
-	// 	file = attach_pipe_input_to_args(shell, process);
-    
-	// dup2(process->fd_read, 0);
-
-
-	execute_cmd_with_args(shell, process, shell->args);
-
-	// close (process->fd_read);
-
-	// if (process->index != 0)
-	// 	close (file);
-	// close(process->fd_read);
+		while (shell->groups != NULL)
+		{
+			printf("CMD:%s ", shell->groups->cmd);
+			int i = 0;
+			while (shell->groups->args[i])
+			{
+				printf("Arg%i:%s ", i, shell->groups->args[i]);
+				i++;
+			}
+			shell->groups = shell->groups->next;
+			printf("\n");
+		}	
+	
 	return (0);
 }
