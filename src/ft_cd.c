@@ -6,7 +6,7 @@
 /*   By: jalbers <jalbers@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 16:54:52 by chustei           #+#    #+#             */
-/*   Updated: 2023/07/05 18:15:21 by jalbers          ###   ########.fr       */
+/*   Updated: 2023/07/19 14:36:50 by jalbers          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,10 @@ int	ft_cd(char **args, t_minishell *shell)
 
 	if (!args[1])
 		chdir(getenv("HOME"));
-	else if (str_match(args[2], "-"))
+	else if (str_match(args[1], "-"))
 		chdir(ft_getenv(shell->env, "OLDPWD"));
 	else
-		chdir(args[2]);
+		chdir(args[1]);
 	change_env(shell->env, "OLDPWD", ft_getenv(shell->env, "PWD"));
 	if (getcwd(updated_dir, sizeof(updated_dir)) == NULL)
 	{

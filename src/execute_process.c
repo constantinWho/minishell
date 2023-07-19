@@ -6,7 +6,7 @@
 /*   By: jalbers <jalbers@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 15:20:58 by jalbers           #+#    #+#             */
-/*   Updated: 2023/07/19 12:57:34 by jalbers          ###   ########.fr       */
+/*   Updated: 2023/07/19 14:41:53 by jalbers          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,29 +107,69 @@ t_group	*get_correct_group(t_minishell *shell, int process_index)
 	return (shell->groups);	
 }
 
+void	insert_str(char *dest, char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		dest[i] = str[i];
+		i++;
+	}
+	dest[i] = '\0';
+}
+
+int	calc_array_len(char **array)
+{
+	int	i;
+	
+	i = 0;
+	while (array[i] != NULL)
+		i++;
+	return (i);	
+}
+
+char	**join_cmd_and_args(char *cmd, char **args)
+{
+	char	**cmd_and_args;
+	int		array_len;
+	int		i;
+	char	*str;
+
+	array_len = calc_array_len(args);
+	cmd_and_args = malloc((array_len + 2)* sizeof(char *));
+	i = 0;
+	while (i < array_len + 1)
+	{
+		if (i == 0)
+			str = cmd;
+		else
+			str = args[i - 1];
+		cmd_and_args[i] = malloc((str_len(str) + 1) * sizeof(char));
+		insert_str(cmd_and_args[i], str);
+		i++;
+	}
+	cmd_and_args[i] = NULL;
+	return (cmd_and_args);
+}
+
 int	execute_process(t_minishell *shell, t_process *process)
 {
 	t_group	*correct_group;
+	char	**cmd_and_args;
 
 	correct_group = get_correct_group(shell, process->index);
-	printf("CMD:%s P_index:%i\n", correct_group->cmd, process->index);
-
+	cmd_and_args = join_cmd_and_args(correct_group->cmd, correct_group->args);
+	// int i = 0;
+	// while (cmd_and_args[i])
+	// {
+	// 	printf("arg: %s\n", cmd_and_args[i]);
+	// 	i++;
+	// }
 	
 	// (void)process;	
-	// execute_cmd_with_args(shell, process, shell->args);
-
-	// while (shell->groups != NULL)
-	// {
-	// 	printf("CMD:%s ", shell->groups->cmd);
-	// 	int i = 0;
-	// 	while (shell->groups->args[i])
-	// 	{
-	// 		printf("Arg%i:%s ", i, shell->groups->args[i]);
-	// 		i++;
-	// 	}
-	// 	shell->groups = shell->groups->next;
-	// 	printf("\n");
-	// }	
-	
+	execute_cmd_with_args(shell, process, cmd_and_args);
+	free_array(cmd_and_args);
 	return (0);
 }

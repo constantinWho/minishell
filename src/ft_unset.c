@@ -6,7 +6,7 @@
 /*   By: jalbers <jalbers@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 17:01:21 by jalbers           #+#    #+#             */
-/*   Updated: 2023/07/05 18:31:36 by jalbers          ###   ########.fr       */
+/*   Updated: 2023/07/19 14:43:19 by jalbers          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	ft_unset(char **args, t_minishell *shell)
 
 	env = shell->env;
 	i = 0;
-	while (env[i] && str_match(env[i], args[2]) == 0)
+	while (env[i] && str_match(env[i], args[1]) == 0)
 		i++;
 	lost_str = env[i];
 	while (env[i] && env[i + 1])
