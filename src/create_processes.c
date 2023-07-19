@@ -6,7 +6,7 @@
 /*   By: jalbers <jalbers@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 19:16:39 by jalbers           #+#    #+#             */
-/*   Updated: 2023/07/05 13:22:24 by jalbers          ###   ########.fr       */
+/*   Updated: 2023/07/19 12:51:15 by jalbers          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,8 +129,8 @@ t_process	*create_processes(char *input, int pipe_total)
 int	destroy_processes(t_process *process)
 {
 	free(process->cmd_str);
-	if (process->index != 0)
-		free(process->pipe_input);
+	// if (process->index != 0)
+	// 	free(process->pipe_input);
 	if (process->index != process->pipe_total)
 	{
 		free(process);

@@ -6,7 +6,7 @@
 /*   By: jalbers <jalbers@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 15:20:58 by jalbers           #+#    #+#             */
-/*   Updated: 2023/07/18 22:40:18 by jalbers          ###   ########.fr       */
+/*   Updated: 2023/07/19 12:57:34 by jalbers          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,32 +94,42 @@ int execute_cmd_with_args(t_minishell *shell, t_process *process, char **args)
 // 	return (file);
 // }
 
+t_group	*get_correct_group(t_minishell *shell, int process_index)
+{
+	int		i;
+
+	i = 0;
+	while (i < process_index)
+	{
+		shell->groups = shell->groups->next;
+		i++;
+	}
+	return (shell->groups);	
+}
+
 int	execute_process(t_minishell *shell, t_process *process)
 {
-	(void)process;	
-	// int	i;
+	t_group	*correct_group;
 
-	// i = 0;
-	// while (i <= process->index)
-	// {
-	// 	shell->groups = shell->groups->next;
-	// 	i++;
-	// }
-	// printf("CMD:%s\n", shell->groups->args[0]);
+	correct_group = get_correct_group(shell, process->index);
+	printf("CMD:%s P_index:%i\n", correct_group->cmd, process->index);
+
+	
+	// (void)process;	
 	// execute_cmd_with_args(shell, process, shell->args);
 
-		while (shell->groups != NULL)
-		{
-			printf("CMD:%s ", shell->groups->cmd);
-			int i = 0;
-			while (shell->groups->args[i])
-			{
-				printf("Arg%i:%s ", i, shell->groups->args[i]);
-				i++;
-			}
-			shell->groups = shell->groups->next;
-			printf("\n");
-		}	
+	// while (shell->groups != NULL)
+	// {
+	// 	printf("CMD:%s ", shell->groups->cmd);
+	// 	int i = 0;
+	// 	while (shell->groups->args[i])
+	// 	{
+	// 		printf("Arg%i:%s ", i, shell->groups->args[i]);
+	// 		i++;
+	// 	}
+	// 	shell->groups = shell->groups->next;
+	// 	printf("\n");
+	// }	
 	
 	return (0);
 }
