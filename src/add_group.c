@@ -6,7 +6,7 @@
 /*   By: chustei <chustei@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 16:46:14 by chustei           #+#    #+#             */
-/*   Updated: 2023/07/18 16:53:54 by chustei          ###   ########.fr       */
+/*   Updated: 2023/07/19 15:28:08 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	ft_tokens_size(t_token *lst)
 	return (i);
 }
 
-void	add_group(t_token *tokens, t_group **groups)
+void	add_group(t_token *tokens, t_group **groups, char **env)
 {
 	t_group	*new_group;
 
@@ -64,12 +64,12 @@ void	add_group(t_token *tokens, t_group **groups)
 		return ;
 	new_group = create_group();
 	find_cmd(&tokens, new_group);
-	find_args(&tokens, new_group);
+	find_args(&tokens, new_group, env);
 	find_redirs(&tokens, new_group);
 	delete_pipe_if_exists(&tokens);
 	add_group_to_struct(groups, new_group);
 	if (ft_tokens_size(tokens) > 0)
-		add_group(tokens, groups);
+		add_group(tokens, groups, env);
 }
 
 /*

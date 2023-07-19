@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalbers <jalbers@student.42.fr>            +#+  +:+       +#+        */
+/*   By: chustei <chustei@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 12:03:32 by chustei           #+#    #+#             */
-/*   Updated: 2023/07/18 17:42:01 by jalbers          ###   ########.fr       */
+/*   Updated: 2023/07/19 15:28:12 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,13 +125,13 @@ int			is_redirection(t_token *token);
 void		skip_redirection(t_token **cur_token);
 int			is_valid_word_token(t_token *token);
 int			starts_with_dollar(t_token *token);
-void		find_args(t_token **tokens, t_group *new_group);
+void		find_args(t_token **tokens, t_group *new_group, char **env);
 void		update_prev_token_next(t_token **prev_token, t_token **cur_token);
 void		update_tokens_head(t_token **tokens, t_token **cur_token);
 void		skip_redir_block_update_prev_token(t_token **cur_token,
 				t_token **prev_token);
 void		find_redirs(t_token **tokens, t_group *new_group);
-void		add_group(t_token *tokens, t_group **groups);
+void		add_group(t_token *tokens, t_group **groups, char **env);
 int			check_if_first_pipe(t_token *tokens);
 void		delete_first_space_if_exists(t_token **head);
 void		delete_pipe_if_exists(t_token **head);
