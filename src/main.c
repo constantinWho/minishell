@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalbers <jalbers@student.42.fr>            +#+  +:+       +#+        */
+/*   By: chustei <chustei@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 12:03:02 by chustei           #+#    #+#             */
-/*   Updated: 2023/07/18 22:41:20 by jalbers          ###   ########.fr       */
+/*   Updated: 2023/07/19 13:06:52 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,6 +150,46 @@ int	count_pipes(char *input_str)
 	return (pipe_count);
 }
 
+void	free_redirs(t_redir *head)
+{
+	t_redir	*current;
+	t_redir	*next;
+
+	current = head;
+	while (current != NULL)
+	{
+		free(current->redir);
+		free(current->arg);
+		next = current->next;
+		free(current);
+		current = next;
+	}
+}
+
+void	free_groups(t_group *head)
+{
+	t_group	*current;
+	t_group	*next;
+	int		i;
+
+	current = head;
+	while (current != NULL)
+	{
+		free(current->cmd);
+		i = 0;
+		while (current->args[i])
+		{
+			free(current->args[i]);
+			i++;
+		}
+		free(current->args);
+		free_redirs(current->redirs);
+		next = current->next;
+		free(current);
+		current = next;
+	}
+}
+
 int	main(int ac, char **av, char **env)
 {
 	char		*input;
@@ -169,6 +209,7 @@ int	main(int ac, char **av, char **env)
 		// process->pipe_input = read_input(process);
 		execute_process(shell, process);
 		free(input);
+		free_groups(shell->groups);
 		destroy_processes(process);
 		wait(NULL);
 
@@ -183,7 +224,7 @@ int	main(int ac, char **av, char **env)
 			// }
 			// shell->groups = shell->groups->next;
 			// printf("\n");
-		// }	
+		// }
 
 
 
