@@ -6,32 +6,11 @@
 /*   By: chustei <chustei@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 13:31:30 by chustei           #+#    #+#             */
-/*   Updated: 2023/07/19 17:50:54 by chustei          ###   ########.fr       */
+/*   Updated: 2023/07/20 12:11:51 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
-
-void	skip_redir_block(t_token **cur_token)
-{
-	*cur_token = (*cur_token)->next;
-	if (*cur_token != NULL && (*cur_token)->type == T_SPACE)
-	{
-		*cur_token = (*cur_token)->next;
-		if (*cur_token != NULL && is_valid_word_token(*cur_token))
-		{
-			*cur_token = (*cur_token)->next;
-			if (*cur_token != NULL && (*cur_token)->type == T_SPACE)
-				*cur_token = (*cur_token)->next;
-		}
-	}
-	else if (*cur_token != NULL && is_valid_word_token(*cur_token))
-	{
-		*cur_token = (*cur_token)->next;
-		if (*cur_token != NULL && (*cur_token)->type == T_SPACE)
-			*cur_token = (*cur_token)->next;
-	}
-}
 
 int	count_args(t_token *tokens)
 {

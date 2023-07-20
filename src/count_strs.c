@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   count_strs.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chustei <chustei@student.42berlin.de>      +#+  +:+       +#+        */
+/*   By: chustei <chustei@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 16:53:12 by chustei           #+#    #+#             */
-/*   Updated: 2023/07/03 18:45:43 by chustei          ###   ########.fr       */
+/*   Updated: 2023/07/20 12:14:16 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ int	count_delimited_strs(char *s, int *i)
 	if (*i > pos + 1)
 		count++;
 	(*i)++;
-
 	return (count);
 }
 
@@ -54,7 +53,6 @@ int	count_regular_strs(char *s, int *i)
 		(*i)++;
 	if (*i > pos)
 		count++;
-
 	return (count);
 }
 

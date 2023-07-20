@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_process.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalbers <jalbers@student.42.fr>            +#+  +:+       +#+        */
+/*   By: chustei <chustei@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 15:20:58 by jalbers           #+#    #+#             */
-/*   Updated: 2023/07/19 14:41:53 by jalbers          ###   ########.fr       */
+/*   Updated: 2023/07/20 12:11:48 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,14 @@ char	*add_path_prefix(char *str)
 	while (str[i])
 		new_str[j++] = str[i++];
 	new_str[j] = '\0';
-	return (new_str);	
+	return (new_str);
 }
 
 
 int execute_using_execve(t_process *process, char **str)
 {
 	char	*cmd_path;
-	
+
 	cmd_path = add_path_prefix(str[0]);
 
 	pid_t pid = fork();
@@ -77,7 +77,7 @@ int execute_cmd_with_args(t_minishell *shell, t_process *process, char **args)
 // int attach_pipe_input_to_args(t_minishell *shell, t_process *process)
 // {
 // 	int	i;
-	
+
 // 	int	file;
 // 	if (process->pipe_input != NULL)
 // 	{
@@ -104,7 +104,7 @@ t_group	*get_correct_group(t_minishell *shell, int process_index)
 		shell->groups = shell->groups->next;
 		i++;
 	}
-	return (shell->groups);	
+	return (shell->groups);
 }
 
 void	insert_str(char *dest, char *str)
@@ -123,11 +123,11 @@ void	insert_str(char *dest, char *str)
 int	calc_array_len(char **array)
 {
 	int	i;
-	
+
 	i = 0;
 	while (array[i] != NULL)
 		i++;
-	return (i);	
+	return (i);
 }
 
 char	**join_cmd_and_args(char *cmd, char **args)
@@ -138,7 +138,7 @@ char	**join_cmd_and_args(char *cmd, char **args)
 	char	*str;
 
 	array_len = calc_array_len(args);
-	cmd_and_args = malloc((array_len + 2)* sizeof(char *));
+	cmd_and_args = malloc((array_len + 2) * sizeof(char *));
 	i = 0;
 	while (i < array_len + 1)
 	{
@@ -167,8 +167,8 @@ int	execute_process(t_minishell *shell, t_process *process)
 	// 	printf("arg: %s\n", cmd_and_args[i]);
 	// 	i++;
 	// }
-	
-	// (void)process;	
+
+	// (void)process;
 	execute_cmd_with_args(shell, process, cmd_and_args);
 	free_array(cmd_and_args);
 	return (0);

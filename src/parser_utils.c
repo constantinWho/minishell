@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chustei <chustei@student.42berlin.de>      +#+  +:+       +#+        */
+/*   By: chustei <chustei@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 13:20:00 by chustei           #+#    #+#             */
-/*   Updated: 2023/07/11 13:26:09 by chustei          ###   ########.fr       */
+/*   Updated: 2023/07/20 12:11:46 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,4 +37,25 @@ int	is_valid_word_token(t_token *token)
 int	starts_with_dollar(t_token *token)
 {
 	return (token->value[0] == '$');
+}
+
+void	skip_redir_block(t_token **cur_token)
+{
+	*cur_token = (*cur_token)->next;
+	if (*cur_token != NULL && (*cur_token)->type == T_SPACE)
+	{
+		*cur_token = (*cur_token)->next;
+		if (*cur_token != NULL && is_valid_word_token(*cur_token))
+		{
+			*cur_token = (*cur_token)->next;
+			if (*cur_token != NULL && (*cur_token)->type == T_SPACE)
+				*cur_token = (*cur_token)->next;
+		}
+	}
+	else if (*cur_token != NULL && is_valid_word_token(*cur_token))
+	{
+		*cur_token = (*cur_token)->next;
+		if (*cur_token != NULL && (*cur_token)->type == T_SPACE)
+			*cur_token = (*cur_token)->next;
+	}
 }

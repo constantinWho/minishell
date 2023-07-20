@@ -6,7 +6,7 @@
 /*   By: chustei <chustei@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 12:03:02 by chustei           #+#    #+#             */
-/*   Updated: 2023/07/19 15:28:11 by chustei          ###   ########.fr       */
+/*   Updated: 2023/07/20 12:35:03 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,6 +190,20 @@ void	free_groups(t_group *head)
 	}
 }
 
+void	free_args(char **arr)
+{
+	int	i;
+
+	i = 0;
+	while (arr[i])
+	{
+		free(arr[i]);
+		i++;
+	}
+	free(arr);
+	i++;
+}
+
 int	main(int ac, char **av, char **env)
 {
 	char		*input;
@@ -210,6 +224,7 @@ int	main(int ac, char **av, char **env)
 		execute_process(shell, process);
 		free(input);
 		free_groups(shell->groups);
+		free_args(shell->args);
 		destroy_processes(process);
 		wait(NULL);
 

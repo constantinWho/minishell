@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   word_butcher.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalbers <jalbers@student.42.fr>            +#+  +:+       +#+        */
+/*   By: chustei <chustei@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 19:46:10 by chustei           #+#    #+#             */
-/*   Updated: 2023/07/18 17:42:27 by jalbers          ###   ########.fr       */
+/*   Updated: 2023/07/20 12:30:43 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,19 @@ void	add_split_tokens(t_minishell *shell, char **words, t_token *new_token)
 	}
 }
 
+void	free_words(char **arr)
+{
+	int	i;
+
+	i = 0;
+	while (arr[i])
+	{
+		free(arr[i]);
+		i++;
+	}
+	free(arr);
+}
+
 void	word_butcher(t_minishell *shell, char *word)
 {
 	int		words_count;
@@ -50,4 +63,5 @@ void	word_butcher(t_minishell *shell, char *word)
 	words_count = get_words_count(word);
 	words = word_split(word, words_count);
 	add_split_tokens(shell, words, new_token);
+	free_words(words);
 }
