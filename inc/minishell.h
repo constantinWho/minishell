@@ -6,7 +6,7 @@
 /*   By: jalbers <jalbers@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 12:03:32 by chustei           #+#    #+#             */
-/*   Updated: 2023/07/18 17:42:01 by jalbers          ###   ########.fr       */
+/*   Updated: 2023/07/20 16:50:17 by jalbers          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <fcntl.h>
+# include <dirent.h>
 
 // Type of the node (e.g., "command", "redirection")
 // Value associated with the node (e.g., command name, file name)
@@ -50,6 +51,7 @@ typedef struct s_redir
 	char					*redir;
 	char					*arg;
 	struct s_redir			*next;
+	int						fd;
 }	t_redir;
 
 typedef struct s_group
@@ -82,6 +84,8 @@ typedef struct s_minishell {
 	t_group	*groups;
 	char	**args;
 	char	**env;
+	int		original_stdout;
+	int		original_stdin;
 }	t_minishell;
 
 int			ft_cd(char **args, t_minishell *shell);
@@ -135,5 +139,7 @@ void		add_group(t_token *tokens, t_group **groups);
 int			check_if_first_pipe(t_token *tokens);
 void		delete_first_space_if_exists(t_token **head);
 void		delete_pipe_if_exists(t_token **head);
+int			create_redirect_files(t_redir *redir);
+int			execute_cmd_with_args(t_minishell *shell, t_process *process, char **args);
 
 #endif
