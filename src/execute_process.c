@@ -6,7 +6,7 @@
 /*   By: chustei <chustei@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 15:20:58 by jalbers           #+#    #+#             */
-/*   Updated: 2023/07/20 12:11:48 by chustei          ###   ########.fr       */
+/*   Updated: 2023/07/20 16:37:54 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,35 +32,60 @@ char	*add_path_prefix(char *str)
 	return (new_str);
 }
 
+char	*add_exec_path(char *str, char **env)
+{
+	char	*pwd;
+	int		i;
+	int		size;
 
-int execute_using_execve(t_process *process, char **str)
+	i = 0;
+	while (env[i])
+	{
+		size = 0;
+		while (env[i][size] != '=')
+			size++;
+		if (!ft_strncmp("PWD", env[i], 3)
+			&& (size_t)size == 3)
+			pwd = ft_strdup(env[i] + size + 1);
+		i++;
+	}
+	printf("%s%s \n", pwd, str + 1);
+	return (ft_strjoin(pwd, str + 1));
+}
+
+int	execute_using_execve(t_process *process, char **str, char **env)
 {
 	char	*cmd_path;
+	pid_t	pid;
 
-	cmd_path = add_path_prefix(str[0]);
+	if (str[0][0] == '.' && str[0][1] == '/')
+		cmd_path = add_exec_path(str[0], env);
+	else
+		cmd_path = add_path_prefix(str[0]);
 
-	pid_t pid = fork();
-	if (pid == 0) {
+	pid = fork();
+	if (pid == 0)
+	{
 		dup2(process->fd_read, 0);
 		execve(cmd_path, str, NULL);
 		perror("execvp");
 		close(process->fd_read);
-	} else if (pid > 0) {
-		wait(NULL);
-	} else {
-		perror("fork");
 	}
+	else if (pid > 0)
+		wait(NULL);
+	else
+		perror("fork");
 	free (cmd_path);
 	return (0);
 }
 
-int execute_cmd_with_args(t_minishell *shell, t_process *process, char **args)
+int	execute_cmd_with_args(t_minishell *shell, t_process *process, char **args)
 {
 
 	if (str_match(args[0], "env") == 1)
 		ft_env(shell);
 	else if (str_match(args[0], "echo") == 1)
-	 	ft_echo(args);
+		ft_echo(args);
 	else if (str_match(args[0], "export") == 1)
 		ft_export(args, shell);
 	else if (str_match(args[0], "unset") == 1)
@@ -70,7 +95,7 @@ int execute_cmd_with_args(t_minishell *shell, t_process *process, char **args)
 	else if (str_match(args[0], "pwd") == 1)
 		ft_pwd();
 	else
-		execute_using_execve(process, args);
+		execute_using_execve(process, args, shell->env);
 	return (0);
 }
 
