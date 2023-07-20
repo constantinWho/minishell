@@ -6,7 +6,7 @@
 /*   By: jalbers <jalbers@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 15:20:58 by jalbers           #+#    #+#             */
-/*   Updated: 2023/07/20 16:18:27 by jalbers          ###   ########.fr       */
+/*   Updated: 2023/07/20 17:09:47 by jalbers          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 // int attach_pipe_input_to_args(t_minishell *shell, t_process *process)
 // {
 // 	int	i;
-	
+
 // 	int	file;
 // 	if (process->pipe_input != NULL)
 // 	{
@@ -42,7 +42,7 @@ t_group	*get_correct_group(t_minishell *shell, int process_index)
 		shell->groups = shell->groups->next;
 		i++;
 	}
-	return (shell->groups);	
+	return (shell->groups);
 }
 
 void	insert_str(char *dest, char *str)
@@ -61,11 +61,11 @@ void	insert_str(char *dest, char *str)
 int	calc_array_len(char **array)
 {
 	int	i;
-	
+
 	i = 0;
 	while (array[i] != NULL)
 		i++;
-	return (i);	
+	return (i);
 }
 
 char	**join_cmd_and_args(char *cmd, char **args)
@@ -76,7 +76,7 @@ char	**join_cmd_and_args(char *cmd, char **args)
 	char	*str;
 
 	array_len = calc_array_len(args);
-	cmd_and_args = malloc((array_len + 2)* sizeof(char *));
+	cmd_and_args = malloc((array_len + 2) * sizeof(char *));
 	i = 0;
 	while (i < array_len + 1)
 	{

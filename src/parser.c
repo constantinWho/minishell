@@ -6,7 +6,7 @@
 /*   By: chustei <chustei@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 18:12:42 by chustei           #+#    #+#             */
-/*   Updated: 2023/07/19 13:05:28 by chustei          ###   ########.fr       */
+/*   Updated: 2023/07/20 12:11:56 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,12 @@ void	print_group(t_group *head)
 	while (current != NULL)
 	{
 		printf("CMD: %s\n", current->cmd);
+		int i = 0;
+		while (current->args[i])
+		{
+			printf("ARG[%i]: %s\n", i, current->args[i]);
+			i++;
+		}
 		current = current->next;
 	}
 }
@@ -33,7 +39,7 @@ void	parser(t_minishell *shell)
 	groups = NULL;
 	if (!tokens)
 		return ;
-	add_group(tokens, &groups);
+	add_group(tokens, &groups, shell->env);
 	shell->groups = groups;
-	// print_group(shell->groups);
+	print_group(shell->groups);
 }
