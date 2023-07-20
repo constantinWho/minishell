@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_processes.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalbers <jalbers@student.42.fr>            +#+  +:+       +#+        */
+/*   By: chustei <chustei@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 19:16:39 by jalbers           #+#    #+#             */
-/*   Updated: 2023/07/19 12:51:15 by jalbers          ###   ########.fr       */
+/*   Updated: 2023/07/20 18:09:45 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,10 +100,11 @@ int	set_pipe_ends(t_process *process, int pipes[][2], int pipe_total)
 	if (process->index != pipe_total)
 	{
 		process->fd_write = pipes[process->index + 1][1];
-		if (dup2(process->fd_write, 1) == -1) {
-            printf("Failed to duplicate file descriptor\n");
-            return 1;
-        }
+		if (dup2(process->fd_write, 1) == -1)
+		{
+			printf("Failed to duplicate file descriptor\n");
+			return (1);
+		}
 	}
 	else
 		process->fd_write = 1;
@@ -135,7 +136,7 @@ int	destroy_processes(t_process *process)
 	{
 		free(process);
 		exit(0);
-	}	
+	}
 		free(process);
 	return (0);
 }
