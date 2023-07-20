@@ -6,7 +6,7 @@
 /*   By: chustei <chustei@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 13:31:30 by chustei           #+#    #+#             */
-/*   Updated: 2023/07/20 12:11:51 by chustei          ###   ########.fr       */
+/*   Updated: 2023/07/20 18:38:03 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ int	count_args(t_token *tokens)
 		if (cur_token != NULL && cur_token->type == T_SPACE)
 		{
 			cur_token = cur_token->next;
-			count++;
+			if (cur_token != NULL && cur_token->type != T_PIPE)
+				count++;
 		}
 	}
 	return (count);
@@ -86,6 +87,16 @@ void	dup_and_save(t_token **cur_token, t_group **new_group, int *i,
 	(*i)++;
 }
 
+void	remove_last_space(t_group **new_group, int *i)
+{
+	if ((*new_group)->args[*i - 1][0] == ' '
+	&& ft_strlen(&(*new_group)->args[*i - 1][0]) == 1)
+	{
+		free(&(*new_group)->args[*i - 1][0]);
+		(*i)--;
+	}
+}
+
 void	find_args(t_token **tokens, t_group *new_group, char **env)
 {
 	t_token	*cur_token;
@@ -109,5 +120,6 @@ void	find_args(t_token **tokens, t_group *new_group, char **env)
 			process_arg_token(tokens, &cur_token, &prev_token);
 		}
 	}
+	remove_last_space(&new_group, &i);
 	new_group->args[i] = NULL;
 }
