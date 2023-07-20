@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chustei <chustei@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jalbers <jalbers@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 18:12:42 by chustei           #+#    #+#             */
-/*   Updated: 2023/07/20 12:11:56 by chustei          ###   ########.fr       */
+/*   Updated: 2023/07/20 18:11:49 by jalbers          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,5 +41,5 @@ void	parser(t_minishell *shell)
 		return ;
 	add_group(tokens, &groups, shell->env);
 	shell->groups = groups;
-	print_group(shell->groups);
+	// print_group(shell->groups);
 }

@@ -6,7 +6,7 @@
 /*   By: jalbers <jalbers@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 14:31:29 by jalbers           #+#    #+#             */
-/*   Updated: 2023/07/20 16:44:13 by jalbers          ###   ########.fr       */
+/*   Updated: 2023/07/20 19:12:30 by jalbers          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,11 +87,11 @@ int	check_if_file_exists(char *dir_path, char *file_name)
 	return 0;
 }
 
-int	create_redirect_files(t_redir *redir)
+int	create_redirect_files(t_redir *redir, t_process *process)
 {
 	int		fd;
 	int		dup_fd;
-
+	
 	dup_fd = 1;
 	while (redir != NULL)
 	{
@@ -102,7 +102,10 @@ int	create_redirect_files(t_redir *redir)
 		else if (str_match("<", redir->redir) == 1)
 		{
 			fd = open(redir->arg, O_RDONLY);
-			dup_fd = 0;
+			if (process->index == 0)
+				dup_fd = 0;
+			else
+				dup_fd = process->fd_read;
 		}
 		if (dup2(fd, dup_fd) == -1) {
             printf("Failed to duplicate file descriptor\n");
