@@ -6,7 +6,7 @@
 /*   By: chustei <chustei@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/07 10:59:19 by chustei           #+#    #+#             */
-/*   Updated: 2023/07/20 16:00:28 by chustei          ###   ########.fr       */
+/*   Updated: 2023/07/20 18:01:27 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,5 @@ char	*ft_strjoin(char *s1, char *s2)
 	ft_memmove(str, s1, s1_len);
 	ft_memmove(str + s1_len, s2, s2_len);
 	str[buffer_len - 1] = '\0';
-	free(s1);
 	return (str);
 }

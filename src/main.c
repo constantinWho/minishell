@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalbers <jalbers@student.42.fr>            +#+  +:+       +#+        */
+/*   By: chustei <chustei@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 12:03:02 by chustei           #+#    #+#             */
-/*   Updated: 2023/07/20 17:10:08 by jalbers          ###   ########.fr       */
+/*   Updated: 2023/07/20 17:54:54 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -223,7 +223,8 @@ int	main(int ac, char **av, char **env)
 		parser(shell);
 		process = create_processes(input, count_pipes(input));
 		// process->pipe_input = read_input(process);
-		create_redirect_files(shell->groups->redirs);
+		if (shell->groups != NULL)
+			create_redirect_files(shell->groups->redirs);
 		execute_process(shell, process);
 		free(input);
 		free_groups(shell->groups);
@@ -235,7 +236,7 @@ int	main(int ac, char **av, char **env)
 		dup2(shell->original_stdout, 1);
 		dup2(shell->original_stdin, 0);
 
-	
+
 		// while (shell->groups != NULL)
 		// {
 			// printf("CMD:%s ", shell->groups->cmd);
