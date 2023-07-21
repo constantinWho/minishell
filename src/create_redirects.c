@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_redirects.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalbers <jalbers@student.42.fr>            +#+  +:+       +#+        */
+/*   By: josephalbers <josephalbers@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 14:31:29 by jalbers           #+#    #+#             */
-/*   Updated: 2023/07/20 19:12:30 by jalbers          ###   ########.fr       */
+/*   Updated: 2023/07/21 18:42:55 by josephalber      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,11 +87,11 @@ int	check_if_file_exists(char *dir_path, char *file_name)
 	return 0;
 }
 
-int	create_redirect_files(t_redir *redir, t_process *process)
+int	create_redirect_files(t_redir *redir, t_process *process, t_minishell *shell)
 {
 	int		fd;
 	int		dup_fd;
-	
+
 	dup_fd = 1;
 	while (redir != NULL)
 	{
@@ -106,6 +106,12 @@ int	create_redirect_files(t_redir *redir, t_process *process)
 				dup_fd = 0;
 			else
 				dup_fd = process->fd_read;
+		}
+		else if (str_match("<<", redir->redir) == 1)
+		{
+			heredoc(redir, process, shell);
+			redir = redir->next;
+			return (0);	
 		}
 		if (dup2(fd, dup_fd) == -1) {
             printf("Failed to duplicate file descriptor\n");
