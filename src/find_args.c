@@ -6,7 +6,7 @@
 /*   By: chustei <chustei@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 13:31:30 by chustei           #+#    #+#             */
-/*   Updated: 2023/07/21 11:57:45 by chustei          ###   ########.fr       */
+/*   Updated: 2023/07/21 12:14:39 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,14 @@ char	*get_env_str(char *arg, char **env)
 
 	i = 0;
 	new_str = NULL;
+	if (ft_strlen(arg) == 1)
+		return (ft_strdup("$"));
+	if (!ft_strncmp(arg, "$0", 2))
+		return (ft_strdup("minishell"));
 	if (!ft_strncmp(arg, "$?", 2))
 		return (ft_strdup("$?"));
+	if (ft_isdigit(arg[1]))
+		return (ft_strdup(arg + 2));
 	while (env[i])
 	{
 		size = 0;
@@ -67,6 +73,8 @@ char	*get_env_str(char *arg, char **env)
 			new_str = ft_strdup(env[i] + size + 1);
 		i++;
 	}
+	if (new_str == NULL)
+		new_str = ft_strdup(arg + ft_strlen(arg));
 	return (new_str);
 }
 
@@ -78,8 +86,6 @@ void	dup_and_save(t_token **cur_token, t_group **new_group, int *i,
 	if ((*cur_token)->value[0] == '$' && (*cur_token)->type != T_1Q_WORD)
 	{
 		env_str = get_env_str((*cur_token)->value, env);
-		if (env_str == NULL)
-			env_str = ft_strdup("\n");
 		(*new_group)->args[*i] = ft_strdup(env_str);
 	}
 	else
