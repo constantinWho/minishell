@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   find_args.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalbers <jalbers@student.42.fr>            +#+  +:+       +#+        */
+/*   By: chustei <chustei@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 13:31:30 by chustei           #+#    #+#             */
-/*   Updated: 2023/07/20 19:27:02 by jalbers          ###   ########.fr       */
+/*   Updated: 2023/07/21 11:57:45 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,10 @@ void	dup_and_save(t_token **cur_token, t_group **new_group, int *i,
 
 void	remove_last_space(t_group **new_group, int *i)
 {
-	if ((*new_group)->args[*i - 1][0] == ' ' && ft_strlen(&(*new_group)->args[*i - 1][0]) == 1)
+	if (*new_group == NULL || (*new_group)->args == NULL || *i <= 0)
+		return ;
+	if ((*new_group)->args[*i - 1][0] == ' '
+		&& ft_strlen(&(*new_group)->args[*i - 1][0]) == 1)
 	{
 		free(&(*new_group)->args[*i - 1][0]);
 		(*i)--;
@@ -108,7 +111,7 @@ void	find_args(t_token **tokens, t_group *new_group, char **env)
 	args_num = count_args(*tokens);
 	new_group->args = (char **)malloc((args_num + 1) * sizeof(char *));
 	i = 0;
-	while (cur_token != NULL && cur_token->type != T_PIPE && (cur_token->type != T_SPACE && cur_token->next->type != T_PIPE))
+	while (cur_token != NULL && cur_token->type != T_PIPE)
 	{
 		if (is_redirection(cur_token))
 			skip_redir_block_update_prev_token(&cur_token, &prev_token);
@@ -119,6 +122,6 @@ void	find_args(t_token **tokens, t_group *new_group, char **env)
 			process_arg_token(tokens, &cur_token, &prev_token);
 		}
 	}
-	//remove_last_space(&new_group, &i);
+	remove_last_space(&new_group, &i);
 	new_group->args[i] = NULL;
 }
