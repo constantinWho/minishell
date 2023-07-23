@@ -6,7 +6,7 @@
 /*   By: chustei <chustei@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 15:20:58 by jalbers           #+#    #+#             */
-/*   Updated: 2023/07/23 14:22:42 by chustei          ###   ########.fr       */
+/*   Updated: 2023/07/23 15:33:48 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ t_group	*get_correct_group(t_minishell *shell, int process_index)
 	return (shell->groups);
 }
 
-void	insert_str(char *dest, char *str)
+/* void	insert_str(char *dest, char *str)
 {
 	int	i;
 
@@ -56,7 +56,7 @@ void	insert_str(char *dest, char *str)
 		i++;
 	}
 	dest[i] = '\0';
-}
+} */
 
 int	calc_array_len(char **array)
 {
@@ -75,17 +75,19 @@ char	**join_cmd_and_args(char *cmd, char **args)
 	int		i;
 	char	*str;
 
-	array_len = calc_array_len(args);
+	array_len = 0;
+	if (args)
+		array_len = calc_array_len(args);
 	cmd_and_args = malloc((array_len + 2) * sizeof(char *));
 	i = 0;
 	while (i < array_len + 1)
 	{
 		if (i == 0)
-			str = cmd;
+			str = ft_strdup(cmd);
 		else
-			str = args[i - 1];
-		cmd_and_args[i] = malloc((str_len(str) + 1) * sizeof(char));
-		insert_str(cmd_and_args[i], str);
+			str = ft_strdup(args[i - 1]);
+		cmd_and_args[i] = ft_strdup(str);
+	/* 	insert_str(cmd_and_args[i], str); */
 		i++;
 	}
 	cmd_and_args[i] = NULL;
