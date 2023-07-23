@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_process.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalbers <jalbers@student.42.fr>            +#+  +:+       +#+        */
+/*   By: chustei <chustei@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 15:20:58 by jalbers           #+#    #+#             */
-/*   Updated: 2023/07/20 19:14:07 by jalbers          ###   ########.fr       */
+/*   Updated: 2023/07/23 14:22:42 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ int	execute_process(t_minishell *shell, t_process *process)
 
 	correct_group = get_correct_group(shell, process->index);
 	if (correct_group != NULL && correct_group->redirs != NULL)
-		create_redirect_files(correct_group->redirs, process);
+		create_redirect_files(correct_group->redirs, process, shell);
 	if (correct_group != NULL && correct_group->cmd != NULL)
 	{
 		cmd_and_args = join_cmd_and_args(correct_group->cmd,

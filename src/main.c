@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalbers <jalbers@student.42.fr>            +#+  +:+       +#+        */
+/*   By: chustei <chustei@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 12:03:02 by chustei           #+#    #+#             */
-/*   Updated: 2023/07/20 19:27:37 by jalbers          ###   ########.fr       */
+/*   Updated: 2023/07/23 14:27:00 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,11 @@ t_minishell	*create_struct(char **env)
 
 // 1. Exits the minishell on CTRL-D
 // 2. Add the input to the command history
-char	*ft_readline(void)
+char	*ft_readline(char *prompt)
 {
 	char	*input;
 
-	input = readline("Minishell > ");
+	input = readline(prompt);
 	if (input == NULL)
 		exit(EXIT_SUCCESS);
 	if (input)
@@ -218,7 +218,7 @@ int	main(int ac, char **av, char **env)
 	ignore_signal_for_shell();
 	while (1)
 	{
-		input = ft_readline();
+		input = ft_readline("Minishell > ");
 		ft_lexer(shell, input);
 		parser(shell);
 		process = create_processes(input, count_pipes(input));

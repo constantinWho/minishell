@@ -11,6 +11,7 @@ SRCS = ./src/main.c src/ft_lexer.c src/signals.c ./src/ft_cd.c ./src/env_utils.c
 ./src/execute_process.c ./src/word_butcher.c ./src/get_words_count.c ./src/check_quotes.c ./src/word_split.c \
 ./src/parser.c ./src/find_cmd.c ./src/parser_utils.c ./src/update_tokens.c ./src/find_args.c \
 ./src/find_redirs.c ./src/add_group.c ./src/add_group_utils.c ./src/create_redirects.c ./src/execute_cmd.c \
+./src/heredoc.c \
 
 # List of object files to build
 OBJS = $(SRCS:.c=.o)

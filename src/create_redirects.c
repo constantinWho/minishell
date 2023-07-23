@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_redirects.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josephalbers <josephalbers@student.42.f    +#+  +:+       +#+        */
+/*   By: chustei <chustei@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 14:31:29 by jalbers           #+#    #+#             */
-/*   Updated: 2023/07/21 18:42:55 by josephalber      ###   ########.fr       */
+/*   Updated: 2023/07/23 14:22:54 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char	*get_dir_path(char *arg)
 	int		full_path_len;
 	int		dir_len;
 	int		i;
-	
+
 	full_path_len = str_len(arg);
 	dir_len = get_dir_len(arg, full_path_len);
 	dir_path = malloc((dir_len + 1) * sizeof(char));
@@ -45,7 +45,7 @@ char	*get_file_name(char *arg)
 	int		full_path_len;
 	int		dir_len;
 	int		i;
-	
+
 	full_path_len = str_len(arg);
 	dir_len = get_dir_len(arg, full_path_len);
 	if (dir_len != 0)
@@ -111,12 +111,13 @@ int	create_redirect_files(t_redir *redir, t_process *process, t_minishell *shell
 		{
 			heredoc(redir, process, shell);
 			redir = redir->next;
-			return (0);	
+			return (0);
 		}
-		if (dup2(fd, dup_fd) == -1) {
-            printf("Failed to duplicate file descriptor\n");
+		if (dup2(fd, dup_fd) == -1)
+		{
+			printf("Failed to duplicate file descriptor\n");
 			close(fd);
-            return 1;
+			return (1);
 		}
 		close(fd);
 		redir = redir->next;

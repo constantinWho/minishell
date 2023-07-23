@@ -3,22 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josephalbers <josephalbers@student.42.f    +#+  +:+       +#+        */
+/*   By: chustei <chustei@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 13:48:02 by josephalber       #+#    #+#             */
-/*   Updated: 2023/07/21 18:27:46 by josephalber      ###   ########.fr       */
+/*   Updated: 2023/07/23 14:23:51 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-
-
 int	heredoc(t_redir *redir, t_process *process, t_minishell *shell)
 {
 	char	*input;
 	char	*full_input;
-	
+
 	full_input = malloc(1);
 	full_input[0] = '\0';
 	dup2(shell->original_stdout, 1);
@@ -26,7 +24,7 @@ int	heredoc(t_redir *redir, t_process *process, t_minishell *shell)
 	{
 		input = ft_readline("heredoc> ");
 		if (str_match(input, redir->arg) == 1)
-			break;
+			break ;
 		full_input = ft_strjoin(full_input, input);
 		free(input);
 	}
