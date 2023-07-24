@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chustei <chustei@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jalbers <jalbers@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 13:48:02 by josephalber       #+#    #+#             */
-/*   Updated: 2023/07/23 14:23:51 by chustei          ###   ########.fr       */
+/*   Updated: 2023/07/24 17:55:48 by jalbers          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,12 @@ int	heredoc(t_redir *redir, t_process *process, t_minishell *shell)
 {
 	char	*input;
 	char	*full_input;
+	int		fd;
+	// (void)process;
+	// (void)redir;
+	// (void)shell;
 
+	fd = open("tmp_file", O_WRONLY | O_CREAT | O_TRUNC, 0777);
 	full_input = malloc(1);
 	full_input[0] = '\0';
 	dup2(shell->original_stdout, 1);
@@ -28,9 +33,15 @@ int	heredoc(t_redir *redir, t_process *process, t_minishell *shell)
 		full_input = ft_strjoin(full_input, input);
 		free(input);
 	}
-	printf("%s\n", full_input);
+	
+	// dup2(fd, 1);
+	// printf("asd");
+	
+	write(fd, "HELLO", 5);
+	
+	close(fd);
 	dup2(process->fd_write, 1);
-	// write(process->fd_write, "wagwan", 6);
+	free(full_input);
 	free(input);
-	return (0);
+	return (fd);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_redirects.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chustei <chustei@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jalbers <jalbers@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 14:31:29 by jalbers           #+#    #+#             */
-/*   Updated: 2023/07/23 14:22:54 by chustei          ###   ########.fr       */
+/*   Updated: 2023/07/24 17:51:09 by jalbers          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,8 +110,11 @@ int	create_redirect_files(t_redir *redir, t_process *process, t_minishell *shell
 		else if (str_match("<<", redir->redir) == 1)
 		{
 			heredoc(redir, process, shell);
-			redir = redir->next;
-			return (0);
+			fd = open("tmp_file", O_RDONLY);
+			if (process->index == 0)
+				dup_fd = 0;
+			else
+				dup_fd = process->fd_read;
 		}
 		if (dup2(fd, dup_fd) == -1)
 		{
