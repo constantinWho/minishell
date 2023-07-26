@@ -3,17 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalbers <jalbers@student.42.fr>            +#+  +:+       +#+        */
+/*   By: josephalbers <josephalbers@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 16:54:52 by chustei           #+#    #+#             */
-/*   Updated: 2023/07/19 14:36:50 by jalbers          ###   ########.fr       */
+/*   Updated: 2023/07/26 21:04:35 by josephalber      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
-
-// needs functionality for "cd -" takes user back to previous position
-// this is stored in the .env file
 
 char	*ft_getenv(char **env, char *var)
 {
@@ -31,6 +28,19 @@ char	*ft_getenv(char **env, char *var)
 	return (&env[i][str_len(var) + 1]);
 }
 
+int	check_if_directory_exists(char *full_path)
+{
+	DIR *dir;
+
+	dir = opendir(full_path);
+	if (dir == NULL)
+	{
+		perror("cd");
+		return 0;
+	}
+	return (1);
+}
+
 int	ft_cd(char **args, t_minishell *shell)
 {
 	char	updated_dir[500];
@@ -39,6 +49,8 @@ int	ft_cd(char **args, t_minishell *shell)
 		chdir(getenv("HOME"));
 	else if (str_match(args[1], "-"))
 		chdir(ft_getenv(shell->env, "OLDPWD"));
+	else if (check_if_directory_exists(args[1]) == 0)
+		return (1);
 	else
 		chdir(args[1]);
 	change_env(shell->env, "OLDPWD", ft_getenv(shell->env, "PWD"));

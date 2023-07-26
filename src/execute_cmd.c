@@ -3,14 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   execute_cmd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalbers <jalbers@student.42.fr>            +#+  +:+       +#+        */
+/*   By: josephalbers <josephalbers@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 14:40:05 by jalbers           #+#    #+#             */
-/*   Updated: 2023/07/26 16:46:19 by jalbers          ###   ########.fr       */
+/*   Updated: 2023/07/26 20:13:08 by josephalber      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
+
+int	is_absolute_cmd_path(char *str)
+{
+	char	*path_prefix;
+	int		i;
+
+	path_prefix = "/bin/";
+	i = 0;
+	while(path_prefix[i])
+	{
+		if (!str[i] || str[i] != path_prefix[i])
+			return (0);
+		i++;
+	}
+	return (1);
+}
 
 char	*add_path_prefix(char *str)
 {
@@ -23,7 +39,7 @@ char	*add_path_prefix(char *str)
 	new_str = malloc((5 + str_len(str) + 1) * sizeof(char));
 	i = 0;
 	j = 0;
-	while (prefix[i])
+	while (prefix[i] && is_absolute_cmd_path(str) != 1)
 		new_str[j++] = prefix[i++];
 	i = 0;
 	while (str[i])
@@ -52,6 +68,7 @@ char	*add_exec_path(char *str, char **env)
 	return (ft_strjoin(pwd, str + 1));
 }
 
+
 int	execute_using_execve(t_process *process, char **str, char **env)
 {
 	char	*cmd_path;
@@ -76,7 +93,7 @@ int	execute_using_execve(t_process *process, char **str, char **env)
 		waitpid(pid, &status, 0);
 	}
 	else
-		perror("fork");
+	// 	perror("fork");
 	free (cmd_path);
 	return (0);
 }
