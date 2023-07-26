@@ -6,20 +6,20 @@
 /*   By: jalbers <jalbers@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 19:16:39 by jalbers           #+#    #+#             */
-/*   Updated: 2023/07/26 13:19:13 by jalbers          ###   ########.fr       */
+/*   Updated: 2023/07/26 15:47:06 by jalbers          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-int	create_forks(int pipe_total)
+int	create_forks(int total_new_processes)
 {
 	int	*pids;
 	int	i;
 
-	pids = malloc(pipe_total * sizeof(int));
+	pids = malloc(total_new_processes * sizeof(int));
 	i = 0;
-	while (i < pipe_total)
+	while (i < total_new_processes)
 	{
 		pids[i] = fork();
 		if (pids[i] == -1)
@@ -32,10 +32,10 @@ int	create_forks(int pipe_total)
 		i++;
 	}
 	free(pids);
-	return (pipe_total - i);
+	return (total_new_processes - i);
 }
 
-int	create_pipes(int pipes[][2], int process_total)
+int	create_pipes(int **pipes, int process_total)
 {
 	int	i;
 
@@ -52,9 +52,10 @@ int	create_pipes(int pipes[][2], int process_total)
 	return (0);
 }
 
-int	close_unused_pipe_ends(int pipes[][2], int process_total, int process_index)
+int	close_unused_pipe_ends(int **pipes, int process_total, int process_index)
 {
 	int	i;
+	(void)process_index;
 
 	i = 0;
 	while (i < process_total)
@@ -68,9 +69,9 @@ int	close_unused_pipe_ends(int pipes[][2], int process_total, int process_index)
 	return (0);
 }
 
-int	set_pipe_ends(t_process *process, int pipes[][2], int pipe_total)
+int	set_pipe_ends(t_process *process, int **pipes, int process_total)
 {
-	if (process->index != pipe_total)
+	if (process->index != process_total - 1)
 		process->fd_write = pipes[process->index + 1][1];
 	else
 		process->fd_write = 1;
@@ -78,16 +79,33 @@ int	set_pipe_ends(t_process *process, int pipes[][2], int pipe_total)
 	return (0);
 }
 
-t_process	*create_processes(int pipe_total)
+int	**malloc_pipes(int process_total)
+{
+	int	**pipes;
+	int	i;
+
+	pipes = malloc((process_total) * sizeof(int *));
+	i = 0;
+	while (i < process_total)
+	{
+		pipes[i] = malloc(2 * sizeof(int));
+		i++;
+	}
+	return (pipes);
+}
+
+t_process	*create_processes(int process_total)
 {
 	t_process	*process;
-	int			pipes[pipe_total + 1][2];
+	int			**pipes;
 
+	pipes = malloc_pipes(process_total);
 	process = malloc(sizeof(t_process));
-	create_pipes(pipes, pipe_total + 1);
-	process->index = create_forks(pipe_total);
-	process->pipe_total = pipe_total;
-	set_pipe_ends(process, pipes, pipe_total);
-	close_unused_pipe_ends(pipes, pipe_total + 1, process->index);
+	create_pipes(pipes, process_total);
+	process->index = create_forks(process_total - 1);
+	process->pipe_total = process_total - 1;
+	set_pipe_ends(process, pipes, process_total);
+	close_unused_pipe_ends(pipes, process_total, process->index);
+	free(pipes);
 	return (process);
 }

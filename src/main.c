@@ -6,7 +6,7 @@
 /*   By: jalbers <jalbers@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 12:03:02 by chustei           #+#    #+#             */
-/*   Updated: 2023/07/26 12:31:23 by jalbers          ###   ########.fr       */
+/*   Updated: 2023/07/26 16:23:32 by jalbers          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,18 +71,15 @@ int	ft_check_cmd(char *str)
 		return (0);
 }
 
-int	count_pipes(char *input_str)
+int	count_pipes(t_group *group)
 {
 	int	pipe_count;
-	int	i;
 
 	pipe_count = 0;
-	i = 0;
-	while (input_str[i])
+	while (group)
 	{
-		if (input_str[i] == '|')
-			pipe_count++;
-		i++;
+		pipe_count++;
+		group = group->next;
 	}
 	return (pipe_count);
 }
@@ -157,7 +154,7 @@ int	main(int ac, char **av, char **env)
 		ft_lexer(shell, input);
 		parser(shell);
 		set_up_redirects_for_groups(shell->groups, shell);
-		process = create_processes(count_pipes(input));
+		process = create_processes(count_pipes(shell->groups));
 		execute_process(shell, process);
 		free(input);
 		free_groups(shell->groups);

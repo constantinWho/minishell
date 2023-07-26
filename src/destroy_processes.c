@@ -6,7 +6,7 @@
 /*   By: jalbers <jalbers@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 12:50:23 by jalbers           #+#    #+#             */
-/*   Updated: 2023/07/26 13:01:14 by jalbers          ###   ########.fr       */
+/*   Updated: 2023/07/26 16:35:30 by jalbers          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 int	destroy_processes(t_process *process, t_minishell *shell)
 {
+	close(process->fd_read);
+	close(process->fd_write);
 	if (process->index != process->pipe_total)
 	{
 		free(process);

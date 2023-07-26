@@ -6,7 +6,7 @@
 /*   By: jalbers <jalbers@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 14:40:05 by jalbers           #+#    #+#             */
-/*   Updated: 2023/07/25 19:24:51 by jalbers          ###   ########.fr       */
+/*   Updated: 2023/07/26 16:37:22 by jalbers          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ int	execute_using_execve(t_process *process, char **str, char **env)
 {
 	char	*cmd_path;
 	pid_t	pid;
+	(void)process;
 
 	if (str[0][0] == '.' && str[0][1] == '/')
 		cmd_path = add_exec_path(str[0], env);
@@ -64,10 +65,9 @@ int	execute_using_execve(t_process *process, char **str, char **env)
 	pid = fork();
 	if (pid == 0)
 	{
-		// dup2(process->fd_read, 0);
 		execve(cmd_path, str, NULL);
 		perror("execvp");
-		close(process->fd_read);
+		exit(0);
 	}
 	else if (pid > 0)
 		wait(NULL);
