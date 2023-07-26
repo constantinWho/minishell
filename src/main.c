@@ -6,7 +6,7 @@
 /*   By: jalbers <jalbers@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 12:03:02 by chustei           #+#    #+#             */
-/*   Updated: 2023/07/24 14:32:42 by jalbers          ###   ########.fr       */
+/*   Updated: 2023/07/26 12:31:23 by jalbers          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,71 +70,6 @@ int	ft_check_cmd(char *str)
 	else
 		return (0);
 }
-
-/* void	create_group(t_minishell *shell, char *type, char *value)
-{
-	t_group	*new_group;
-	t_group	*curr_group;
-
-	new_group = (t_group *)malloc(sizeof(t_group));
-	new_group->type = ft_strdup(type);
-	new_group->value = ft_strdup(value);
-	new_group->children = NULL;
-	new_group->num_children = 0;
-	new_group->next = NULL;
-
-	// Add the current group to the tree
-	if (shell->groups == NULL)
-		shell->groups = new_group;
-	else
-	{
-		curr_group = shell->groups;
-		while (curr_group->next != NULL)
-			curr_group = curr_group->next;
-		curr_group->next = new_group;
-	}
-} */
-
-/* void	ft_parser(t_minishell *shell)
-{
-	t_token	*curr_token;
-
-	curr_token = shell->tokens;
-	while (curr_token != NULL)
-	{
-		if (ft_check_cmd(curr_token->str))
-		{
-			create_group(shell, "CMD", curr_token->str);
-			printf("+++++++++ Type: %s\n", shell->groups->type);
-			printf("+++++++++ Value: %s\n", shell->groups->value);
-		}
-		else if (ft_strncmp(curr_token->type, "word", 3))
-			append_children();
-		printf("--------- Type: %s\n", curr_token->type);
-		curr_token = curr_token->next;
-	}
-}
- */
-
-/* void	ft_parser(t_minishell *shell)
-{
-	t_token	*current_t;
-	t_group	*current_g;
-
-	current_g = (t_group *)malloc(sizeof(t_group));
-	current_g = shell->tree;
-	current_t = shell->tokens;
-	if (ft_check_cmd(current_t->str))
-	{
-		current_g->type = ft_strdup("CMD");
-		current_g->value = ft_strdup(current_t->str);
-		printf("+++++++++ %s\n", current_g->type);
-		printf("+++++++++ %s\n", current_g->value);
-	}
-	else
-		return ;
-} */
-
 
 int	count_pipes(char *input_str)
 {
@@ -221,39 +156,16 @@ int	main(int ac, char **av, char **env)
 		input = ft_readline("Minishell > ");
 		ft_lexer(shell, input);
 		parser(shell);
-		process = create_processes(input, count_pipes(input));
-		// process->pipe_input = read_input(process);
-		// if (shell->groups != NULL)
-		// 	create_redirect_files(shell->groups->redirs);
+		set_up_redirects_for_groups(shell->groups, shell);
+		process = create_processes(count_pipes(input));
 		execute_process(shell, process);
 		free(input);
 		free_groups(shell->groups);
 		free_args(shell->args);
-		destroy_processes(process);
+		destroy_processes(process, shell);
 		wait(NULL);
-
-		// restore stdout and stdin
 		dup2(shell->original_stdout, 1);
 		dup2(shell->original_stdin, 0);
-
-
-		// while (shell->groups != NULL)
-		// {
-			// printf("CMD:%s ", shell->groups->cmd);
-			// int i = 0;
-			// while (shell->groups->args[i])
-			// {
-				// printf("Arg%i:%s ", i, shell->groups->args[i]);
-				// i++;
-			// }
-			// shell->groups = shell->groups->next;
-			// printf("\n");
-		// }
-
-
-
-		//call_method(shell);
-		//free_tokens(shell->tokens);
 	}
     close(shell->original_stdout);
     close(shell->original_stdin);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   add_group.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chustei <chustei@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jalbers <jalbers@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 16:46:14 by chustei           #+#    #+#             */
-/*   Updated: 2023/07/20 12:33:28 by chustei          ###   ########.fr       */
+/*   Updated: 2023/07/26 12:25:40 by jalbers          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ t_group	*create_group(void)
 	new_group->cmd = NULL;
 	new_group->args = NULL;
 	new_group->redirs = NULL;
+	new_group->redirect_fd_in = -1;
+	new_group->redirect_fd_out = -1;
 	new_group->next = NULL;
 	return (new_group);
 }

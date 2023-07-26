@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_cmd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chustei <chustei@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jalbers <jalbers@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 14:40:05 by jalbers           #+#    #+#             */
-/*   Updated: 2023/07/20 17:53:59 by chustei          ###   ########.fr       */
+/*   Updated: 2023/07/25 19:24:51 by jalbers          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int	execute_using_execve(t_process *process, char **str, char **env)
 	pid = fork();
 	if (pid == 0)
 	{
-		dup2(process->fd_read, 0);
+		// dup2(process->fd_read, 0);
 		execve(cmd_path, str, NULL);
 		perror("execvp");
 		close(process->fd_read);

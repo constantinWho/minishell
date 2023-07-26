@@ -6,42 +6,63 @@
 /*   By: jalbers <jalbers@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 13:48:02 by josephalber       #+#    #+#             */
-/*   Updated: 2023/07/24 17:55:48 by jalbers          ###   ########.fr       */
+/*   Updated: 2023/07/26 13:17:05 by jalbers          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-int	heredoc(t_redir *redir, t_process *process, t_minishell *shell)
+int	remove_file(char *file_name)
+{
+	char	*args[3];
+	int		pid;
+
+	args[0] = "rm";
+	args[1] = file_name;
+	args[2] = NULL;
+	pid = fork();
+	if (pid == 0)
+	{
+		execve("/bin/rm", args, NULL);
+		perror("execvp");
+	}
+	else if (pid > 0)
+		wait(NULL);
+	else
+		perror("fork");
+	return (0);
+}
+
+int	str_match_new(char *s1, char *s2)
+{
+	int	i;
+
+	i = 0;
+	while (s1[i] || s2[i])
+	{
+		if (s1[i] != s2[i])
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+int	heredoc(t_redir *redir, t_minishell *shell)
 {
 	char	*input;
-	char	*full_input;
 	int		fd;
-	// (void)process;
-	// (void)redir;
-	// (void)shell;
 
-	fd = open("tmp_file", O_WRONLY | O_CREAT | O_TRUNC, 0777);
-	full_input = malloc(1);
-	full_input[0] = '\0';
-	dup2(shell->original_stdout, 1);
+	fd = open("tmp_file", O_RDWR | O_CREAT | O_TRUNC, 0777);
+	shell->tmp_file_created = 1;
 	while (1)
 	{
-		input = ft_readline("heredoc> ");
-		if (str_match(input, redir->arg) == 1)
+		input = readline("heredoc> ");
+		if (str_match_new(input, redir->arg) == 1)
 			break ;
-		full_input = ft_strjoin(full_input, input);
+		write(fd, input, str_len(input));
+		write(fd, "\n", 1);
 		free(input);
 	}
-	
-	// dup2(fd, 1);
-	// printf("asd");
-	
-	write(fd, "HELLO", 5);
-	
-	close(fd);
-	dup2(process->fd_write, 1);
-	free(full_input);
 	free(input);
 	return (fd);
 }

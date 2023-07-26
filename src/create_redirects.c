@@ -6,7 +6,7 @@
 /*   By: jalbers <jalbers@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 14:31:29 by jalbers           #+#    #+#             */
-/*   Updated: 2023/07/24 17:51:09 by jalbers          ###   ########.fr       */
+/*   Updated: 2023/07/26 13:04:21 by jalbers          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,69 +61,42 @@ char	*get_file_name(char *arg)
 	return (file_name);
 }
 
-int	check_if_file_exists(char *dir_path, char *file_name)
+int	create_redirect_files(t_group *group, t_redir *redir, t_minishell *shell)
 {
-	DIR *dir;
-	struct dirent *entry;
+	int		fd_out;
+	int		fd_in;
 
-	if (dir_path[0])
-		dir = opendir(dir_path);
-	else
-		dir = opendir(".");
-	if (dir == NULL) {
-		perror("opendir");
-		return 2;
-	}
-	while ((entry = readdir(dir)) != NULL)
-	{
-		if (str_match(entry->d_name, file_name) == 1)
-		{
-			closedir(dir);
-			return (1);
-		}
-		// printf("%s\n", entry->d_name);
-	}
-	closedir(dir);
-	return 0;
-}
-
-int	create_redirect_files(t_redir *redir, t_process *process, t_minishell *shell)
-{
-	int		fd;
-	int		dup_fd;
-
-	dup_fd = 1;
+	fd_out = -1;
+	fd_in = -1;
 	while (redir != NULL)
 	{
 		if (str_match(">", redir->redir) == 1)
-			fd = open(redir->arg, O_WRONLY | O_CREAT | O_TRUNC, 0777);
+			fd_out = open(redir->arg, O_WRONLY | O_CREAT | O_TRUNC, 0777);
 		else if (str_match(">>", redir->redir) == 1)
-			fd = open(redir->arg, O_WRONLY | O_CREAT | O_APPEND, 0777);
+			fd_out = open(redir->arg, O_WRONLY | O_CREAT | O_APPEND, 0777);
 		else if (str_match("<", redir->redir) == 1)
-		{
-			fd = open(redir->arg, O_RDONLY);
-			if (process->index == 0)
-				dup_fd = 0;
-			else
-				dup_fd = process->fd_read;
-		}
+			fd_in = open(redir->arg, O_RDONLY);
 		else if (str_match("<<", redir->redir) == 1)
 		{
-			heredoc(redir, process, shell);
-			fd = open("tmp_file", O_RDONLY);
-			if (process->index == 0)
-				dup_fd = 0;
-			else
-				dup_fd = process->fd_read;
+			heredoc(redir, shell);
+			fd_in = open("tmp_file", O_RDONLY);
 		}
-		if (dup2(fd, dup_fd) == -1)
-		{
-			printf("Failed to duplicate file descriptor\n");
-			close(fd);
-			return (1);
-		}
-		close(fd);
 		redir = redir->next;
+	}
+	group->redirect_fd_in = fd_in;
+	group->redirect_fd_out = fd_out;
+	return (0);
+}
+
+int	set_up_redirects_for_groups(t_group *group, t_minishell *shell)
+{
+	t_group	*current_group;
+
+	current_group = group;
+	while (current_group)
+	{
+		create_redirect_files(current_group, current_group->redirs, shell);
+		current_group = current_group->next;
 	}
 	return (0);
 }

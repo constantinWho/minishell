@@ -6,7 +6,7 @@
 /*   By: jalbers <jalbers@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 19:16:39 by jalbers           #+#    #+#             */
-/*   Updated: 2023/07/24 14:19:20 by jalbers          ###   ########.fr       */
+/*   Updated: 2023/07/26 13:19:13 by jalbers          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,51 +68,17 @@ int	close_unused_pipe_ends(int pipes[][2], int process_total, int process_index)
 	return (0);
 }
 
-char	*get_cmd_str(char *input_str, int process_index)
-{
-	char	*cmd_str;
-	int		cmd_len;
-	int		pipe_count;
-	int		i;
-	int		j;
-
-	pipe_count = 0;
-	i = 0;
-	while (pipe_count < process_index)
-	{
-		if (input_str[i] == '|')
-			pipe_count++;
-		i++;
-	}
-	cmd_len = i;
-	while (input_str[cmd_len] && input_str[cmd_len] != '|')
-		cmd_len++;
-	cmd_str = malloc((cmd_len - i + 1) * sizeof(char));
-	j = 0;
-	while (input_str[i] && input_str[i] != '|')
-		cmd_str[j++] = input_str[i++];
-	cmd_str[j] = '\0';
-	return (cmd_str);
-}
-
 int	set_pipe_ends(t_process *process, int pipes[][2], int pipe_total)
 {
 	if (process->index != pipe_total)
-	{
 		process->fd_write = pipes[process->index + 1][1];
-		if (dup2(process->fd_write, 1) == -1)
-		{
-			printf("Failed to duplicate file descriptor\n");
-			return (1);
-		}
-	}
 	else
 		process->fd_write = 1;
 	process->fd_read = pipes[process->index][0];
 	return (0);
 }
 
-t_process	*create_processes(char *input, int pipe_total)
+t_process	*create_processes(int pipe_total)
 {
 	t_process	*process;
 	int			pipes[pipe_total + 1][2];
@@ -120,23 +86,8 @@ t_process	*create_processes(char *input, int pipe_total)
 	process = malloc(sizeof(t_process));
 	create_pipes(pipes, pipe_total + 1);
 	process->index = create_forks(pipe_total);
-	process->cmd_str = get_cmd_str(input, process->index);
 	process->pipe_total = pipe_total;
 	set_pipe_ends(process, pipes, pipe_total);
 	close_unused_pipe_ends(pipes, pipe_total + 1, process->index);
 	return (process);
-}
-
-int	destroy_processes(t_process *process)
-{
-	free(process->cmd_str);
-	// if (process->index != 0)
-	// 	free(process->pipe_input);
-	if (process->index != process->pipe_total)
-	{
-		free(process);
-		exit(0);
-	}
-		free(process);
-	return (0);
 }

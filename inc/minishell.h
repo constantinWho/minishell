@@ -6,7 +6,7 @@
 /*   By: jalbers <jalbers@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 12:03:32 by chustei           #+#    #+#             */
-/*   Updated: 2023/07/24 17:14:52 by jalbers          ###   ########.fr       */
+/*   Updated: 2023/07/26 12:03:26 by jalbers          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ typedef struct s_redir
 	char					*redir;
 	char					*arg;
 	struct s_redir			*next;
-	int						fd;
 }	t_redir;
 
 typedef struct s_group
@@ -59,14 +58,14 @@ typedef struct s_group
 	char			*cmd;
 	char			**args;
 	t_redir			*redirs;
+	int				redirect_fd_in;
+	int				redirect_fd_out;
 	struct s_group	*next;
 }	t_group;
 
 typedef struct s_process
 {
 	int				index;
-	char			*cmd_str;
-	char			*pipe_input;
 	int				fd_read;
 	int				fd_write;
 	int				pipe_total;
@@ -86,6 +85,7 @@ typedef struct s_minishell {
 	char	**env;
 	int		original_stdout;
 	int		original_stdin;
+	int		tmp_file_created;
 }	t_minishell;
 
 int			ft_cd(char **args, t_minishell *shell);
@@ -106,8 +106,8 @@ int			ft_env(t_minishell *shell);
 int			ft_unset(char **args, t_minishell *shell);
 void		ft_lexer(t_minishell *shell, char *input);
 void		ignore_signal_for_shell(void);
-t_process	*create_processes(char *input, int pipe_total);
-int			destroy_processes(t_process *process);
+t_process	*create_processes(int pipe_total);
+int			destroy_processes(t_process *process, t_minishell *shell);
 char		*read_input(t_process *process);
 int			count_strs(char *s);
 int			skip_whitespace(char *s, int i);
@@ -139,12 +139,13 @@ void		add_group(t_token *tokens, t_group **groups, char **env);
 int			check_if_first_pipe(t_token *tokens);
 void		delete_first_space_if_exists(t_token **head);
 void		delete_pipe_if_exists(t_token **head);
-int			create_redirect_files(t_redir *redir, t_process *process, t_minishell *shell);
+// int			create_redirect_files(t_redir *redir, t_process *process, t_minishell *shell);
+int			set_up_redirects_for_groups(t_group *group, t_minishell *shell);	
 int			execute_cmd_with_args(t_minishell *shell, t_process *process,
 				char **args);
 void		skip_redir_block(t_token **cur_token);
-int			heredoc(t_redir *redir, t_process *process, t_minishell *shell);
+int			heredoc(t_redir *redir, t_minishell *shell);
 char		*ft_readline(char *prompt);
-
+int			remove_file(char *file_name);
 
 #endif

@@ -6,31 +6,11 @@
 /*   By: jalbers <jalbers@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 15:20:58 by jalbers           #+#    #+#             */
-/*   Updated: 2023/07/24 14:18:47 by jalbers          ###   ########.fr       */
+/*   Updated: 2023/07/26 13:00:48 by jalbers          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
-
-// int attach_pipe_input_to_args(t_minishell *shell, t_process *process)
-// {
-// 	int	i;
-
-// 	int	file;
-// 	if (process->pipe_input != NULL)
-// 	{
-// 		file = open("example.txt", O_WRONLY | O_CREAT, 0644);
-// 		write(file, process->pipe_input, strlen(process->pipe_input));
-// 	}
-
-// 	i = 0;
-// 	while (shell->args[i])
-// 		i++;
-// 	// shell->args[i++] = process->pipe_input;
-// 	shell->args[i++] = "example.txt";
-// 	shell->args[i] = NULL;
-// 	return (file);
-// }
 
 t_group	*get_correct_group(t_minishell *shell, int process_index)
 {
@@ -44,19 +24,6 @@ t_group	*get_correct_group(t_minishell *shell, int process_index)
 	}
 	return (shell->groups);
 }
-
-/* void	insert_str(char *dest, char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-	{
-		dest[i] = str[i];
-		i++;
-	}
-	dest[i] = '\0';
-} */
 
 int	calc_array_len(char **array)
 {
@@ -87,11 +54,22 @@ char	**join_cmd_and_args(char *cmd, char **args)
 		else
 			str = ft_strdup(args[i - 1]);
 		cmd_and_args[i] = ft_strdup(str);
-	/* 	insert_str(cmd_and_args[i], str); */
 		i++;
 	}
 	cmd_and_args[i] = NULL;
 	return (cmd_and_args);
+}
+
+void	set_stdin_stdout(t_process *process, t_group *correct_group)
+{
+	if (correct_group->redirect_fd_in != -1)
+		dup2(correct_group->redirect_fd_in, 0);
+	else
+		dup2(process->fd_read, 0);
+	if (correct_group->redirect_fd_out != -1)
+		dup2(correct_group->redirect_fd_out, 1);
+	else
+		dup2(process->fd_write, 1);
 }
 
 int	execute_process(t_minishell *shell, t_process *process)
@@ -100,14 +78,12 @@ int	execute_process(t_minishell *shell, t_process *process)
 	char	**cmd_and_args;
 
 	correct_group = get_correct_group(shell, process->index);
-	if (correct_group != NULL && correct_group->redirs != NULL)
-		create_redirect_files(correct_group->redirs, process, shell);
-	if (correct_group != NULL && correct_group->cmd != NULL)
-	{
-		cmd_and_args = join_cmd_and_args(correct_group->cmd,
-				correct_group->args);
-		execute_cmd_with_args(shell, process, cmd_and_args);
-		free_array(cmd_and_args);
-	}
+	if (correct_group == NULL || correct_group->cmd == NULL)
+		return (1);
+	set_stdin_stdout(process, correct_group);
+	cmd_and_args = join_cmd_and_args(correct_group->cmd,
+			correct_group->args);
+	execute_cmd_with_args(shell, process, cmd_and_args);
+	free_array(cmd_and_args);
 	return (0);
 }
