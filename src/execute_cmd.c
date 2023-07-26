@@ -6,7 +6,7 @@
 /*   By: jalbers <jalbers@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 14:40:05 by jalbers           #+#    #+#             */
-/*   Updated: 2023/07/26 16:37:22 by jalbers          ###   ########.fr       */
+/*   Updated: 2023/07/26 16:46:19 by jalbers          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,11 @@ int	execute_using_execve(t_process *process, char **str, char **env)
 		exit(0);
 	}
 	else if (pid > 0)
-		wait(NULL);
+	{
+	/* 	wait(NULL); */
+		int	status;
+		waitpid(pid, &status, 0);
+	}
 	else
 		perror("fork");
 	free (cmd_path);

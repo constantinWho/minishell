@@ -6,7 +6,7 @@
 /*   By: jalbers <jalbers@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 15:20:58 by jalbers           #+#    #+#             */
-/*   Updated: 2023/07/26 16:20:16 by jalbers          ###   ########.fr       */
+/*   Updated: 2023/07/26 16:46:25 by jalbers          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ int	calc_array_len(char **array)
 	int	i;
 
 	i = 0;
+	if (!array)
+		return (0);
 	while (array[i] != NULL)
 		i++;
 	return (i);

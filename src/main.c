@@ -6,7 +6,7 @@
 /*   By: jalbers <jalbers@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 12:03:02 by chustei           #+#    #+#             */
-/*   Updated: 2023/07/26 16:23:32 by jalbers          ###   ########.fr       */
+/*   Updated: 2023/07/26 16:46:43 by jalbers          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,6 +152,8 @@ int	main(int ac, char **av, char **env)
 	{
 		input = ft_readline("Minishell > ");
 		ft_lexer(shell, input);
+		if (!shell->tokens)
+			continue ;
 		parser(shell);
 		set_up_redirects_for_groups(shell->groups, shell);
 		process = create_processes(count_pipes(shell->groups));
