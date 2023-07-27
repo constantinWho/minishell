@@ -6,7 +6,7 @@
 /*   By: jalbers <jalbers@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 14:40:05 by jalbers           #+#    #+#             */
-/*   Updated: 2023/07/27 13:27:14 by jalbers          ###   ########.fr       */
+/*   Updated: 2023/07/27 15:05:48 by jalbers          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,16 +50,25 @@ char	*add_exec_path(char *str, char **env)
 			pwd = ft_strdup(env[i] + size + 1);
 		i++;
 	}
-	printf("%s\n", ft_strjoin(pwd, str + 1));
 	return (ft_strjoin(pwd, str + 1));
 }
 
+void	save_exit_status_of_execve(int pid, char **env)
+{
+	int		exit_status;
 
-int	execute_using_execve(t_process *process, char **str, char **env)
+	waitpid(pid, &exit_status, 0);
+	exit_status = exit_status >> 8;
+	if (env_value_exists(env, "EXIT_STATUS") != -1)
+		change_env(env, "EXIT_STATUS", ft_itoa(exit_status));
+	else
+		add_env_value(env, "EXIT_STATUS", ft_itoa(exit_status));
+}
+
+int	execute_using_execve(char **str, char **env)
 {
 	char	*cmd_path;
 	pid_t	pid;
-	(void)process;
 
 	if (str[0][0] == '.' && str[0][1] == '/')
 		cmd_path = add_exec_path(str[0], env);
@@ -70,24 +79,18 @@ int	execute_using_execve(t_process *process, char **str, char **env)
 	{
 		execve(cmd_path, str, NULL);
 		perror("execvp");
-		exit(0);
+		exit(1);
 	}
 	else if (pid > 0)
-	{
-	/* 	wait(NULL); */
-		int	status;
-		waitpid(pid, &status, 0);
-	}
+		save_exit_status_of_execve(pid, env);
 	else
-	// 	perror("fork");
+		perror("fork");
 	free (cmd_path);
 	return (0);
 }
 
-
-int execute_cmd_with_args(t_minishell *shell, t_process *process, char **args)
+int	execute_cmd_with_args(t_minishell *shell, char **args)
 {
-
 	if (str_match(args[0], "env") == 1)
 		ft_env(shell);
 	else if (str_match(args[0], "echo") == 1)
@@ -101,6 +104,6 @@ int execute_cmd_with_args(t_minishell *shell, t_process *process, char **args)
 	else if (str_match(args[0], "pwd") == 1)
 		ft_pwd();
 	else
-		execute_using_execve(process, args, shell->env);
+		execute_using_execve(args, shell->env);
 	return (0);
 }

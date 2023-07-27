@@ -6,7 +6,7 @@
 /*   By: jalbers <jalbers@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 15:20:58 by jalbers           #+#    #+#             */
-/*   Updated: 2023/07/26 16:46:25 by jalbers          ###   ########.fr       */
+/*   Updated: 2023/07/27 14:28:21 by jalbers          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ int	execute_process(t_minishell *shell, t_process *process)
 	set_stdin_stdout(process, correct_group);
 	cmd_and_args = join_cmd_and_args(correct_group->cmd,
 			correct_group->args);
-	execute_cmd_with_args(shell, process, cmd_and_args);
+	execute_cmd_with_args(shell, cmd_and_args);
 	free_array(cmd_and_args);
 	return (0);
 }
