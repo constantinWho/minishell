@@ -6,7 +6,7 @@
 /*   By: jalbers <jalbers@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 12:06:42 by jalbers           #+#    #+#             */
-/*   Updated: 2023/07/27 13:25:01 by jalbers          ###   ########.fr       */
+/*   Updated: 2023/07/27 13:31:05 by jalbers          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	count_directories(char *path_string)
 			count++;
 		i++;
 	}
-	return(count);
+	return (count);
 }
 
 int	get_directory_length(char *path_var, int index)
@@ -35,7 +35,7 @@ int	get_directory_length(char *path_var, int index)
 	length = 0;
 	while (path_var[index] && path_var[index] != ':')
 	{
-		length++;	
+		length++;
 		index++;
 	}
 	return (length);
@@ -45,7 +45,7 @@ int	get_start_index_of_directory(char *path_var, int number)
 {
 	int	count;
 	int	i;
-	
+
 	i = 5;
 	count = 0;
 	while (count != number)
@@ -57,11 +57,11 @@ int	get_start_index_of_directory(char *path_var, int number)
 	return (i);
 }
 
-char	*get_directory_by_number(char *path_var, int	number)
+char	*get_directory_by_number(char *path_var, int number)
 {
 	char	*directory;
 	int		directory_length;
-	int 	i;
+	int		i;
 	int		j;
 
 	i = get_start_index_of_directory(path_var, number);
@@ -80,9 +80,8 @@ char	*get_correct_directory(char *str, char **env)
 	int		env_path_index;
 	char	*path_var;
 	char	*directory_path;
-	int		i;
 	int		num_of_directories;
-	(void)str;
+	int		i;
 
 	env_path_index = env_value_exists(env, "PATH");
 	if (env_path_index == -1)
