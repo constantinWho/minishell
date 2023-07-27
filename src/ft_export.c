@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalbers <jalbers@student.42.fr>            +#+  +:+       +#+        */
+/*   By: josephalbers <josephalbers@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 13:37:24 by jalbers           #+#    #+#             */
-/*   Updated: 2023/07/19 14:40:58 by jalbers          ###   ########.fr       */
+/*   Updated: 2023/07/26 19:52:03 by josephalber      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	ft_export(char **args, t_minishell *shell)
 {
 	char	**new_env;
 
-	if (!args[1] || !args[3])
+	if (!args[1] && !args[3])
 		print_sorted_env(shell->env);
 	else if (args[1] && args[3])
 	{

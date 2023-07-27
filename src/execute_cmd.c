@@ -6,7 +6,7 @@
 /*   By: jalbers <jalbers@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 14:40:05 by jalbers           #+#    #+#             */
-/*   Updated: 2023/07/27 12:07:03 by jalbers          ###   ########.fr       */
+/*   Updated: 2023/07/27 13:27:14 by jalbers          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ char	*add_path(char *str, char **env)
 	while (str[i])
 		new_str[j++] = str[i++];
 	new_str[j] = '\0';
+	if (dir_path[0])
+		free(dir_path);
 	return (new_str);
 }
 
@@ -51,6 +53,7 @@ char	*add_exec_path(char *str, char **env)
 	printf("%s\n", ft_strjoin(pwd, str + 1));
 	return (ft_strjoin(pwd, str + 1));
 }
+
 
 int	execute_using_execve(t_process *process, char **str, char **env)
 {
@@ -76,7 +79,7 @@ int	execute_using_execve(t_process *process, char **str, char **env)
 		waitpid(pid, &status, 0);
 	}
 	else
-		perror("fork");
+	// 	perror("fork");
 	free (cmd_path);
 	return (0);
 }

@@ -3,63 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   create_redirects.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalbers <jalbers@student.42.fr>            +#+  +:+       +#+        */
+/*   By: josephalbers <josephalbers@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 14:31:29 by jalbers           #+#    #+#             */
-/*   Updated: 2023/07/26 13:04:21 by jalbers          ###   ########.fr       */
+/*   Updated: 2023/07/26 20:19:35 by josephalber      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
-
-int	get_dir_len(char *full_path, int length)
-{
-	while (length != 0 && full_path[length] != '/')
-		length--;
-	return (length);
-}
-
-char	*get_dir_path(char *arg)
-{
-	char	*dir_path;
-	int		full_path_len;
-	int		dir_len;
-	int		i;
-
-	full_path_len = str_len(arg);
-	dir_len = get_dir_len(arg, full_path_len);
-	dir_path = malloc((dir_len + 1) * sizeof(char));
-	i = 0;
-	while (i < dir_len)
-	{
-		dir_path[i] = arg[i];
-		i++;
-	}
-	dir_path[i] = '\0';
-	return (dir_path);
-}
-
-char	*get_file_name(char *arg)
-{
-	char	*file_name;
-	int		full_path_len;
-	int		dir_len;
-	int		i;
-
-	full_path_len = str_len(arg);
-	dir_len = get_dir_len(arg, full_path_len);
-	if (dir_len != 0)
-		dir_len++;
-	file_name = malloc((full_path_len - dir_len) * sizeof(char));
-	i = 0;
-	while (i + dir_len < full_path_len)
-	{
-		file_name[i] = arg[i + dir_len];
-		i++;
-	}
-	file_name[i] = '\0';
-	return (file_name);
-}
 
 int	create_redirect_files(t_group *group, t_redir *redir, t_minishell *shell)
 {

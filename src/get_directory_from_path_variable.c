@@ -6,7 +6,7 @@
 /*   By: jalbers <jalbers@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 12:06:42 by jalbers           #+#    #+#             */
-/*   Updated: 2023/07/27 12:22:37 by jalbers          ###   ########.fr       */
+/*   Updated: 2023/07/27 13:25:01 by jalbers          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,8 @@ char	*get_correct_directory(char *str, char **env)
 		directory_path = get_directory_by_number(path_var, i);
 		if (check_if_file_exists(str, directory_path) == 1)
 			return (directory_path);
+		free (directory_path);
 		i++;
 	}
-	return ("/bin/");
+	return ("");
 }
