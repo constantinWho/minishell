@@ -6,25 +6,25 @@
 /*   By: jalbers <jalbers@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 14:40:05 by jalbers           #+#    #+#             */
-/*   Updated: 2023/07/26 16:46:19 by jalbers          ###   ########.fr       */
+/*   Updated: 2023/07/27 12:07:03 by jalbers          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-char	*add_path_prefix(char *str)
+char	*add_path(char *str, char **env)
 {
-	char	*prefix;
+	char	*dir_path;
 	char	*new_str;
 	int		i;
 	int		j;
 
-	prefix = "/bin/";
+	dir_path = get_correct_directory(str, env);
 	new_str = malloc((5 + str_len(str) + 1) * sizeof(char));
 	i = 0;
 	j = 0;
-	while (prefix[i])
-		new_str[j++] = prefix[i++];
+	while (dir_path[i])
+		new_str[j++] = dir_path[i++];
 	i = 0;
 	while (str[i])
 		new_str[j++] = str[i++];
@@ -61,7 +61,7 @@ int	execute_using_execve(t_process *process, char **str, char **env)
 	if (str[0][0] == '.' && str[0][1] == '/')
 		cmd_path = add_exec_path(str[0], env);
 	else
-		cmd_path = add_path_prefix(str[0]);
+		cmd_path = add_path(str[0], env);
 	pid = fork();
 	if (pid == 0)
 	{
@@ -80,6 +80,7 @@ int	execute_using_execve(t_process *process, char **str, char **env)
 	free (cmd_path);
 	return (0);
 }
+
 
 int execute_cmd_with_args(t_minishell *shell, t_process *process, char **args)
 {

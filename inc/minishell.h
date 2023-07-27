@@ -6,7 +6,7 @@
 /*   By: jalbers <jalbers@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 12:03:32 by chustei           #+#    #+#             */
-/*   Updated: 2023/07/26 12:03:26 by jalbers          ###   ########.fr       */
+/*   Updated: 2023/07/27 12:23:15 by jalbers          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,7 +139,6 @@ void		add_group(t_token *tokens, t_group **groups, char **env);
 int			check_if_first_pipe(t_token *tokens);
 void		delete_first_space_if_exists(t_token **head);
 void		delete_pipe_if_exists(t_token **head);
-// int			create_redirect_files(t_redir *redir, t_process *process, t_minishell *shell);
 int			set_up_redirects_for_groups(t_group *group, t_minishell *shell);	
 int			execute_cmd_with_args(t_minishell *shell, t_process *process,
 				char **args);
@@ -147,5 +146,7 @@ void		skip_redir_block(t_token **cur_token);
 int			heredoc(t_redir *redir, t_minishell *shell);
 char		*ft_readline(char *prompt);
 int			remove_file(char *file_name);
+char		*get_correct_directory(char *str, char **env);
+int 		check_if_file_exists(char *file_name, char *directory);
 
 #endif
