@@ -12,6 +12,7 @@ SRCS = ./src/main.c src/ft_lexer.c src/signals.c ./src/ft_cd.c ./src/env_utils.c
 ./src/parser.c ./src/find_cmd.c ./src/parser_utils.c ./src/update_tokens.c ./src/find_args.c \
 ./src/find_redirs.c ./src/add_group.c ./src/add_group_utils.c ./src/create_redirects.c ./src/execute_cmd.c \
 ./src/heredoc.c ./src/destroy_processes.c ./src/get_directory_from_path_variable.c ./src/check_if_file_exists.c \
+./src/exit_program.c \
 
 # List of object files to build
 OBJS = $(SRCS:.c=.o)

@@ -6,7 +6,7 @@
 /*   By: jalbers <jalbers@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 14:40:05 by jalbers           #+#    #+#             */
-/*   Updated: 2023/07/27 15:05:48 by jalbers          ###   ########.fr       */
+/*   Updated: 2023/07/27 15:53:34 by jalbers          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	*add_path(char *str, char **env)
 	int		j;
 
 	dir_path = get_correct_directory(str, env);
-	new_str = malloc((5 + str_len(str) + 1) * sizeof(char));
+	new_str = malloc((str_len(dir_path) + str_len(str) + 1) * sizeof(char));
 	i = 0;
 	j = 0;
 	while (dir_path[i])

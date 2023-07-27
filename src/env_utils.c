@@ -6,7 +6,7 @@
 /*   By: jalbers <jalbers@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 13:42:47 by jalbers           #+#    #+#             */
-/*   Updated: 2023/07/18 18:14:11 by jalbers          ###   ########.fr       */
+/*   Updated: 2023/07/27 16:32:53 by jalbers          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,11 @@ int	add_env_value(char **env, char *var, char *value)
 	int		i;
 	int		j;
 	int		k;
-
+	char	**new_env;
+	
+	new_env = copy_realloc_data(env, 1);
+	free_array (env);
+	env = new_env;
 	i = array_len(env);
 	env[i] = malloc((str_len(var) + str_len(value) + 2) * sizeof(char));
 	j = 0;

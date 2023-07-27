@@ -6,7 +6,7 @@
 /*   By: jalbers <jalbers@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 12:03:32 by chustei           #+#    #+#             */
-/*   Updated: 2023/07/27 14:28:03 by jalbers          ###   ########.fr       */
+/*   Updated: 2023/07/27 15:32:48 by jalbers          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,5 +147,7 @@ char		*ft_readline(char *prompt);
 int			remove_file(char *file_name);
 char		*get_correct_directory(char *str, char **env);
 int 		check_if_file_exists(char *file_name, char *directory);
+int			exit_program(t_minishell *shell, char *input);
+int			free_data(t_minishell *shell, char *input);
 
 #endif

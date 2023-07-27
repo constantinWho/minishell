@@ -6,7 +6,7 @@
 /*   By: jalbers <jalbers@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 15:20:58 by jalbers           #+#    #+#             */
-/*   Updated: 2023/07/27 14:28:21 by jalbers          ###   ########.fr       */
+/*   Updated: 2023/07/27 16:23:36 by jalbers          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,7 @@ char	**join_cmd_and_args(char *cmd, char **args)
 	int		i;
 	char	*str;
 
-	array_len = 0;
-	if (args)
-		array_len = calc_array_len(args);
+	array_len = calc_array_len(args);
 	cmd_and_args = malloc((array_len + 2) * sizeof(char *));
 	i = 0;
 	while (i < array_len + 1)
@@ -55,7 +53,7 @@ char	**join_cmd_and_args(char *cmd, char **args)
 			str = ft_strdup(cmd);
 		else
 			str = ft_strdup(args[i - 1]);
-		cmd_and_args[i] = ft_strdup(str);
+		cmd_and_args[i] = str;
 		i++;
 	}
 	cmd_and_args[i] = NULL;
