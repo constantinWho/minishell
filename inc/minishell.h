@@ -6,7 +6,7 @@
 /*   By: jalbers <jalbers@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 12:03:32 by chustei           #+#    #+#             */
-/*   Updated: 2023/07/27 15:32:48 by jalbers          ###   ########.fr       */
+/*   Updated: 2023/07/31 17:59:44 by jalbers          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ int			array_len(char **array);
 int			str_len(char *str);
 int			compare_ascii(char *str1, char *str2);
 int			free_array(char **array);
-int			add_env_value(char **env, char *var, char *value);
+char		**add_env_value(char **env, char *var, char *value);
 int			env_value_exists(char **env, char *var);
 int			print_sorted_env(char **env);
 char		**copy_realloc_data(char **src, int added);
@@ -149,5 +149,7 @@ char		*get_correct_directory(char *str, char **env);
 int 		check_if_file_exists(char *file_name, char *directory);
 int			exit_program(t_minishell *shell, char *input);
 int			free_data(t_minishell *shell, char *input);
+int			**malloc_pipes(int process_total);
+void		free_pipes(int **pipes, int process_total);
 
 #endif

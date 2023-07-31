@@ -6,7 +6,7 @@
 /*   By: jalbers <jalbers@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 13:37:24 by jalbers           #+#    #+#             */
-/*   Updated: 2023/07/27 14:55:48 by jalbers          ###   ########.fr       */
+/*   Updated: 2023/07/31 17:23:21 by jalbers          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	ft_export(char **args, t_minishell *shell)
 {
-	char	**new_env;
+	// char	**new_env;
 	char	*new_value;
 
 	if (!args[1])
@@ -30,10 +30,10 @@ int	ft_export(char **args, t_minishell *shell)
 		change_env(shell->env, args[1], new_value);
 	else
 	{
-		new_env = copy_realloc_data(shell->env, 1);
-		free_array(shell->env);
-		shell->env = new_env;
-		add_env_value(shell->env, args[1], new_value);
+		// new_env = copy_realloc_data(shell->env, 1);
+		// free_array(shell->env);
+		// shell->env = new_env;
+		shell->env = add_env_value(shell->env, args[1], new_value);
 	}
 	return (0);
 }

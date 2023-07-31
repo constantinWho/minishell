@@ -6,7 +6,7 @@
 /*   By: jalbers <jalbers@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 13:42:47 by jalbers           #+#    #+#             */
-/*   Updated: 2023/07/27 16:32:53 by jalbers          ###   ########.fr       */
+/*   Updated: 2023/07/31 17:20:29 by jalbers          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ int	env_value_exists(char **env, char *var)
 	return (-1);
 }
 
-int	add_env_value(char **env, char *var, char *value)
+char	**add_env_value(char **env, char *var, char *value)
 {
 	int		i;
 	int		j;
@@ -86,20 +86,19 @@ int	add_env_value(char **env, char *var, char *value)
 	
 	new_env = copy_realloc_data(env, 1);
 	free_array (env);
-	env = new_env;
-	i = array_len(env);
-	env[i] = malloc((str_len(var) + str_len(value) + 2) * sizeof(char));
+	i = array_len(new_env);
+	new_env[i] = malloc((str_len(var) + str_len(value) + 2) * sizeof(char));
 	j = 0;
 	while (var[j])
 	{
-		env[i][j] = var[j];
+		new_env[i][j] = var[j];
 		j++;
 	}
-	env[i][j++] = '=';
+	new_env[i][j++] = '=';
 	k = 0;
 	while (value[k])
-		env[i][j++] = value[k++];
-	env[i][j] = '\0';
-	env[i + 1] = NULL;
-	return (0);
-}	
+		new_env[i][j++] = value[k++];
+	new_env[i][j] = '\0';
+	new_env[i + 1] = NULL;
+	return (new_env);
+}

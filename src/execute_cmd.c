@@ -6,7 +6,7 @@
 /*   By: jalbers <jalbers@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 14:40:05 by jalbers           #+#    #+#             */
-/*   Updated: 2023/07/27 15:53:34 by jalbers          ###   ########.fr       */
+/*   Updated: 2023/07/31 17:34:36 by jalbers          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,27 +53,30 @@ char	*add_exec_path(char *str, char **env)
 	return (ft_strjoin(pwd, str + 1));
 }
 
-void	save_exit_status_of_execve(int pid, char **env)
+void	save_exit_status_of_execve(int pid, t_minishell *shell)
 {
-	int		exit_status;
+	int		exit_status_int;
+	char	*exit_status_str;
 
-	waitpid(pid, &exit_status, 0);
-	exit_status = exit_status >> 8;
-	if (env_value_exists(env, "EXIT_STATUS") != -1)
-		change_env(env, "EXIT_STATUS", ft_itoa(exit_status));
+	waitpid(pid, &exit_status_int, 0);
+	exit_status_int = exit_status_int >> 8;
+	exit_status_str = ft_itoa(exit_status_int);
+	if (env_value_exists(shell->env, "EXIT_STATUS") != -1)
+		change_env(shell->env, "EXIT_STATUS", exit_status_str);
 	else
-		add_env_value(env, "EXIT_STATUS", ft_itoa(exit_status));
+		shell->env = add_env_value(shell->env, "EXIT_STATUS", exit_status_str);
+	free(exit_status_str);
 }
 
-int	execute_using_execve(char **str, char **env)
+int	execute_using_execve(char **str, t_minishell *shell)
 {
 	char	*cmd_path;
 	pid_t	pid;
 
 	if (str[0][0] == '.' && str[0][1] == '/')
-		cmd_path = add_exec_path(str[0], env);
+		cmd_path = add_exec_path(str[0], shell->env);
 	else
-		cmd_path = add_path(str[0], env);
+		cmd_path = add_path(str[0], shell->env);
 	pid = fork();
 	if (pid == 0)
 	{
@@ -82,7 +85,7 @@ int	execute_using_execve(char **str, char **env)
 		exit(1);
 	}
 	else if (pid > 0)
-		save_exit_status_of_execve(pid, env);
+		save_exit_status_of_execve(pid, shell);
 	else
 		perror("fork");
 	free (cmd_path);
@@ -104,6 +107,6 @@ int	execute_cmd_with_args(t_minishell *shell, char **args)
 	else if (str_match(args[0], "pwd") == 1)
 		ft_pwd();
 	else
-		execute_using_execve(args, shell->env);
+		execute_using_execve(args, shell);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: jalbers <jalbers@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 19:16:39 by jalbers           #+#    #+#             */
-/*   Updated: 2023/07/26 15:47:06 by jalbers          ###   ########.fr       */
+/*   Updated: 2023/07/31 17:48:14 by jalbers          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ int	create_pipes(int **pipes, int process_total)
 int	close_unused_pipe_ends(int **pipes, int process_total, int process_index)
 {
 	int	i;
-	(void)process_index;
 
 	i = 0;
 	while (i < process_total)
@@ -79,21 +78,6 @@ int	set_pipe_ends(t_process *process, int **pipes, int process_total)
 	return (0);
 }
 
-int	**malloc_pipes(int process_total)
-{
-	int	**pipes;
-	int	i;
-
-	pipes = malloc((process_total) * sizeof(int *));
-	i = 0;
-	while (i < process_total)
-	{
-		pipes[i] = malloc(2 * sizeof(int));
-		i++;
-	}
-	return (pipes);
-}
-
 t_process	*create_processes(int process_total)
 {
 	t_process	*process;
@@ -106,6 +90,6 @@ t_process	*create_processes(int process_total)
 	process->pipe_total = process_total - 1;
 	set_pipe_ends(process, pipes, process_total);
 	close_unused_pipe_ends(pipes, process_total, process->index);
-	free(pipes);
+	free_pipes(pipes, process_total);
 	return (process);
 }
