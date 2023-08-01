@@ -6,7 +6,7 @@
 /*   By: chustei <chustei@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 12:03:02 by chustei           #+#    #+#             */
-/*   Updated: 2023/07/31 19:31:43 by chustei          ###   ########.fr       */
+/*   Updated: 2023/08/01 16:56:07 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ t_minishell	*create_struct(char **env)
 	t_minishell	*shell;
 
 	shell = (t_minishell *)malloc(sizeof(t_minishell));
+	if (shell == NULL)
+		exit(EXIT_FAILURE);
 	shell->tokens = NULL;
 	shell->env = copy_realloc_data(env, 0);
 	shell->original_stdout = dup(1);

@@ -6,7 +6,7 @@
 /*   By: chustei <chustei@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 19:38:35 by chustei           #+#    #+#             */
-/*   Updated: 2023/07/31 19:33:39 by chustei          ###   ########.fr       */
+/*   Updated: 2023/08/01 17:26:48 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,17 @@ void	add_new_token(t_minishell *shell, t_token *new_token)
 	}
 }
 
+t_token	*create_quoted_token(char *arg, char *set)
+{
+	t_token	*new_token;
+	char	*dup;
+
+	dup = ft_strtrim(arg, set);
+	new_token = create_token(dup, T_1Q_WORD);
+	free(dup);
+	return (new_token);
+}
+
 void	append_token(t_minishell *shell, char *arg)
 {
 	t_token	*new_token;
@@ -54,9 +65,9 @@ void	append_token(t_minishell *shell, char *arg)
 	else if (arg_len == 1 && arg[0] == ' ')
 		new_token = create_token(arg, T_SPACE);
 	else if (arg[0] == '\'')
-		new_token = create_token(ft_strtrim(arg, "'"), T_1Q_WORD);
+		new_token = create_quoted_token(arg, "'");
 	else if (arg[0] == '"')
-		new_token = create_token(ft_strtrim(arg, "\""), T_2Q_WORD);
+		new_token = create_quoted_token(arg, "\"");
 	else if (arg_len == 1 && arg[0] == '>')
 		new_token = create_token(arg, T_REDIR_OUT);
 	else if (arg_len == 1 && arg[0] == '<')
