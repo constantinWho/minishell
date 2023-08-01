@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalbers <jalbers@student.42.fr>            +#+  +:+       +#+        */
+/*   By: chustei <chustei@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 12:03:32 by chustei           #+#    #+#             */
-/*   Updated: 2023/07/31 17:59:44 by jalbers          ###   ########.fr       */
+/*   Updated: 2023/08/01 14:52:24 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,17 +139,19 @@ void		add_group(t_token *tokens, t_group **groups, char **env);
 int			check_if_first_pipe(t_token *tokens);
 void		delete_first_space_if_exists(t_token **head);
 void		delete_pipe_if_exists(t_token **head);
-int			set_up_redirects_for_groups(t_group *group, t_minishell *shell);	
+int			set_up_redirects_for_groups(t_group *group, t_minishell *shell);
 int			execute_cmd_with_args(t_minishell *shell, char **args);
 void		skip_redir_block(t_token **cur_token);
 int			heredoc(t_redir *redir, t_minishell *shell);
 char		*ft_readline(char *prompt);
 int			remove_file(char *file_name);
 char		*get_correct_directory(char *str, char **env);
-int 		check_if_file_exists(char *file_name, char *directory);
+int			check_if_file_exists(char *file_name, char *directory);
 int			exit_program(t_minishell *shell, char *input);
 int			free_data(t_minishell *shell, char *input);
 int			**malloc_pipes(int process_total);
 void		free_pipes(int **pipes, int process_total);
+char		**get_split_rest(char *str);
+int			get_split_num_rest(char	*str);
 
 #endif

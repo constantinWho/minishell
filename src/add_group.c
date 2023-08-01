@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   add_group.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalbers <jalbers@student.42.fr>            +#+  +:+       +#+        */
+/*   By: chustei <chustei@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 16:46:14 by chustei           #+#    #+#             */
-/*   Updated: 2023/07/26 12:25:40 by jalbers          ###   ########.fr       */
+/*   Updated: 2023/07/31 15:39:30 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ int	ft_tokens_size(t_token *lst)
 	i = 0;
 	while (lst != NULL)
 	{
+/* 		printf("TOK[%zu]: %s [%i]\n", i, lst->value, lst->type); */
 		lst = lst->next;
 		i++;
 	}
@@ -61,6 +62,7 @@ void	add_group(t_token *tokens, t_group **groups, char **env)
 {
 	t_group	*new_group;
 
+	ft_tokens_size(tokens);
 	delete_first_space_if_exists(&tokens);
 	if (!check_if_first_pipe(tokens))
 		return ;

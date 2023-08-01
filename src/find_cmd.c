@@ -6,7 +6,7 @@
 /*   By: chustei <chustei@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 18:04:21 by chustei           #+#    #+#             */
-/*   Updated: 2023/07/20 12:14:53 by chustei          ###   ########.fr       */
+/*   Updated: 2023/07/27 12:28:01 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,17 @@
 void	process_command_token(t_token **tokens, t_token **cur_token,
 	t_token **prev_token, t_group *new_group)
 {
-	new_group->cmd = ft_strdup((*cur_token)->value);
+	if (!new_group->cmd)
+		new_group->cmd = ft_strdup((*cur_token)->value);
+	else
+		new_group->cmd = ft_strjoin(new_group->cmd, (*cur_token)->value);
 	if (*prev_token != NULL)
 		update_prev_token_next(prev_token, cur_token);
 	else
 		update_tokens_head(tokens, cur_token);
+	if (*cur_token != NULL && (*cur_token)->type != T_SPACE
+		&& (*cur_token)->type != T_PIPE)
+		process_command_token(tokens, cur_token, prev_token, new_group);
 	if (*cur_token != NULL && (*cur_token)->type == T_SPACE)
 	{
 		if (*prev_token != NULL)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalbers <jalbers@student.42.fr>            +#+  +:+       +#+        */
+/*   By: chustei <chustei@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 18:12:42 by chustei           #+#    #+#             */
-/*   Updated: 2023/07/24 12:52:24 by jalbers          ###   ########.fr       */
+/*   Updated: 2023/07/28 12:36:58 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,14 @@
 
 void	print_group(t_group *head)
 {
+	int		i;
 	t_group	*current;
 
 	current = head;
 	while (current != NULL)
 	{
 		printf("CMD: %s\n", current->cmd);
-		int i = 0;
+		i = 0;
 		while (current->args[i])
 		{
 			printf("ARG[%i]: %s\n", i, current->args[i]);
@@ -41,5 +42,4 @@ void	parser(t_minishell *shell)
 		return ;
 	add_group(tokens, &groups, shell->env);
 	shell->groups = groups;
-	// print_group(shell->groups);
 }
