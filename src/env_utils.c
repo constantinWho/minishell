@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalbers <jalbers@student.42.fr>            +#+  +:+       +#+        */
+/*   By: chustei <chustei@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 13:42:47 by jalbers           #+#    #+#             */
-/*   Updated: 2023/07/31 17:20:29 by jalbers          ###   ########.fr       */
+/*   Updated: 2023/08/01 18:13:42 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ char	**add_env_value(char **env, char *var, char *value)
 	int		j;
 	int		k;
 	char	**new_env;
-	
+
 	new_env = copy_realloc_data(env, 1);
 	free_array (env);
 	i = array_len(new_env);

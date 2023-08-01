@@ -6,7 +6,7 @@
 /*   By: chustei <chustei@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 16:46:14 by chustei           #+#    #+#             */
-/*   Updated: 2023/07/31 15:39:30 by chustei          ###   ########.fr       */
+/*   Updated: 2023/08/01 18:12:46 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ int	ft_tokens_size(t_token *lst)
 	i = 0;
 	while (lst != NULL)
 	{
-/* 		printf("TOK[%zu]: %s [%i]\n", i, lst->value, lst->type); */
 		lst = lst->next;
 		i++;
 	}

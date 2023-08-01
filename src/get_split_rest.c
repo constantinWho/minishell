@@ -6,7 +6,7 @@
 /*   By: chustei <chustei@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 20:09:40 by chustei           #+#    #+#             */
-/*   Updated: 2023/08/01 14:52:28 by chustei          ###   ########.fr       */
+/*   Updated: 2023/08/01 18:12:01 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,17 +106,24 @@ char	**get_split_rest(char *str)
 {
 	char	*s_cpy;
 	char	**split_rest;
+	char	*dup;
 	int		last_i;
 
+	dup = NULL;
 	last_i = ft_strlen(str) - 1;
 	s_cpy = NULL;
 	split_rest = NULL;
 	if (str[0] == '"' && str[last_i] == '"')
-		s_cpy = ft_strtrim(str, "\"");
+	{
+		dup = ft_strtrim(str, "\"");
+		s_cpy = ft_strdup(dup);
+		free(dup);
+	}
 	else
 		s_cpy = ft_strdup(str);
 	split_rest = (char **)malloc(sizeof(char *)
 			* (get_split_num_rest(s_cpy) + 1));
 	split_rest = get_rest(s_cpy, split_rest);
+	free(s_cpy);
 	return (split_rest);
 }

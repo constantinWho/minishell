@@ -6,12 +6,11 @@
 /*   By: chustei <chustei@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 14:28:54 by chustei           #+#    #+#             */
-/*   Updated: 2023/08/01 14:52:23 by chustei          ###   ########.fr       */
+/*   Updated: 2023/08/01 18:15:10 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
-
 
 void	get_str_count(char *str, int *i, int *count)
 {
@@ -53,7 +52,6 @@ int	get_split_num_rest(char	*str)
 			get_dolar_count(str, &i, &count);
 		else if (ft_isalnum(str[i]) == 0)
 			get_rest_count(str, &i, &count);
-
 	}
 	return (count);
 }

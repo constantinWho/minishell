@@ -6,7 +6,7 @@
 /*   By: chustei <chustei@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 13:21:47 by chustei           #+#    #+#             */
-/*   Updated: 2023/07/18 16:43:55 by chustei          ###   ########.fr       */
+/*   Updated: 2023/08/01 18:14:18 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ void	update_tokens_head(t_token **tokens, t_token **cur_token)
 	free(*cur_token);
 	*cur_token = *tokens;
 }
-
 
 void	skip_redir_block_update_prev_token(t_token **cur_token,
 	t_token **prev_token)
