@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalbers <jalbers@student.42.fr>            +#+  +:+       +#+        */
+/*   By: chustei <chustei@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 13:32:13 by jalbers           #+#    #+#             */
-/*   Updated: 2023/07/27 16:40:12 by jalbers          ###   ########.fr       */
+/*   Updated: 2023/08/01 18:12:10 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ int	free_array(char **array)
 	int	i;
 
 	i = 0;
+	if (!array)
+		return (0);
 	while (array[i])
 	{
 		free(array[i]);

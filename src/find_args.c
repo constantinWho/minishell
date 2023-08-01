@@ -6,7 +6,7 @@
 /*   By: chustei <chustei@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 13:31:30 by chustei           #+#    #+#             */
-/*   Updated: 2023/07/21 12:14:39 by chustei          ###   ########.fr       */
+/*   Updated: 2023/08/01 18:17:36 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ int	count_args(t_token *tokens)
 			skip_redir_block(&cur_token);
 		if (cur_token != NULL && is_valid_word_token(cur_token))
 		{
-			cur_token = cur_token->next;
 			count++;
+			cur_token = cur_token->next;
 		}
 		if (cur_token != NULL && cur_token->type == T_SPACE)
 		{
@@ -87,6 +87,7 @@ void	dup_and_save(t_token **cur_token, t_group **new_group, int *i,
 	{
 		env_str = get_env_str((*cur_token)->value, env);
 		(*new_group)->args[*i] = ft_strdup(env_str);
+		free(env_str);
 	}
 	else
 		(*new_group)->args[*i] = ft_strdup((*cur_token)->value);

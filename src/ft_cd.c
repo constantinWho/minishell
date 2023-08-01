@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalbers <jalbers@student.42.fr>            +#+  +:+       +#+        */
+/*   By: chustei <chustei@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 16:54:52 by chustei           #+#    #+#             */
-/*   Updated: 2023/07/27 17:22:46 by jalbers          ###   ########.fr       */
+/*   Updated: 2023/08/01 18:13:28 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	*ft_getenv(char **env, char *var)
 	while (env[i])
 	{
 		if (str_match(env[i], var) == 1)
-			break;
+			break ;
 		i++;
 	}
 	if (!env[i])
@@ -30,13 +30,13 @@ char	*ft_getenv(char **env, char *var)
 
 int	check_if_directory_exists(char *full_path)
 {
-	DIR *dir;
+	DIR	*dir;
 
 	dir = opendir(full_path);
 	if (dir == NULL)
 	{
 		perror("cd");
-		return 0;
+		return (0);
 	}
 	return (1);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   malloc_free_pipes.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalbers <jalbers@student.42.fr>            +#+  +:+       +#+        */
+/*   By: chustei <chustei@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 17:44:21 by jalbers           #+#    #+#             */
-/*   Updated: 2023/07/31 18:01:21 by jalbers          ###   ########.fr       */
+/*   Updated: 2023/08/01 18:15:36 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,7 @@ int	**malloc_pipes(int process_total)
 	return (pipes);
 }
 
-
-void    free_pipes(int **pipes, int process_total)
+void	free_pipes(int **pipes, int process_total)
 {
 	int	i;
 
