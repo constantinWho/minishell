@@ -6,7 +6,7 @@
 /*   By: jalbers <jalbers@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 12:03:02 by chustei           #+#    #+#             */
-/*   Updated: 2023/07/27 15:58:43 by jalbers          ###   ########.fr       */
+/*   Updated: 2023/07/31 18:15:05 by jalbers          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ int	main(int ac, char **av, char **env)
 			continue ;
 		}
 		if (str_match(shell->tokens->value, "exit") == 1)
-			break;
+			break ;
 		parser(shell);
 		set_up_redirects_for_groups(shell->groups, shell);
 		process = create_processes(count_pipes(shell->groups));
