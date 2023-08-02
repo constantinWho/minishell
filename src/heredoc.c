@@ -6,7 +6,7 @@
 /*   By: jalbers <jalbers@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 13:48:02 by josephalber       #+#    #+#             */
-/*   Updated: 2023/07/26 13:17:05 by jalbers          ###   ########.fr       */
+/*   Updated: 2023/08/02 15:24:34 by jalbers          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@ int	heredoc(t_redir *redir, t_minishell *shell)
 	while (1)
 	{
 		input = readline("heredoc> ");
+		if (input == NULL)
+			exit(EXIT_SUCCESS);
 		if (str_match_new(input, redir->arg) == 1)
 			break ;
 		write(fd, input, str_len(input));
