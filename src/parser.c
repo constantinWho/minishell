@@ -6,7 +6,7 @@
 /*   By: chustei <chustei@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 18:12:42 by chustei           #+#    #+#             */
-/*   Updated: 2023/08/02 13:34:03 by chustei          ###   ########.fr       */
+/*   Updated: 2023/08/02 16:14:44 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,4 @@ void	parser(t_minishell *shell)
 		return ;
 	add_group(tokens, &groups, shell->env);
 	shell->groups = groups;
-	t_group *cur = shell->groups;
-	while (cur != NULL)
-	{
-		printf("cmd: %s\n", cur->cmd);
-		cur = cur->next;
-	}
 }

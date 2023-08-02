@@ -6,7 +6,7 @@
 /*   By: chustei <chustei@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 15:19:13 by jalbers           #+#    #+#             */
-/*   Updated: 2023/08/02 14:12:16 by chustei          ###   ########.fr       */
+/*   Updated: 2023/08/02 16:15:57 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,22 +73,6 @@ int	free_data(t_minishell *shell, char *input)
 	free_groups(shell->groups);
 	free_array(shell->args);
 	return (0);
-}
-
-void	free_tokens(t_token *lst)
-{
-	t_token	*cur;
-	t_token	*next;
-
-	next = NULL;
-	cur = lst;
-	while (cur)
-	{
-		free(cur->value);
-		next = cur->next;
-		free(cur);
-		cur = next;
-	}
 }
 
 int	exit_program(t_minishell *shell, char *input)

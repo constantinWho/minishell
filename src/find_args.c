@@ -6,7 +6,7 @@
 /*   By: chustei <chustei@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 13:31:30 by chustei           #+#    #+#             */
-/*   Updated: 2023/08/02 12:28:19 by chustei          ###   ########.fr       */
+/*   Updated: 2023/08/02 16:16:33 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,37 +45,6 @@ void	process_arg_token(t_token **tokens, t_token **cur_token,
 		update_prev_token_next(prev_token, cur_token);
 	else
 		update_tokens_head(tokens, cur_token);
-}
-
-char	*get_env_str(char *arg, char **env)
-{
-	int		i;
-	int		size;
-	char	*new_str;
-
-	i = 0;
-	new_str = NULL;
-	if (ft_strlen(arg) == 1)
-		return (ft_strdup("$"));
-	if (!ft_strncmp(arg, "$0", 2))
-		return (ft_strdup("minishell"));
-	if (!ft_strncmp(arg, "$?", 2))
-		return (ft_strdup("$?"));
-	if (ft_isdigit(arg[1]))
-		return (ft_strdup(arg + 2));
-	while (env[i])
-	{
-		size = 0;
-		while (env[i][size] != '=')
-			size++;
-		if (!ft_strncmp(arg + 1, env[i], ft_strlen(arg) - 1)
-			&& (size_t)size == ft_strlen(arg) - 1)
-			new_str = ft_strdup(env[i] + size + 1);
-		i++;
-	}
-	if (new_str == NULL)
-		new_str = ft_strdup(arg + ft_strlen(arg));
-	return (new_str);
 }
 
 void	dup_and_save(t_token **cur_token, t_group **new_group, int *i,

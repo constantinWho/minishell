@@ -6,7 +6,7 @@
 /*   By: chustei <chustei@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 12:03:32 by chustei           #+#    #+#             */
-/*   Updated: 2023/08/02 14:12:35 by chustei          ###   ########.fr       */
+/*   Updated: 2023/08/02 16:17:40 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,5 +154,6 @@ void		free_pipes(int **pipes, int process_total);
 char		**get_split_rest(char *str);
 int			get_split_num_rest(char	*str);
 void		free_groups(t_group *head);
+char		*get_env_str(char *arg, char **env);
 
 #endif

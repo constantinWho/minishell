@@ -6,7 +6,7 @@
 /*   By: chustei <chustei@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 20:09:40 by chustei           #+#    #+#             */
-/*   Updated: 2023/08/02 15:36:32 by chustei          ###   ########.fr       */
+/*   Updated: 2023/08/02 16:16:17 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,20 +52,21 @@ void	split_append_free(char *src, char ***dest, t_minishell *shell)
 	free(*dest);
 }
 
-/* void	split_append_free(char *src, char **dest, t_minishell *shell)
+void	free_tokens(t_token *lst)
 {
-	int	j;
+	t_token	*cur;
+	t_token	*next;
 
-	j = 0;
-	dest = get_split_rest(src);
-	while (dest[j])
+	next = NULL;
+	cur = lst;
+	while (cur)
 	{
-		append_token(shell, dest[j]);
-		free(dest[j]);
-		j++;
+		free(cur->value);
+		next = cur->next;
+		free(cur);
+		cur = next;
 	}
-	free(dest);
-} */
+}
 
 void	ft_lexer(t_minishell *shell, char *input)
 {
