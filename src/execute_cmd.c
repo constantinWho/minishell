@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_cmd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chustei <chustei@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jalbers <jalbers@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 14:40:05 by jalbers           #+#    #+#             */
-/*   Updated: 2023/08/02 14:18:11 by chustei          ###   ########.fr       */
+/*   Updated: 2023/08/02 17:08:34 by jalbers          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,25 +57,20 @@ char	*add_exec_path(char *str, char **env)
 	return (path);
 }
 
-void	save_exit_status_of_execve(int pid, t_minishell *shell)
+int	get_exit_status_of_execve(int pid, t_minishell *shell)
 {
 	int		exit_status_int;
-	char	*exit_status_str;
 
 	waitpid(pid, &exit_status_int, 0);
 	exit_status_int = exit_status_int >> 8;
-	exit_status_str = ft_itoa(exit_status_int);
-	if (env_value_exists(shell->env, "EXIT_STATUS") != -1)
-		change_env(shell->env, "EXIT_STATUS", exit_status_str);
-	else
-		shell->env = add_env_value(shell->env, "EXIT_STATUS", exit_status_str);
-	free(exit_status_str);
+	return (exit_status_int);
 }
 
 int	execute_using_execve(char **str, t_minishell *shell)
 {
 	char	*cmd_path;
 	pid_t	pid;
+	int		exit_status;
 
 	if (str[0][0] == '.' && str[0][1] == '/')
 		cmd_path = add_exec_path(str[0], shell->env);
@@ -89,28 +84,40 @@ int	execute_using_execve(char **str, t_minishell *shell)
 		exit(1);
 	}
 	else if (pid > 0)
-		save_exit_status_of_execve(pid, shell);
+		exit_status = get_exit_status_of_execve(pid, shell);
 	else
+	{
 		perror("fork");
+		return (1);
+	}
 	free (cmd_path);
-	return (0);
+	return (exit_status);
 }
 
 int	execute_cmd_with_args(t_minishell *shell, char **args)
 {
+	int		exit_status_int;
+	char	*exit_status_str;
+
 	if (str_match(args[0], "env") == 1)
-		ft_env(shell);
+		exit_status_int = ft_env(shell);
 	else if (str_match(args[0], "echo") == 1)
-		ft_echo(args);
+		exit_status_int = ft_echo(args);
 	else if (str_match(args[0], "export") == 1)
-		ft_export(args, shell);
+		exit_status_int = ft_export(args, shell);
 	else if (str_match(args[0], "unset") == 1)
-		ft_unset(args, shell);
+		exit_status_int = ft_unset(args, shell);
 	else if (str_match(args[0], "cd") == 1)
-		ft_cd(args, shell);
+		exit_status_int = ft_cd(args, shell);
 	else if (str_match(args[0], "pwd") == 1)
-		ft_pwd();
+		exit_status_int = ft_pwd();
 	else
-		execute_using_execve(args, shell);
+		exit_status_int = execute_using_execve(args, shell);
+	exit_status_str = ft_itoa(exit_status_int);
+	if (env_value_exists(shell->env, "EXIT_STATUS") != -1)
+		change_env(shell->env, "EXIT_STATUS", exit_status_str);
+	else
+		shell->env = add_env_value(shell->env, "EXIT_STATUS", exit_status_str);
+	free(exit_status_str);
 	return (0);
 }

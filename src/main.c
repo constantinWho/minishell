@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chustei <chustei@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jalbers <jalbers@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 12:03:02 by chustei           #+#    #+#             */
-/*   Updated: 2023/08/02 16:43:15 by chustei          ###   ########.fr       */
+/*   Updated: 2023/08/02 16:53:38 by jalbers          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ t_minishell	*create_struct(char **env)
 	shell->original_stdout = dup(1);
 	shell->original_stdin = dup(0);
 	shell->tmp_file_created = -1;
+	shell->env = add_env_value(shell->env, "EXIT_STATUS", "0");
 	return (shell);
 }
 
