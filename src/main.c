@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalbers <jalbers@student.42.fr>            +#+  +:+       +#+        */
+/*   By: chustei <chustei@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 12:03:02 by chustei           #+#    #+#             */
-/*   Updated: 2023/08/01 18:34:00 by jalbers          ###   ########.fr       */
+/*   Updated: 2023/08/02 14:00:25 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,13 +49,15 @@ void	reset_stdin_stdout(t_minishell *shell)
 
 int	count_pipes(t_group *group)
 {
-	int	pipe_count;
+	int		pipe_count;
+	t_group	*cur;
 
 	pipe_count = 0;
-	while (group)
+	cur = group;
+	while (cur)
 	{
 		pipe_count++;
-		group = group->next;
+		cur = cur->next;
 	}
 	return (pipe_count);
 }

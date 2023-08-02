@@ -6,7 +6,7 @@
 /*   By: chustei <chustei@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 20:09:40 by chustei           #+#    #+#             */
-/*   Updated: 2023/08/01 16:02:17 by chustei          ###   ########.fr       */
+/*   Updated: 2023/08/02 13:55:17 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,22 @@ int	check_single_q(char *str)
 		return (0);
 }
 
-void	split_append_free(char *src, char **dest, t_minishell *shell)
+void	split_append_free(char *src, char ***dest, t_minishell *shell)
+{
+	int	j;
+
+	*dest = get_split_rest(src);
+	j = 0;
+	while ((*dest)[j])
+	{
+		append_token(shell, (*dest)[j]);
+		free((*dest)[j]);
+		j++;
+	}
+	free(*dest);
+}
+
+/* void	split_append_free(char *src, char **dest, t_minishell *shell)
 {
 	int	j;
 
@@ -50,7 +65,7 @@ void	split_append_free(char *src, char **dest, t_minishell *shell)
 		j++;
 	}
 	free(dest);
-}
+} */
 
 void	ft_lexer(t_minishell *shell, char *input)
 {
@@ -67,7 +82,7 @@ void	ft_lexer(t_minishell *shell, char *input)
 	{
 		if (check_if_should_be_split(shell->args[i]) == 1
 			&& check_single_q(shell->args[i]) == 0)
-			split_append_free(shell->args[i], split_rest, shell);
+			split_append_free(shell->args[i], &split_rest, shell);
 		else
 			append_token(shell, shell->args[i]);
 		i++;

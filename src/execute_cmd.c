@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_cmd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalbers <jalbers@student.42.fr>            +#+  +:+       +#+        */
+/*   By: chustei <chustei@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 14:40:05 by jalbers           #+#    #+#             */
-/*   Updated: 2023/07/31 17:34:36 by jalbers          ###   ########.fr       */
+/*   Updated: 2023/08/02 14:18:11 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,10 @@ char	*add_exec_path(char *str, char **env)
 	int		i;
 	int		size;
 	char	*pwd;
+	char	*path;
 
 	i = 0;
+	path = NULL;
 	while (env[i])
 	{
 		size = 0;
@@ -50,7 +52,9 @@ char	*add_exec_path(char *str, char **env)
 			pwd = ft_strdup(env[i] + size + 1);
 		i++;
 	}
-	return (ft_strjoin(pwd, str + 1));
+	path = ft_strjoin(pwd, str + 1);
+	free(pwd);
+	return (path);
 }
 
 void	save_exit_status_of_execve(int pid, t_minishell *shell)

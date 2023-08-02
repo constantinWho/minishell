@@ -6,7 +6,7 @@
 /*   By: chustei <chustei@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 15:20:58 by jalbers           #+#    #+#             */
-/*   Updated: 2023/08/01 18:16:07 by chustei          ###   ########.fr       */
+/*   Updated: 2023/08/02 13:40:20 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,16 @@
 t_group	*get_correct_group(t_minishell *shell, int process_index)
 {
 	int		i;
+	t_group	*cur;
 
 	i = 0;
+	cur = shell->groups;
 	while (i < process_index)
 	{
-		shell->groups = shell->groups->next;
+		cur = cur->next;
 		i++;
 	}
-	return (shell->groups);
+	return (cur);
 }
 
 int	calc_array_len(char **array)

@@ -6,7 +6,7 @@
 /*   By: chustei <chustei@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 15:19:13 by jalbers           #+#    #+#             */
-/*   Updated: 2023/08/01 18:12:09 by chustei          ###   ########.fr       */
+/*   Updated: 2023/08/02 14:12:16 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,8 @@ void	free_groups(t_group *head)
 	current = head;
 	while (current != NULL)
 	{
-		free(current->cmd);
+		if (current->cmd)
+			free(current->cmd);
 		i = 0;
 		while (current->args[i])
 		{
@@ -70,8 +71,24 @@ int	free_data(t_minishell *shell, char *input)
 {
 	free(input);
 	free_groups(shell->groups);
-	free_args(shell->args);
+	free_array(shell->args);
 	return (0);
+}
+
+void	free_tokens(t_token *lst)
+{
+	t_token	*cur;
+	t_token	*next;
+
+	next = NULL;
+	cur = lst;
+	while (cur)
+	{
+		free(cur->value);
+		next = cur->next;
+		free(cur);
+		cur = next;
+	}
 }
 
 int	exit_program(t_minishell *shell, char *input)
@@ -80,6 +97,8 @@ int	exit_program(t_minishell *shell, char *input)
 	close(shell->original_stdin);
 	free (input);
 	free_array(shell->env);
+	free_array(shell->args);
+	free_tokens(shell->tokens);
 	free(shell);
 	return (0);
 }
