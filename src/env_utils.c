@@ -6,7 +6,7 @@
 /*   By: chustei <chustei@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 13:42:47 by jalbers           #+#    #+#             */
-/*   Updated: 2023/08/01 18:13:42 by chustei          ###   ########.fr       */
+/*   Updated: 2023/08/02 15:44:04 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ int	str_match(char *str1, char *str2)
 	int	i;
 
 	i = 0;
+	if (!str1)
+		return (1);
 	while (str1[i] && str2[i])
 	{
 		if (str1[i] != str2[i])

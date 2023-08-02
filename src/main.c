@@ -6,7 +6,7 @@
 /*   By: chustei <chustei@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 12:03:02 by chustei           #+#    #+#             */
-/*   Updated: 2023/08/02 14:00:25 by chustei          ###   ########.fr       */
+/*   Updated: 2023/08/02 15:49:57 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ int	main(int ac, char **av, char **env)
 		if (!shell->tokens)
 		{
 			free(input);
+			free_array(shell->args);
 			continue ;
 		}
 		if (str_match(shell->tokens->value, "exit") == 1)

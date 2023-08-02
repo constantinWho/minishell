@@ -1,7 +1,7 @@
 CC = cc
 LDFLAGS = -lreadline
 MINISHELL = minishell
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -fsanitize=address
 LIBFT_DIR = lib/libft
 
 # List of source files
