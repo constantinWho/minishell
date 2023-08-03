@@ -6,7 +6,7 @@
 /*   By: chustei <chustei@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 20:09:40 by chustei           #+#    #+#             */
-/*   Updated: 2023/08/03 12:23:11 by chustei          ###   ########.fr       */
+/*   Updated: 2023/08/03 13:03:45 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ void	split_append_free(char *src, char ***dest, t_minishell *shell)
 	j = 0;
 	while ((*dest)[j])
 	{
-		printf("dest: %s\n", (*dest)[j]);
 		append_token(shell, (*dest)[j]);
 		free((*dest)[j]);
 		j++;
