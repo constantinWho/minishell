@@ -6,7 +6,7 @@
 /*   By: chustei <chustei@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 13:31:30 by chustei           #+#    #+#             */
-/*   Updated: 2023/08/02 16:43:16 by chustei          ###   ########.fr       */
+/*   Updated: 2023/08/03 11:43:16 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,20 @@
 char	*special_return(char *arg)
 {
 	char	*str;
+	char	*tmp;
 
 	str = NULL;
 	if (ft_strlen(arg) == 1)
 		str = ft_strdup("$");
-	if (!ft_strncmp(arg, "$0", 2))
-		str = ft_strdup("minishell");
-	if (!ft_strncmp(arg, "$?", 2))
+	else if (!ft_strncmp(arg, "$0", 2))
+	{
+		tmp = ft_strdup("minishell");
+		str = ft_strjoin(tmp, arg + 2);
+		free(tmp);
+	}
+	else if (!ft_strncmp(arg, "$?", 2))
 		str = ft_strdup("$EXIT_STATUS");
-	if (ft_isdigit(arg[1]))
+	else if (ft_isdigit(arg[1]))
 		str = ft_strdup(arg + 2);
 	return (str);
 }
@@ -34,9 +39,10 @@ char	*get_env_str(char *arg, char **env)
 	int		size;
 	char	*new_str;
 
+	printf("arg: %s\n", arg);
 	i = 0;
 	new_str = special_return(arg);
-	if (new_str && !ft_strncmp(new_str, "$EXIT_STATUS", 12))
+	if (new_str)
 		return (new_str);
 	while (env[i])
 	{
