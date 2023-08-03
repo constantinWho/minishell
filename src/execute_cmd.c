@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_cmd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalbers <jalbers@student.42.fr>            +#+  +:+       +#+        */
+/*   By: josephalbers <josephalbers@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 14:40:05 by jalbers           #+#    #+#             */
-/*   Updated: 2023/08/02 17:08:34 by jalbers          ###   ########.fr       */
+/*   Updated: 2023/08/03 12:01:41 by josephalber      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ char	*add_exec_path(char *str, char **env)
 	return (path);
 }
 
-int	get_exit_status_of_execve(int pid, t_minishell *shell)
+int	get_exit_status_of_execve(int pid)
 {
 	int		exit_status_int;
 
@@ -84,7 +84,7 @@ int	execute_using_execve(char **str, t_minishell *shell)
 		exit(1);
 	}
 	else if (pid > 0)
-		exit_status = get_exit_status_of_execve(pid, shell);
+		exit_status = get_exit_status_of_execve(pid);
 	else
 	{
 		perror("fork");
