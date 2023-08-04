@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josephalbers <josephalbers@student.42.f    +#+  +:+       +#+        */
+/*   By: jalbers <jalbers@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 12:03:32 by chustei           #+#    #+#             */
-/*   Updated: 2023/08/04 11:20:08 by josephalber      ###   ########.fr       */
+/*   Updated: 2023/08/04 14:22:36 by jalbers          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,7 +142,7 @@ void		delete_pipe_if_exists(t_token **head);
 int			set_up_redirects_for_groups(t_group *group, t_minishell *shell);
 int			execute_cmd_with_args(t_minishell *shell, char **args);
 void		skip_redir_block(t_token **cur_token);
-int			heredoc(char *end_signal, t_minishell *shell, char *input_label, int id);
+int			heredoc(char *end_signal, t_minishell *shell, char *label, int id);
 char		*ft_readline(char *prompt);
 int			remove_file(char *file_name);
 char		*get_correct_directory(char *str, char **env);
@@ -156,5 +156,7 @@ int			get_split_num_rest(char	*str);
 void		free_groups(t_group *head);
 char		*get_env_str(char *arg, char **env);
 int			get_exit_status(char *str, char **dest, int *i, int *count);
+void		handle_user_input(t_process *process, 
+				t_minishell *shell, t_group *g);
 
 #endif

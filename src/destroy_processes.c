@@ -6,7 +6,7 @@
 /*   By: jalbers <jalbers@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 12:50:23 by jalbers           #+#    #+#             */
-/*   Updated: 2023/07/26 16:35:30 by jalbers          ###   ########.fr       */
+/*   Updated: 2023/08/04 14:15:04 by jalbers          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	destroy_processes(t_process *process, t_minishell *shell)
 	free(process);
 	if (shell->tmp_file_created == 1)
 	{
-		remove_file("tmp_file");
+		remove_file("tmp_file1");
 		shell->tmp_file_created = 0;
 	}
 	return (0);
