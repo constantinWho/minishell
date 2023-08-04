@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josephalbers <josephalbers@student.42.f    +#+  +:+       +#+        */
+/*   By: jalbers <jalbers@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 13:48:02 by josephalber       #+#    #+#             */
-/*   Updated: 2023/08/03 15:16:50 by josephalber      ###   ########.fr       */
+/*   Updated: 2023/08/04 14:00:47 by jalbers          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,15 +49,15 @@ int	str_match_new(char *s1, char *s2)
 
 char	*generate_file_name(char *name, int id)
 {
-	char *id_str;
-	char *final_file_name;
+	char	*id_str;
+	char	*final_file_name;
 
 	id_str = ft_itoa(id);
 	final_file_name = ft_strjoin(name, id_str);
-	return (final_file_name);	
+	return (final_file_name);
 }
 
-int	heredoc(char *end_signal, t_minishell *shell, char *input_label, int id)
+int	heredoc(char *end_signal, t_minishell *shell, char *label, int id)
 {
 	char	*tmp_file_name;
 	char	*input;
@@ -68,7 +68,7 @@ int	heredoc(char *end_signal, t_minishell *shell, char *input_label, int id)
 	shell->tmp_file_created = 1;
 	while (1)
 	{
-		input = readline(input_label);
+		input = readline(label);
 		if (input == NULL)
 			exit(EXIT_SUCCESS);
 		if (str_match_new(input, end_signal) == 1)

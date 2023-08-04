@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_process.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josephalbers <josephalbers@student.42.f    +#+  +:+       +#+        */
+/*   By: jalbers <jalbers@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 15:20:58 by jalbers           #+#    #+#             */
-/*   Updated: 2023/08/03 20:23:51 by josephalber      ###   ########.fr       */
+/*   Updated: 2023/08/04 14:11:43 by jalbers          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,40 +74,6 @@ void	set_stdin_stdout(t_process *process, t_group *correct_group)
 		dup2(process->fd_write, 1);
 }
 
-int	count_successive_cats(t_group *group)
-{
-	t_group	*current;
-	int		count;
-
-	count = 0;
-	current = group;
-	while (current != NULL && str_match(current->cmd, "cat") == 1 && !current->args[0])
-	{
-		count++;
-		current = current->next;
-	}
-	return (count);
-}
-
-void	handle_user_input(t_process *process, t_minishell *shell, t_group *group)
-{
-	char	*input;
-	int		cat_count;
-	int		i;
-
-	cat_count = count_successive_cats(group);
-	i = 0;
-	dup2(shell->original_stdout, 1);
-	while (process->index == 0 && i < cat_count)
-	{
-		input = readline("");
-		if (input == NULL)
-			exit(EXIT_SUCCESS);	
-		i++;
-	}
-	dup2(process->fd_write, 1);
-}
-
 int	execute_process(t_minishell *shell, t_process *process)
 {
 	t_group	*correct_group;
@@ -119,7 +85,9 @@ int	execute_process(t_minishell *shell, t_process *process)
 	cmd_and_args = join_cmd_and_args(correct_group->cmd,
 			correct_group->args);
 	set_stdin_stdout(process, correct_group);
-	if (process->index == 0 && process->pipe_total != 0 && str_match(cmd_and_args[0], "cat") == 1 && !cmd_and_args[1] && !correct_group->redirs)
+	if (process->index == 0 && process->pipe_total != 0
+		&& str_match(cmd_and_args[0], "cat") == 1 && !cmd_and_args[1]
+		&& !correct_group->redirs)
 		handle_user_input(process, shell, correct_group);
 	else
 		execute_cmd_with_args(shell, cmd_and_args);
