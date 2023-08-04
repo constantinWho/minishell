@@ -6,7 +6,7 @@
 /*   By: jalbers <jalbers@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 12:03:32 by chustei           #+#    #+#             */
-/*   Updated: 2023/08/04 14:22:36 by jalbers          ###   ########.fr       */
+/*   Updated: 2023/08/04 15:55:48 by jalbers          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,5 +158,5 @@ char		*get_env_str(char *arg, char **env);
 int			get_exit_status(char *str, char **dest, int *i, int *count);
 void		handle_user_input(t_process *process, 
 				t_minishell *shell, t_group *g);
-
+extern int g_sig;	
 #endif

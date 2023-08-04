@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josephalbers <josephalbers@student.42.f    +#+  +:+       +#+        */
+/*   By: jalbers <jalbers@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 12:03:02 by chustei           #+#    #+#             */
-/*   Updated: 2023/08/04 11:20:52 by josephalber      ###   ########.fr       */
+/*   Updated: 2023/08/04 15:58:50 by jalbers          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,8 @@ int	count_pipes(t_group *group)
 	return (pipe_count);
 }
 
+int g_sig = 0;
+
 int	main(int ac, char **av, char **env)
 {
 	char		*input;
@@ -89,6 +91,8 @@ int	main(int ac, char **av, char **env)
 		set_up_redirects_for_groups(shell->groups, shell);
 		if (shell->groups)
 		{
+			if (str_match(shell->groups->cmd, "cat") == 1 && !shell->groups->args[1])
+				g_sig = 1;
 			process = create_processes(count_pipes(shell->groups));
 			execute_process(shell, process);
 			destroy_processes(process, shell);
@@ -96,6 +100,7 @@ int	main(int ac, char **av, char **env)
 		wait(NULL);
 		free_data(shell, input);
 		reset_stdin_stdout(shell);
+		g_sig = 0;
 	}
 	exit_program(shell, input);
 	return (0);

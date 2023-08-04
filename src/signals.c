@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chustei <chustei@student.42berlin.de>      +#+  +:+       +#+        */
+/*   By: jalbers <jalbers@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 11:44:04 by chustei           #+#    #+#             */
-/*   Updated: 2023/06/30 10:34:35 by chustei          ###   ########.fr       */
+/*   Updated: 2023/08/04 15:59:26 by jalbers          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,10 @@
 
 void	handle_sigint(int signum)
 {
-	if (signum == SIGINT)
+	if (signum == SIGINT && g_sig == 0)
 		ft_printf("\nMinishell > ", signum);
+	else if (signum == SIGINT && g_sig == 1)
+		ft_printf("\n", signum);
 }
 
 // 1. ignore "Ctrl-C"
@@ -27,3 +29,4 @@ void	ignore_signal_for_shell(void)
 	signal(SIGTSTP, SIG_IGN);
 	signal(SIGQUIT, SIG_IGN);
 }
+
