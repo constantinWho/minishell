@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalbers <jalbers@student.42.fr>            +#+  +:+       +#+        */
+/*   By: chustei <chustei@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 12:03:32 by chustei           #+#    #+#             */
-/*   Updated: 2023/08/04 15:55:48 by jalbers          ###   ########.fr       */
+/*   Updated: 2023/08/04 16:14:06 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,6 @@
 # include <stdlib.h>
 # include <fcntl.h>
 # include <dirent.h>
-
-// Type of the node (e.g., "command", "redirection")
-// Value associated with the node (e.g., command name, file name)
-// Array of child nodes
-// Number of child nodes
 
 # ifndef BUFFER_SIZE2
 #  define BUFFER_SIZE2 4
@@ -88,6 +83,7 @@ typedef struct s_minishell {
 	int		tmp_file_created;
 }	t_minishell;
 
+extern		int g_sig;
 int			ft_cd(char **args, t_minishell *shell);
 int			change_env(char **env, char *var, char *new_value);
 int			str_match(char *str1, char *str2);
@@ -156,7 +152,7 @@ int			get_split_num_rest(char	*str);
 void		free_groups(t_group *head);
 char		*get_env_str(char *arg, char **env);
 int			get_exit_status(char *str, char **dest, int *i, int *count);
-void		handle_user_input(t_process *process, 
+void		handle_user_input(t_process *process,
 				t_minishell *shell, t_group *g);
-extern int g_sig;	
+
 #endif

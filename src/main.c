@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalbers <jalbers@student.42.fr>            +#+  +:+       +#+        */
+/*   By: chustei <chustei@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 12:03:02 by chustei           #+#    #+#             */
-/*   Updated: 2023/08/04 16:03:13 by jalbers          ###   ########.fr       */
+/*   Updated: 2023/08/04 16:12:19 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
+
+int	g_sig = 0;
 
 t_minishell	*create_struct(char **env)
 {
@@ -63,23 +65,6 @@ int	count_pipes(t_group *group)
 	return (pipe_count);
 }
 
-int g_sig = 0;
-void	signal_handler(int sig)
-{
-	if (sig == SIGINT)
-	{
-		printf("\n");
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		rl_redisplay();
-	}
-}
-
-void	init_signal_handler()
-{
-	signal(SIGINT, signal_handler);
-}
-
 int	main(int ac, char **av, char **env)
 {
 	char		*input;
@@ -90,9 +75,11 @@ int	main(int ac, char **av, char **env)
 	(void)av;
 	shell = create_struct(env);
 	ignore_signal_for_shell();
-	init_signal_handler();
+/* 	init_signal_handler(); */
+	input = NULL;
 	while (1)
 	{
+		rl_replace_line("", 0);
 		input = ft_readline("Minishell > ");
 		ft_lexer(shell, input);
 		if (!shell->tokens)
