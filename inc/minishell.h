@@ -6,7 +6,7 @@
 /*   By: josephalbers <josephalbers@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 12:03:32 by chustei           #+#    #+#             */
-/*   Updated: 2023/08/03 15:18:54 by josephalber      ###   ########.fr       */
+/*   Updated: 2023/08/04 11:20:08 by josephalber      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,5 +155,6 @@ char		**get_split_rest(char *str);
 int			get_split_num_rest(char	*str);
 void		free_groups(t_group *head);
 char		*get_env_str(char *arg, char **env);
+int			get_exit_status(char *str, char **dest, int *i, int *count);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: josephalbers <josephalbers@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 14:40:05 by jalbers           #+#    #+#             */
-/*   Updated: 2023/08/03 19:58:42 by josephalber      ###   ########.fr       */
+/*   Updated: 2023/08/04 11:21:41 by josephalber      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,10 +84,7 @@ int	execute_using_execve(char **str, t_minishell *shell)
 		exit(1);
 	}
 	else if (pid > 0)
-	{
-		close(0);
 		exit_status = get_exit_status_of_execve(pid);
-	}
 	else
 	{
 		perror("fork");

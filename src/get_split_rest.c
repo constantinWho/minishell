@@ -6,7 +6,7 @@
 /*   By: chustei <chustei@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 20:09:40 by chustei           #+#    #+#             */
-/*   Updated: 2023/08/01 18:12:01 by chustei          ###   ########.fr       */
+/*   Updated: 2023/08/03 13:03:26 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ void	store_dolar(char *str, char **dest, int *i, int *count)
 
 	start = *i;
 	(*i)++;
+	if (get_exit_status(str, dest, i, count))
+		return ;
 	while (str[*i] && ft_isalnum(str[*i]) == 1 && str[*i] != '$')
 		(*i)++;
 	if (str[*i] == '$' || ft_isalnum(str[*i]) == 0 || !str[*i])

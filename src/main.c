@@ -6,7 +6,7 @@
 /*   By: josephalbers <josephalbers@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 12:03:02 by chustei           #+#    #+#             */
-/*   Updated: 2023/08/03 12:14:38 by josephalber      ###   ########.fr       */
+/*   Updated: 2023/08/04 11:20:52 by josephalber      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,9 +87,12 @@ int	main(int ac, char **av, char **env)
 			break ;
 		parser(shell);
 		set_up_redirects_for_groups(shell->groups, shell);
-		process = create_processes(count_pipes(shell->groups));
-		execute_process(shell, process);
-		destroy_processes(process, shell);
+		if (shell->groups)
+		{
+			process = create_processes(count_pipes(shell->groups));
+			execute_process(shell, process);
+			destroy_processes(process, shell);
+		}
 		wait(NULL);
 		free_data(shell, input);
 		reset_stdin_stdout(shell);
