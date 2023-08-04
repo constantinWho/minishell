@@ -6,7 +6,7 @@
 /*   By: josephalbers <josephalbers@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 14:31:29 by jalbers           #+#    #+#             */
-/*   Updated: 2023/07/26 20:19:35 by josephalber      ###   ########.fr       */
+/*   Updated: 2023/08/03 15:20:21 by josephalber      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ int	create_redirect_files(t_group *group, t_redir *redir, t_minishell *shell)
 			fd_in = open(redir->arg, O_RDONLY);
 		else if (str_match("<<", redir->redir) == 1)
 		{
-			heredoc(redir, shell);
-			fd_in = open("tmp_file", O_RDONLY);
+			heredoc(redir->arg, shell, "heredoc> ", 1);
+			fd_in = open("tmp_file1", O_RDONLY);
 		}
 		redir = redir->next;
 	}

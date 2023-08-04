@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chustei <chustei@student.42.fr>            +#+  +:+       +#+        */
+/*   By: josephalbers <josephalbers@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 12:03:32 by chustei           #+#    #+#             */
-/*   Updated: 2023/08/02 16:17:40 by chustei          ###   ########.fr       */
+/*   Updated: 2023/08/03 15:18:54 by josephalber      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,7 +142,7 @@ void		delete_pipe_if_exists(t_token **head);
 int			set_up_redirects_for_groups(t_group *group, t_minishell *shell);
 int			execute_cmd_with_args(t_minishell *shell, char **args);
 void		skip_redir_block(t_token **cur_token);
-int			heredoc(t_redir *redir, t_minishell *shell);
+int			heredoc(char *end_signal, t_minishell *shell, char *input_label, int id);
 char		*ft_readline(char *prompt);
 int			remove_file(char *file_name);
 char		*get_correct_directory(char *str, char **env);

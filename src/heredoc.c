@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalbers <jalbers@student.42.fr>            +#+  +:+       +#+        */
+/*   By: josephalbers <josephalbers@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 13:48:02 by josephalber       #+#    #+#             */
-/*   Updated: 2023/08/02 15:24:34 by jalbers          ###   ########.fr       */
+/*   Updated: 2023/08/03 15:16:50 by josephalber      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,24 +47,37 @@ int	str_match_new(char *s1, char *s2)
 	return (1);
 }
 
-int	heredoc(t_redir *redir, t_minishell *shell)
+char	*generate_file_name(char *name, int id)
 {
+	char *id_str;
+	char *final_file_name;
+
+	id_str = ft_itoa(id);
+	final_file_name = ft_strjoin(name, id_str);
+	return (final_file_name);	
+}
+
+int	heredoc(char *end_signal, t_minishell *shell, char *input_label, int id)
+{
+	char	*tmp_file_name;
 	char	*input;
 	int		fd;
 
-	fd = open("tmp_file", O_RDWR | O_CREAT | O_TRUNC, 0777);
+	tmp_file_name = generate_file_name("tmp_file", id);
+	fd = open(tmp_file_name, O_RDWR | O_CREAT | O_TRUNC, 0777);
 	shell->tmp_file_created = 1;
 	while (1)
 	{
-		input = readline("heredoc> ");
+		input = readline(input_label);
 		if (input == NULL)
 			exit(EXIT_SUCCESS);
-		if (str_match_new(input, redir->arg) == 1)
+		if (str_match_new(input, end_signal) == 1)
 			break ;
 		write(fd, input, str_len(input));
 		write(fd, "\n", 1);
 		free(input);
 	}
+	free(tmp_file_name);
 	free(input);
 	return (fd);
 }

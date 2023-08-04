@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_processes.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chustei <chustei@student.42.fr>            +#+  +:+       +#+        */
+/*   By: josephalbers <josephalbers@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 19:16:39 by jalbers           #+#    #+#             */
-/*   Updated: 2023/08/01 21:28:14 by chustei          ###   ########.fr       */
+/*   Updated: 2023/08/03 15:25:03 by josephalber      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	create_pipes(int **pipes, int process_total)
 
 	i = 0;
 	while (i < process_total)
-	{
+{
 		if (pipe(pipes[i]) == -1)
 		{
 			printf("Error opening pipes\n");
