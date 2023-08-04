@@ -6,7 +6,7 @@
 /*   By: jalbers <jalbers@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 12:03:02 by chustei           #+#    #+#             */
-/*   Updated: 2023/08/04 16:36:07 by jalbers          ###   ########.fr       */
+/*   Updated: 2023/08/04 16:46:35 by jalbers          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,12 +44,6 @@ char	*ft_readline(char *prompt)
 	return (input);
 }
 
-void	reset_stdin_stdout(t_minishell *shell)
-{
-	dup2(shell->original_stdout, 1);
-	dup2(shell->original_stdin, 0);
-}
-
 int	count_pipes(t_group *group)
 {
 	int		pipe_count;
@@ -65,21 +59,36 @@ int	count_pipes(t_group *group)
 	return (pipe_count);
 }
 
+void	run_shell(t_minishell *shell)
+{
+	t_process	*process;
+
+	parser(shell);
+	set_up_redirects_for_groups(shell->groups, shell);
+	if (shell->groups)
+	{
+		process = create_processes(count_pipes(shell->groups));
+		g_sig = 1;
+		execute_process(shell, process);
+		g_sig = 0;
+		destroy_processes(process, shell);
+	}
+	wait(NULL);
+	dup2(shell->original_stdout, 1);
+	dup2(shell->original_stdin, 0);
+}
+
 int	main(int ac, char **av, char **env)
 {
 	char		*input;
 	t_minishell	*shell;
-	t_process	*process;
 
 	(void)ac;
 	(void)av;
 	shell = create_struct(env);
 	ignore_signal_for_shell();
-/* 	init_signal_handler(); */
-	input = NULL;
 	while (1)
 	{
-		rl_replace_line("", 0);
 		input = ft_readline("Minishell > ");
 		ft_lexer(shell, input);
 		if (!shell->tokens)
@@ -90,19 +99,8 @@ int	main(int ac, char **av, char **env)
 		}
 		if (str_match(shell->tokens->value, "exit") == 1)
 			break ;
-		parser(shell);
-		set_up_redirects_for_groups(shell->groups, shell);
-		if (shell->groups)
-		{
-			process = create_processes(count_pipes(shell->groups));
-			g_sig = 1;
-			execute_process(shell, process);
-			g_sig = 0;
-			destroy_processes(process, shell);
-		}
-		wait(NULL);
+		run_shell(shell);
 		free_data(shell, input);
-		reset_stdin_stdout(shell);
 	}
 	exit_program(shell, input);
 	return (0);

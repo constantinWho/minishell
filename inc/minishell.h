@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chustei <chustei@student.42berlin.de>      +#+  +:+       +#+        */
+/*   By: jalbers <jalbers@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 12:03:32 by chustei           #+#    #+#             */
-/*   Updated: 2023/08/04 16:14:06 by chustei          ###   ########.fr       */
+/*   Updated: 2023/08/04 16:38:18 by jalbers          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ typedef struct s_minishell {
 	int		tmp_file_created;
 }	t_minishell;
 
-extern		int g_sig;
+extern int	g_sig;
 int			ft_cd(char **args, t_minishell *shell);
 int			change_env(char **env, char *var, char *new_value);
 int			str_match(char *str1, char *str2);
