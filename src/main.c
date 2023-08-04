@@ -6,11 +6,13 @@
 /*   By: jalbers <jalbers@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 12:03:02 by chustei           #+#    #+#             */
-/*   Updated: 2023/08/04 16:16:55 by jalbers          ###   ########.fr       */
+/*   Updated: 2023/08/04 16:36:07 by jalbers          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
+
+int	g_sig = 0;
 
 t_minishell	*create_struct(char **env)
 {
@@ -63,23 +65,6 @@ int	count_pipes(t_group *group)
 	return (pipe_count);
 }
 
-int g_sig = 0;
-void	signal_handler(int sig)
-{
-	if (sig == SIGINT)
-	{
-		printf("\n");
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		rl_redisplay();
-	}
-}
-
-void	init_signal_handler()
-{
-	signal(SIGINT, signal_handler);
-}
-
 int	main(int ac, char **av, char **env)
 {
 	char		*input;
@@ -90,9 +75,11 @@ int	main(int ac, char **av, char **env)
 	(void)av;
 	shell = create_struct(env);
 	ignore_signal_for_shell();
-	init_signal_handler();
+/* 	init_signal_handler(); */
+	input = NULL;
 	while (1)
 	{
+		rl_replace_line("", 0);
 		input = ft_readline("Minishell > ");
 		ft_lexer(shell, input);
 		if (!shell->tokens)
@@ -107,16 +94,15 @@ int	main(int ac, char **av, char **env)
 		set_up_redirects_for_groups(shell->groups, shell);
 		if (shell->groups)
 		{
-			if (str_match(shell->groups->cmd, "cat") == 1 && !shell->groups->args[1])
-				g_sig = 1;
 			process = create_processes(count_pipes(shell->groups));
+			g_sig = 1;
 			execute_process(shell, process);
+			g_sig = 0;
 			destroy_processes(process, shell);
 		}
 		wait(NULL);
 		free_data(shell, input);
 		reset_stdin_stdout(shell);
-		g_sig = 0;
 	}
 	exit_program(shell, input);
 	return (0);
