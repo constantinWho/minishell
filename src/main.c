@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josephalbers <josephalbers@student.42.f    +#+  +:+       +#+        */
+/*   By: chustei <chustei@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 12:03:02 by chustei           #+#    #+#             */
-/*   Updated: 2023/08/04 11:20:52 by josephalber      ###   ########.fr       */
+/*   Updated: 2023/08/04 14:31:43 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,22 @@ int	count_pipes(t_group *group)
 	return (pipe_count);
 }
 
+void	signal_handler(int sig)
+{
+	if (sig == SIGINT)
+	{
+		printf("\n");
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
+	}
+}
+
+void	init_signal_handler()
+{
+	signal(SIGINT, signal_handler);
+}
+
 int	main(int ac, char **av, char **env)
 {
 	char		*input;
@@ -73,6 +89,7 @@ int	main(int ac, char **av, char **env)
 	(void)av;
 	shell = create_struct(env);
 	ignore_signal_for_shell();
+	init_signal_handler();
 	while (1)
 	{
 		input = ft_readline("Minishell > ");
