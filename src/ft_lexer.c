@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lexer.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chustei <chustei@student.42.fr>            +#+  +:+       +#+        */
+/*   By: chustei <chustei@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 20:09:40 by chustei           #+#    #+#             */
-/*   Updated: 2023/08/03 13:03:45 by chustei          ###   ########.fr       */
+/*   Updated: 2023/08/10 11:00:59 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,13 +68,13 @@ void	free_tokens(t_token *lst)
 	}
 }
 
-void	ft_lexer(t_minishell *shell, char *input)
+int	ft_lexer(t_minishell *shell, char *input)
 {
 	int		i;
 	char	**split_rest;
 
 	if (!(check_quotes(input)))
-		return ;
+		return (0);
 	special_split(shell, input);
 	i = 0;
 	split_rest = NULL;
@@ -88,4 +88,5 @@ void	ft_lexer(t_minishell *shell, char *input)
 			append_token(shell, shell->args[i]);
 		i++;
 	}
+	return (1);
 }

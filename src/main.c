@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalbers <jalbers@student.42.fr>            +#+  +:+       +#+        */
+/*   By: chustei <chustei@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 12:03:02 by chustei           #+#    #+#             */
-/*   Updated: 2023/08/04 16:46:35 by jalbers          ###   ########.fr       */
+/*   Updated: 2023/08/10 10:30:40 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,8 @@ int	main(int ac, char **av, char **env)
 	while (1)
 	{
 		input = ft_readline("Minishell > ");
-		ft_lexer(shell, input);
+		if (!ft_lexer(shell, input))
+			continue ;
 		if (!shell->tokens)
 		{
 			free(input);

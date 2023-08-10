@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   append_token.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chustei <chustei@student.42.fr>            +#+  +:+       +#+        */
+/*   By: chustei <chustei@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 19:38:35 by chustei           #+#    #+#             */
-/*   Updated: 2023/08/01 17:26:48 by chustei          ###   ########.fr       */
+/*   Updated: 2023/08/10 11:20:14 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void	append_token(t_minishell *shell, char *arg)
 		new_token = create_token(arg, T_PIPE);
 	else if (arg_len == 1 && arg[0] == ' ')
 		new_token = create_token(arg, T_SPACE);
-	else if (arg[0] == '\'')
+	else if (arg[0] == '\'' && arg[arg_len - 1] && arg_len > 1)
 		new_token = create_quoted_token(arg, "'");
 	else if (arg[0] == '"')
 		new_token = create_quoted_token(arg, "\"");

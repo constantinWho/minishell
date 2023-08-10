@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_split_rest.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chustei <chustei@student.42.fr>            +#+  +:+       +#+        */
+/*   By: chustei <chustei@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 20:09:40 by chustei           #+#    #+#             */
-/*   Updated: 2023/08/03 13:03:26 by chustei          ###   ########.fr       */
+/*   Updated: 2023/08/10 11:22:27 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,7 @@ char	**get_split_rest(char *str)
 	}
 	else
 		s_cpy = ft_strdup(str);
+	printf("%s\n", s_cpy);
 	split_rest = (char **)malloc(sizeof(char *)
 			* (get_split_num_rest(s_cpy) + 1));
 	split_rest = get_rest(s_cpy, split_rest);

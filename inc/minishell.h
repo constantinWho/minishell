@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalbers <jalbers@student.42.fr>            +#+  +:+       +#+        */
+/*   By: chustei <chustei@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 12:03:32 by chustei           #+#    #+#             */
-/*   Updated: 2023/08/04 16:38:18 by jalbers          ###   ########.fr       */
+/*   Updated: 2023/08/10 11:14:41 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ int			print_sorted_env(char **env);
 char		**copy_realloc_data(char **src, int added);
 int			ft_env(t_minishell *shell);
 int			ft_unset(char **args, t_minishell *shell);
-void		ft_lexer(t_minishell *shell, char *input);
+int			ft_lexer(t_minishell *shell, char *input);
 void		ignore_signal_for_shell(void);
 t_process	*create_processes(int pipe_total);
 int			destroy_processes(t_process *process, t_minishell *shell);
